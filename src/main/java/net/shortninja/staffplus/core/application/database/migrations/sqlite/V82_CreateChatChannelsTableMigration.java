@@ -2,6 +2,8 @@ package net.shortninja.staffplus.core.application.database.migrations.sqlite;
 
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,11 +11,13 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
 @IocMultiProvider(Migration.class)
 public class V82_CreateChatChannelsTableMigration implements Migration {
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         String chatChannels = "CREATE TABLE IF NOT EXISTS sp_chat_channels (  " +
             "ID integer PRIMARY KEY,  " +
             "chat_prefix VARCHAR(255) NOT NULL, " +

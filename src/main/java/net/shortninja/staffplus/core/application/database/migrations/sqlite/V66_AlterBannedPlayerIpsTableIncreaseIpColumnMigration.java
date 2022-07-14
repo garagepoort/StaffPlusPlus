@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.core.application.database.migrations.sqlite;
 
 import be.garagepoort.mcsqlmigrations.Migration;
+
+import java.sql.Connection;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -10,11 +12,13 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
 @IocMultiProvider(Migration.class)
 public class V66_AlterBannedPlayerIpsTableIncreaseIpColumnMigration implements Migration {
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         return Arrays.asList(
             createBackupTable(),
             "INSERT INTO sp_banned_ips_backup SELECT ID, ip, issuer_name, issuer_uuid, unbanned_by_uuid, unbanned_by_name, creation_timestamp, server_name, silent_ban, silent_unban, end_timestamp  FROM sp_banned_ips;",

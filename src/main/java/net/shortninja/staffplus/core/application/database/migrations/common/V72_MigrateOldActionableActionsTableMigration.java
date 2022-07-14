@@ -10,6 +10,7 @@ import net.shortninja.staffplus.core.domain.actions.StoredCommandEntity;
 import net.shortninja.staffplus.core.domain.actions.database.StoredCommandRepository;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -28,9 +29,9 @@ public class V72_MigrateOldActionableActionsTableMigration implements Migration 
     }
 
     @Override
-    public List<String> getStatements() {
-        List<StoredCommandEntity> storedCommandEntities = query.create().find("SELECT * FROM sp_actionable_actions;", this::mapOldCommandEntity);
-        storedCommandRepository.save(storedCommandEntities);
+    public List<String> getStatements(Connection connection) {
+        List<StoredCommandEntity> storedCommandEntities = query.create(connection).find("SELECT * FROM sp_actionable_actions;", this::mapOldCommandEntity);
+        storedCommandRepository.save(connection, storedCommandEntities);
         return Collections.emptyList();
     }
 

@@ -6,6 +6,7 @@ import be.garagepoort.mcsqlmigrations.Migration;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,8 +20,8 @@ public class V63_AlterPlayerIpTableSetIpNumericMigration implements Migration {
     }
 
     @Override
-    public List<String> getStatements() {
-        return playerIpRepository.getAllIpRecords().stream().map(record -> "UPDATE sp_player_ips SET ip_numeric = " + JavaUtils.convertIp(record.getIp()) + ";").collect(Collectors.toList());
+    public List<String> getStatements(Connection connection) {
+        return playerIpRepository.getAllIpRecords(connection).stream().map(record -> "UPDATE sp_player_ips SET ip_numeric = " + JavaUtils.convertIp(record.getIp()) + ";").collect(Collectors.toList());
     }
 
     @Override
