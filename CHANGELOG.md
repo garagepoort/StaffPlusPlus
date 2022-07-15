@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.19
 
+# V1.19.5
+
+### Bugs
+- Fix the sqlite database locking issue (hopefully)
+- Server crash/stop messed up the player's inventory
+
 # V1.19.4
 
 ### Features
