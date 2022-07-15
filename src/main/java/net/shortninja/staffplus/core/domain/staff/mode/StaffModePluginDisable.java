@@ -5,7 +5,6 @@ import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
 import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
 import net.shortninja.staffplus.core.StaffPlusPlus;
-import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
@@ -13,8 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 @IocBean
-@IocMultiProvider({PluginDisable.class, BeforeTubingReload.class})
-public class StaffModePluginDisable implements PluginDisable, BeforeTubingReload {
+@IocMultiProvider(BeforeTubingReload.class)
+public class StaffModePluginDisable implements BeforeTubingReload {
 
     private final StaffModeService staffModeService;
     private final ModeProvider modeProvider;
@@ -24,11 +23,6 @@ public class StaffModePluginDisable implements PluginDisable, BeforeTubingReload
         this.staffModeService = staffModeService;
         this.modeProvider = modeProvider;
         this.playerSettingsRepository = playerSettingsRepository;
-    }
-
-    @Override
-    public void disable(StaffPlusPlus staffPlusPlus) {
-        disable();
     }
 
     @Override
@@ -43,7 +37,7 @@ public class StaffModePluginDisable implements PluginDisable, BeforeTubingReload
                 if (playerSettings.isInStaffMode()) {
                     GeneralModeConfiguration mode = modeProvider.getMode(onlinePlayer, playerSettings.getModeName().get());
                     if (mode.isModeDisableOnLogout()) {
-                        staffModeService.turnStaffModeOff(onlinePlayer);
+                        staffModeService.turnStaffModeOffOnQuit(onlinePlayer);
                     }
                 }
             } catch (Exception e) {
