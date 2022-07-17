@@ -5,12 +5,13 @@ import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
-import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.warnings.WarningFilters;
+import org.apache.commons.lang.StringUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,14 +30,12 @@ import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.mapFilters
 public class SqlWarnRepository implements WarnRepository {
 
     private final PlayerManager playerManager;
-    private final AppealRepository appealRepository;
     private final Options options;
     private final ServerSyncConfig warningSyncServers;
     private final QueryBuilderFactory query;
 
-    public SqlWarnRepository(PlayerManager playerManager, AppealRepository appealRepository, Options options, QueryBuilderFactory query) {
+    public SqlWarnRepository(PlayerManager playerManager, Options options, QueryBuilderFactory query) {
         this.playerManager = playerManager;
-        this.appealRepository = appealRepository;
         this.options = options;
         warningSyncServers = options.serverSyncConfiguration.warningSyncServers;
         this.query = query;
@@ -85,7 +84,10 @@ public class SqlWarnRepository implements WarnRepository {
 
     @Override
     public List<Warning> getWarnings(UUID uuid) {
-        return query.create().find("SELECT * FROM sp_warnings WHERE Player_UUID = ? " + getServerNameFilterWithAnd(warningSyncServers),
+        return query.create().find(
+            "SELECT * FROM sp_warnings w " +
+                "INNER JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " +
+                "WHERE w.Player_UUID = ? " + getServerNameFilterWithAnd(warningSyncServers),
             (ps) -> ps.setString(1, uuid.toString()),
             this::buildWarning);
     }
@@ -102,7 +104,10 @@ public class SqlWarnRepository implements WarnRepository {
 
     @Override
     public List<Warning> getAllWarnings(int offset, int amount) {
-        return query.create().find("SELECT * FROM sp_warnings " + getServerNameFilterWithWhere(options.serverSyncConfiguration.warningSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?",
+        return query.create().find(
+            "SELECT * FROM sp_warnings w " +
+                "INNER JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) "
+                + getServerNameFilterWithWhere(options.serverSyncConfiguration.warningSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?",
             (ps) -> {
                 ps.setInt(1, offset);
                 ps.setInt(2, amount);
@@ -112,7 +117,10 @@ public class SqlWarnRepository implements WarnRepository {
     @Override
     public List<Warning> findWarnings(WarningFilters warningFilters, int offset, int amount) {
         String filterQuery = mapFilters(warningFilters, false);
-        String query = "SELECT * FROM sp_warnings WHERE 1=1 AND " + filterQuery + " ORDER BY timestamp DESC LIMIT ?,?";
+        String query =
+            "SELECT * FROM sp_warnings w " +
+                "INNER JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " +
+                " WHERE 1=1 AND " + filterQuery + " ORDER BY w.timestamp DESC LIMIT ?,?";
         return this.query.create().find(query,
             (ps) -> {
                 int index = insertFilterValues(warningFilters, ps, 1);
@@ -143,7 +151,10 @@ public class SqlWarnRepository implements WarnRepository {
 
     @Override
     public List<Warning> getWarnings() {
-        return query.create().find("SELECT * FROM sp_warnings " + getServerNameFilterWithWhere(warningSyncServers), this::buildWarning);
+        return query.create().find(
+            "SELECT * FROM sp_warnings w " +
+            "INNER JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) "
+            + getServerNameFilterWithWhere(warningSyncServers), this::buildWarning);
     }
 
     @Override
@@ -193,39 +204,77 @@ public class SqlWarnRepository implements WarnRepository {
 
     @Override
     public Optional<Warning> findWarning(int warningId) {
-        return query.create().findOne("SELECT * FROM sp_warnings WHERE id = ?",
+        return query.create().findOne("SELECT * FROM sp_warnings w " +
+            "INNER JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " + " WHERE w.id = ?",
             (select) -> select.setInt(1, warningId),
             this::buildWarning);
     }
 
     private Warning buildWarning(ResultSet rs) throws SQLException {
-        UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
-        UUID warnerUuid = UUID.fromString(rs.getString("Warner_UUID"));
-        int score = rs.getInt("score");
-        String severity = rs.getString("severity") == null ? "No Severity" : rs.getString("severity");
+        int id = rs.getInt(1);
+        String reason = rs.getString(2);
+        UUID warnerUuid = UUID.fromString(rs.getString(3));
+        UUID playerUUID = UUID.fromString(rs.getString(4));
+        int score = rs.getInt(5);
+        String severity = rs.getString(6) == null ? "No Severity" : rs.getString(6);
+
+        boolean read = rs.getBoolean(7);
+        long timestamp = rs.getLong(8);
+        String serverName = rs.getString(9) == null ? "[Unknown]" : rs.getString(9);
+        boolean expired = rs.getBoolean(10);
 
         Optional<SppPlayer> warner = playerManager.getOnOrOfflinePlayer(warnerUuid);
         String warnerName = warnerUuid.equals(CONSOLE_UUID) ? "Console" : warner.map(SppPlayer::getUsername).orElse("Unknown user");
-        int id = rs.getInt("ID");
-        boolean read = rs.getBoolean("is_read");
-        boolean expired = rs.getBoolean("is_expired");
-
         Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUUID);
         String name = player.map(SppPlayer::getUsername).orElse("Unknown user");
-        String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
 
-        List<Appeal> appeals = appealRepository.getAppeals(id, AppealableType.WARNING);
+        Appeal appeal = null;
+        Integer appealId = rs.getInt(13);
+        appealId = rs.wasNull() ? null : appealId;
+        if(appealId != null) {
+            int appealableId = rs.getInt(14);
+            UUID appealerUuid = UUID.fromString(rs.getString(15));
+            String resolverStringUuid = rs.getString(16);
+            String appealReason = rs.getString(17);
+            String resolveReason = rs.getString(18);
+            AppealStatus status = AppealStatus.valueOf(rs.getString(19));
+            long appealTimestamp = rs.getLong(20);
+            AppealableType type = AppealableType.valueOf(rs.getString(21));
+            String appealerName = rs.getString(22);
+
+            UUID resolverUuid = null;
+            String resolverName = null;
+            if (StringUtils.isNotEmpty(resolverStringUuid)) {
+                resolverUuid = UUID.fromString(resolverStringUuid);
+                resolverName = rs.getString(23);
+            }
+
+
+            appeal = new Appeal(
+                id,
+                appealableId,
+                appealerUuid,
+                appealerName,
+                resolverUuid,
+                resolverName,
+                appealReason,
+                resolveReason, status,
+                appealTimestamp,
+                type);
+        }
 
         return new Warning(playerUUID,
             name,
             id,
-            rs.getString("Reason"),
+            reason,
             warnerName,
             warnerUuid,
-            rs.getLong("timestamp"),
+            timestamp,
             score,
             severity,
             read,
-            serverName, appeals.size() > 0 ? appeals.get(0) : null, expired);
+            serverName,
+            appeal,
+            expired);
     }
 }
