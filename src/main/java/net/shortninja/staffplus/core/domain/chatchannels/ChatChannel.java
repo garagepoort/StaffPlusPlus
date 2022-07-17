@@ -14,17 +14,16 @@ public class ChatChannel implements IChatChannel {
     private final String line;
     private final String name;
     private final String channelId;
-    private final Set<UUID> members;
+    private Set<UUID> members;
     private final ChatChannelType type;
     private final String serverName;
 
-    public ChatChannel(int id, String prefix, String line, String name, String channelId, Set<UUID> members, ChatChannelType type, String serverName) {
+    public ChatChannel(int id, String prefix, String line, String name, String channelId, ChatChannelType type, String serverName) {
         this.id = id;
         this.prefix = prefix;
         this.line = line;
         this.name = name;
         this.channelId = channelId;
-        this.members = members;
         this.type = type;
         this.serverName = serverName;
     }
@@ -37,6 +36,10 @@ public class ChatChannel implements IChatChannel {
         this.members = members;
         this.type = type;
         this.serverName = serverName;
+    }
+
+    public void setMembers(Set<UUID> members) {
+        this.members = members;
     }
 
     public Set<UUID> getMembers() {

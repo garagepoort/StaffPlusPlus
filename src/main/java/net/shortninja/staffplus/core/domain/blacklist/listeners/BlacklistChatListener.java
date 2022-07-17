@@ -16,9 +16,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
@@ -54,8 +53,8 @@ public class BlacklistChatListener implements Listener {
         String originalMessage = event.getMessage();
         String censoredMessage = blacklistService.censorMessage(originalMessage);
         event.setMessage(censoredMessage);
-        setHoverableMessage(player, event, originalMessage, censoredMessage);
         if (!originalMessage.equals(censoredMessage)) {
+            setHoverableMessage(player, event, originalMessage, censoredMessage);
             sendEvent(new BlacklistCensoredEvent(options.serverName, player, censoredMessage, originalMessage, BlacklistType.CHAT));
         }
     }
@@ -67,11 +66,11 @@ public class BlacklistChatListener implements Listener {
                 .collect(Collectors.toList());
 
             validPlayers.forEach(event.getRecipients()::remove);
-            Set<Player> staffPlayers = new HashSet<>(validPlayers);
+            List<Player> staffPlayers = new ArrayList<>(validPlayers);
 
-            protocolService.getVersionProtocol().sendHoverableJsonMessage(staffPlayers, messages.blacklistChatFormat
+            messages.send(staffPlayers, messages.blacklistChatFormat
                 .replace("%player%", player.getName())
-                .replace("%message%", censoredMessage), originalMessage);
+                .replace("%message%", "[tooltip|" + censoredMessage + "|&b" + originalMessage + "]"), "");
         }
     }
 }

@@ -29,7 +29,7 @@ public class JsonMessageSender extends AbstractMessageSender {
         jsonSenderService.send(parseJsonMessage(message, prefix), (Player) receiver);
     }
 
-    public JSONMessage parseJsonMessage(String message, String prefix) {
+    private JSONMessage parseJsonMessage(String message, String prefix) {
         if (!StringUtils.isEmpty(prefix)) {
             message = prefix + " " + message;
         }
