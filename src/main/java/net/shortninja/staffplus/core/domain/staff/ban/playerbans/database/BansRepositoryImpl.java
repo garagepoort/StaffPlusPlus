@@ -5,11 +5,12 @@ import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
-import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.ban.BanFilters;
 import net.shortninja.staffplusplus.session.SppPlayer;
+import org.apache.commons.lang.StringUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,13 +31,11 @@ public class BansRepositoryImpl implements BansRepository {
 
     private final PlayerManager playerManager;
     private final Options options;
-    private final AppealRepository appealRepository;
     private final QueryBuilderFactory query;
 
-    public BansRepositoryImpl(PlayerManager playerManager, Options options, AppealRepository appealRepository, QueryBuilderFactory query) {
+    public BansRepositoryImpl(PlayerManager playerManager, Options options, QueryBuilderFactory query) {
         this.playerManager = playerManager;
         this.options = options;
-        this.appealRepository = appealRepository;
         this.query = query;
     }
 
@@ -68,7 +67,9 @@ public class BansRepositoryImpl implements BansRepository {
 
     @Override
     public List<Ban> getActiveBans(int offset, int amount) {
-        return query.create().find("SELECT * FROM sp_banned_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
+        return query.create().find("SELECT * FROM sp_banned_players b " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = b.id AND type = 'BAN' LIMIT 1) " +
+                "WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
             ps -> {
                 ps.setLong(1, System.currentTimeMillis());
                 ps.setInt(2, offset);
@@ -78,7 +79,9 @@ public class BansRepositoryImpl implements BansRepository {
 
     @Override
     public Optional<Ban> findActiveBan(int banId) {
-        return query.create().findOne("SELECT * FROM sp_banned_players WHERE id = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers),
+        return query.create().findOne("SELECT * FROM sp_banned_players b " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = b.id AND type = 'BAN' LIMIT 1) " +
+                " WHERE b.id = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers),
             ps -> {
                 ps.setInt(1, banId);
                 ps.setLong(2, System.currentTimeMillis());
@@ -87,7 +90,9 @@ public class BansRepositoryImpl implements BansRepository {
 
     @Override
     public Optional<Ban> findBan(String targetName, long creationTimestamp) {
-        return query.create().findOne("SELECT * FROM sp_banned_players WHERE player_name = ? AND creation_timestamp = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers),
+        return query.create().findOne("SELECT * FROM sp_banned_players b " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = b.id AND type = 'BAN' LIMIT 1) " +
+                "WHERE player_name = ? AND creation_timestamp = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers),
             ps -> {
                 ps.setString(1, targetName);
                 ps.setLong(2, creationTimestamp);
@@ -96,14 +101,18 @@ public class BansRepositoryImpl implements BansRepository {
 
     @Override
     public Optional<Ban> getBan(int banId) {
-        return query.create().findOne("SELECT * FROM sp_banned_players WHERE id = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers),
+        return query.create().findOne("SELECT * FROM sp_banned_players b " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = b.id AND type = 'BAN' LIMIT 1) " +
+                "WHERE b.id = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers),
             ps -> ps.setInt(1, banId),
             this::buildBan);
     }
 
     @Override
     public Optional<Ban> findActiveBan(UUID playerUuid) {
-        return query.create().findOne("SELECT * FROM sp_banned_players WHERE player_uuid = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers),
+        return query.create().findOne("SELECT * FROM sp_banned_players b " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = b.id AND type = 'BAN' LIMIT 1) " +
+                "WHERE player_uuid = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers),
             ps -> {
                 ps.setString(1, playerUuid.toString());
                 ps.setLong(2, System.currentTimeMillis());
@@ -112,14 +121,18 @@ public class BansRepositoryImpl implements BansRepository {
 
     @Override
     public List<Ban> getBansForPlayer(UUID playerUuid) {
-        return query.create().find("SELECT * FROM sp_banned_players WHERE player_uuid = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers) + " ORDER BY creation_timestamp DESC",
+        return query.create().find("SELECT * FROM sp_banned_players b " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = b.id AND type = 'BAN' LIMIT 1) " +
+                "WHERE player_uuid = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers) + " ORDER BY creation_timestamp DESC",
             ps -> ps.setString(1, playerUuid.toString()),
             this::buildBan);
     }
 
     @Override
     public List<Ban> getBansForPlayerPaged(UUID playerUuid, int offset, int amount) {
-        return query.create().find("SELECT * FROM sp_banned_players WHERE player_uuid = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
+        return query.create().find("SELECT * FROM sp_banned_players b " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = b.id AND type = 'BAN' LIMIT 1) " +
+                "WHERE player_uuid = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
             ps -> {
                 ps.setString(1, playerUuid.toString());
                 ps.setInt(2, offset);
@@ -206,31 +219,67 @@ public class BansRepositoryImpl implements BansRepository {
     }
 
     private Ban buildBan(ResultSet rs) throws SQLException {
-        UUID playerUuid = UUID.fromString(rs.getString("player_uuid"));
-        UUID issuerUuid = UUID.fromString(rs.getString("issuer_uuid"));
-        UUID unbannedByUUID = rs.getString("unbanned_by_uuid") != null ? UUID.fromString(rs.getString("unbanned_by_uuid")) : null;
+        int id = rs.getInt(1);
+        UUID playerUuid = UUID.fromString(rs.getString(2));
+        UUID issuerUuid = UUID.fromString(rs.getString(3));
+        UUID unbannedByUUID = rs.getString(4) != null ? UUID.fromString(rs.getString(4)) : null;
+        String reason = rs.getString(5);
+        String unbanReason = rs.getString(6);
+        long creationTimestamp = rs.getLong(7);
+        Long endTimestamp = rs.getLong(8);
+        endTimestamp = rs.wasNull() ? null : endTimestamp;
+        String serverName = rs.getString(9) == null ? "[Unknown]" : rs.getString(9);
 
-        String playerName = rs.getString("player_name");
-        String issuerName = rs.getString("issuer_name");
-        boolean silentBan = rs.getBoolean("silent_ban");
-        boolean silentUnban = rs.getBoolean("silent_unban");
+        String playerName = rs.getString(10);
+        String issuerName = rs.getString(11);
+        boolean silentBan = rs.getBoolean(12);
+        boolean silentUnban = rs.getBoolean(13);
+        String template = rs.getString(14);
 
         String unbannedByName = null;
         if (unbannedByUUID != null) {
             unbannedByName = getPlayerName(unbannedByUUID);
         }
 
-        int id = rs.getInt("ID");
-        Long endTimestamp = rs.getLong("end_timestamp");
-        endTimestamp = rs.wasNull() ? null : endTimestamp;
-        String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
+        Appeal appeal = null;
+        Integer appealId = rs.getInt(15);
+        appealId = rs.wasNull() ? null : appealId;
+        if(appealId != null) {
+            int appealableId = rs.getInt(16);
+            UUID appealerUuid = UUID.fromString(rs.getString(17));
+            String resolverStringUuid = rs.getString(18);
+            String appealReason = rs.getString(19);
+            String resolveReason = rs.getString(20);
+            AppealStatus status = AppealStatus.valueOf(rs.getString(21));
+            long appealTimestamp = rs.getLong(22);
+            AppealableType type = AppealableType.valueOf(rs.getString(23));
+            String appealerName = rs.getString(24);
 
-        List<Appeal> appeals = appealRepository.getAppeals(id, AppealableType.BAN);
+            UUID resolverUuid = null;
+            String resolverName = null;
+            if (StringUtils.isNotEmpty(resolverStringUuid)) {
+                resolverUuid = UUID.fromString(resolverStringUuid);
+                resolverName = rs.getString(25);
+            }
+
+
+            appeal = new Appeal(
+                id,
+                appealableId,
+                appealerUuid,
+                appealerName,
+                resolverUuid,
+                resolverName,
+                appealReason,
+                resolveReason, status,
+                appealTimestamp,
+                type);
+        }
 
         return new Ban(
             id,
-            rs.getString("reason"),
-            rs.getLong("creation_timestamp"),
+            reason,
+            creationTimestamp,
             endTimestamp,
             playerName,
             playerUuid,
@@ -238,10 +287,10 @@ public class BansRepositoryImpl implements BansRepository {
             issuerUuid,
             unbannedByName,
             unbannedByUUID,
-            rs.getString("unban_reason"),
+            unbanReason,
             serverName, silentBan, silentUnban,
-            rs.getString("template"),
-            appeals.size() > 0 ? appeals.get(0) : null);
+            template,
+            appeal);
     }
 
     private String getPlayerName(UUID uuid) {
