@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.19
 
+# V1.19.6
+
+### Bugs
+- Fix multiple issues with using sqlite database
+- Fix hoverable messages not displaying correctly.
+
 # V1.19.5
 
 ### Bugs
