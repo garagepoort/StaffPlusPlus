@@ -25,11 +25,14 @@ public class ChatChannelRepository {
     }
 
     public Optional<ChatChannel> findChatChannel(String channelId, ChatChannelType type, ServerSyncConfig serverSyncConfig) {
-        return query.create().findOne("SELECT * FROM sp_chat_channels WHERE channel_id = ? AND type = ? " + Constants.getServerNameFilterWithAnd(serverSyncConfig),
+        Optional<ChatChannel> chatChannel = query.create().findOne("SELECT * FROM sp_chat_channels WHERE channel_id = ? AND type = ? " + Constants.getServerNameFilterWithAnd(serverSyncConfig),
             (ps) -> {
                 ps.setString(1, channelId);
                 ps.setString(2, type.name());
             }, this::buildChatChannel);
+
+        chatChannel.ifPresent(c -> c.setMembers(findChatChannelMembers(c.getId())));
+        return chatChannel;
     }
 
     public Set<UUID> findChatChannelMembers(int channelId) {
@@ -81,7 +84,9 @@ public class ChatChannelRepository {
     }
 
     public List<ChatChannel> findAll() {
-        return query.create().find("SELECT * FROM sp_chat_channels", this::buildChatChannel);
+        List<ChatChannel> chatChannels = query.create().find("SELECT * FROM sp_chat_channels", this::buildChatChannel);
+        chatChannels.forEach(chatChannel -> chatChannel.setMembers(findChatChannelMembers(chatChannel.getId())));
+        return chatChannels;
     }
 
     private ChatChannel buildChatChannel(ResultSet rs) throws SQLException {
@@ -92,14 +97,12 @@ public class ChatChannelRepository {
         String channelName = rs.getString("channel_name");
         String serverName = rs.getString("server_name");
         ChatChannelType type = ChatChannelType.valueOf(rs.getString("type"));
-        Set<UUID> members = findChatChannelMembers(id);
         return new ChatChannel(
             id,
             chatPrefix,
             chatLine,
             channelName,
             channelId,
-            members,
             type,
             serverName);
     }
