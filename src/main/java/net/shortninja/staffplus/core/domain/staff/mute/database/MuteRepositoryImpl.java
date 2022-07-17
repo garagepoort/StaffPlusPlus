@@ -5,12 +5,13 @@ import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
-import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.mute.MuteFilters;
 import net.shortninja.staffplusplus.session.SppPlayer;
+import org.apache.commons.lang.StringUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,14 +34,12 @@ public class MuteRepositoryImpl implements MuteRepository {
     private final PlayerManager playerManager;
     private final Options options;
     private final ServerSyncConfig muteSyncServers;
-    private final AppealRepository appealRepository;
     private final QueryBuilderFactory query;
 
-    public MuteRepositoryImpl(PlayerManager playerManager, Options options, AppealRepository appealRepository, QueryBuilderFactory query) {
+    public MuteRepositoryImpl(PlayerManager playerManager, Options options, QueryBuilderFactory query) {
         this.playerManager = playerManager;
         this.options = options;
         this.muteSyncServers = options.serverSyncConfiguration.muteSyncServers;
-        this.appealRepository = appealRepository;
         this.query = query;
     }
 
@@ -66,7 +65,9 @@ public class MuteRepositoryImpl implements MuteRepository {
 
     @Override
     public List<Mute> getActiveMutes(int offset, int amount) {
-        return query.create().find("SELECT * FROM sp_muted_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
+        return query.create().find("SELECT * FROM sp_muted_players m " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+                "WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
             (ps) -> {
                 ps.setLong(1, System.currentTimeMillis());
                 ps.setInt(2, offset);
@@ -77,7 +78,9 @@ public class MuteRepositoryImpl implements MuteRepository {
     @Override
     public List<Mute> getAllActiveMutes(List<String> playerUuids) {
         List<String> questionMarks = playerUuids.stream().map(p -> "?").collect(Collectors.toList());
-        return query.create().find(String.format("SELECT * FROM sp_muted_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(muteSyncServers) + " AND player_uuid IN (%s)", String.join(", ", questionMarks)),
+        return query.create().find(String.format("SELECT * FROM sp_muted_players m " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+                "WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(muteSyncServers) + " AND player_uuid IN (%s)", String.join(", ", questionMarks)),
             (ps) -> {
                 ps.setLong(1, System.currentTimeMillis());
                 int index = 2;
@@ -90,7 +93,9 @@ public class MuteRepositoryImpl implements MuteRepository {
 
     @Override
     public Optional<Mute> findActiveMute(int muteId) {
-        return query.create().findOne("SELECT * FROM sp_muted_players WHERE id = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(muteSyncServers), (ps) -> {
+        return query.create().findOne("SELECT * FROM sp_muted_players m " +
+            "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+            "WHERE m.id = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(muteSyncServers), (ps) -> {
             ps.setInt(1, muteId);
             ps.setLong(2, System.currentTimeMillis());
         }, this::buildMute);
@@ -98,7 +103,9 @@ public class MuteRepositoryImpl implements MuteRepository {
 
     @Override
     public Optional<Mute> findActiveMute(UUID playerUuid) {
-        return query.create().findOne("SELECT * FROM sp_muted_players WHERE player_uuid = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(muteSyncServers), (ps) -> {
+        return query.create().findOne("SELECT * FROM sp_muted_players m " +
+            "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+            "WHERE player_uuid = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(muteSyncServers), (ps) -> {
             ps.setString(1, playerUuid.toString());
             ps.setLong(2, System.currentTimeMillis());
         }, this::buildMute);
@@ -106,7 +113,9 @@ public class MuteRepositoryImpl implements MuteRepository {
 
     @Override
     public Optional<Mute> getMute(int muteId) {
-        return query.create().findOne("SELECT * FROM sp_muted_players WHERE id = ? " + getServerNameFilterWithAnd(muteSyncServers),
+        return query.create().findOne("SELECT * FROM sp_muted_players m " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+                "WHERE m.id = ? " + getServerNameFilterWithAnd(muteSyncServers),
             (ps) -> ps.setInt(1, muteId),
             this::buildMute);
     }
@@ -129,13 +138,17 @@ public class MuteRepositoryImpl implements MuteRepository {
     @Override
     public List<Mute> getMutesForPlayer(UUID playerUuid) {
         return query.create().find(
-            "SELECT * FROM sp_muted_players WHERE player_uuid = ? " + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC",
+            "SELECT * FROM sp_muted_players m " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+                "WHERE player_uuid = ? " + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC",
             (ps) -> ps.setString(1, playerUuid.toString()), this::buildMute);
     }
 
     @Override
     public List<Mute> getMyMutes(UUID playerUuid, int offset, int amount) {
-        return query.create().find("SELECT * FROM sp_muted_players WHERE player_uuid = ? AND soft_mute = ?" + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
+        return query.create().find("SELECT * FROM sp_muted_players m " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+                "WHERE player_uuid = ? AND soft_mute = ?" + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
             (ps) -> {
                 ps.setString(1, playerUuid.toString());
                 ps.setBoolean(2, false);
@@ -147,7 +160,9 @@ public class MuteRepositoryImpl implements MuteRepository {
 
     @Override
     public List<Mute> getMutesForPlayerPaged(UUID playerUuid, int offset, int amount) {
-        return query.create().find("SELECT * FROM sp_muted_players WHERE player_uuid = ? " + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
+        return query.create().find("SELECT * FROM sp_muted_players m " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+                "WHERE player_uuid = ? " + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
             (ps) -> {
                 ps.setString(1, playerUuid.toString());
                 ps.setInt(2, offset);
@@ -158,13 +173,17 @@ public class MuteRepositoryImpl implements MuteRepository {
 
     @Override
     public List<UUID> getAllPermanentMutedPlayers() {
-        return query.create().find("SELECT player_uuid FROM sp_muted_players WHERE end_timestamp IS NULL " + getServerNameFilterWithAnd(muteSyncServers) + " GROUP BY player_uuid",
+        return query.create().find("SELECT player_uuid FROM sp_muted_players " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+                "WHERE end_timestamp IS NULL " + getServerNameFilterWithAnd(muteSyncServers) + " GROUP BY player_uuid",
             (rs) -> UUID.fromString(rs.getString("player_uuid")));
     }
 
     @Override
     public Optional<Mute> getLastMute(UUID playerUuid) {
-        return query.create().findOne("SELECT * FROM sp_muted_players WHERE player_uuid = ? " + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC",
+        return query.create().findOne("SELECT * FROM sp_muted_players m " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+                "WHERE player_uuid = ? " + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC",
             (ps) -> ps.setString(1, playerUuid.toString()), this::buildMute);
     }
 
@@ -207,7 +226,9 @@ public class MuteRepositoryImpl implements MuteRepository {
 
     @Override
     public long getActiveCount() {
-        return query.create().getOne("SELECT * FROM sp_muted_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(muteSyncServers),
+        return query.create().getOne("SELECT * FROM sp_muted_players m " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = m.id AND type = 'MUTE' LIMIT 1) " +
+                "WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(muteSyncServers),
             (ps) -> ps.setLong(1, System.currentTimeMillis()),
             (rs) -> rs.getLong("count"));
     }
@@ -223,29 +244,65 @@ public class MuteRepositoryImpl implements MuteRepository {
     }
 
     private Mute buildMute(ResultSet rs) throws SQLException {
-        UUID playerUuid = UUID.fromString(rs.getString("player_uuid"));
-        UUID issuerUuid = UUID.fromString(rs.getString("issuer_uuid"));
-        UUID unmutedByUUID = rs.getString("unmuted_by_uuid") != null ? UUID.fromString(rs.getString("unmuted_by_uuid")) : null;
+        int id = rs.getInt(1);
+        UUID playerUuid = UUID.fromString(rs.getString(2));
+        UUID issuerUuid = UUID.fromString(rs.getString(3));
+        UUID unmutedByUUID = rs.getString(4) != null ? UUID.fromString(rs.getString(4)) : null;
+        String reason = rs.getString(5);
+        String unmuteReason = rs.getString(6);
+        long creationTimestamp = rs.getLong(7);
+        Long endTimestamp = rs.getLong(8);
+        endTimestamp = rs.wasNull() ? null : endTimestamp;
+        String serverName = rs.getString(9) == null ? "[Unknown]" : rs.getString(9);
 
-        String playerName = rs.getString("player_name");
-        String issuerName = rs.getString("issuer_name");
+        String playerName = rs.getString(10);
+        String issuerName = rs.getString(11);
+        boolean softMute = rs.getBoolean(12);
 
         String unmutedByName = null;
         if (unmutedByUUID != null) {
             unmutedByName = getPlayerName(unmutedByUUID);
         }
 
-        int id = rs.getInt("ID");
-        Long endTimestamp = rs.getLong("end_timestamp");
-        endTimestamp = rs.wasNull() ? null : endTimestamp;
-        String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
+        Appeal appeal = null;
+        Integer appealId = rs.getInt(13);
+        appealId = rs.wasNull() ? null : appealId;
+        if(appealId != null) {
+            int appealableId = rs.getInt(14);
+            UUID appealerUuid = UUID.fromString(rs.getString(15));
+            String resolverStringUuid = rs.getString(18);
+            String appealReason = rs.getString(17);
+            String resolveReason = rs.getString(18);
+            AppealStatus status = AppealStatus.valueOf(rs.getString(19));
+            long appealTimestamp = rs.getLong(20);
+            AppealableType type = AppealableType.valueOf(rs.getString(21));
+            String appealerName = rs.getString(22);
 
-        List<Appeal> appeals = appealRepository.getAppeals(id, AppealableType.MUTE);
+            UUID resolverUuid = null;
+            String resolverName = null;
+            if (StringUtils.isNotEmpty(resolverStringUuid)) {
+                resolverUuid = UUID.fromString(resolverStringUuid);
+                resolverName = rs.getString(23);
+            }
+
+
+            appeal = new Appeal(
+                id,
+                appealableId,
+                appealerUuid,
+                appealerName,
+                resolverUuid,
+                resolverName,
+                appealReason,
+                resolveReason, status,
+                appealTimestamp,
+                type);
+        }
 
         return new Mute(
             id,
-            rs.getString("reason"),
-            rs.getLong("creation_timestamp"),
+            reason,
+            creationTimestamp,
             endTimestamp,
             playerName,
             playerUuid,
@@ -253,10 +310,10 @@ public class MuteRepositoryImpl implements MuteRepository {
             issuerUuid,
             unmutedByName,
             unmutedByUUID,
-            rs.getString("unmute_reason"),
+            unmuteReason,
             serverName,
-            rs.getBoolean("soft_mute"),
-            appeals.size() > 0 ? appeals.get(0) : null);
+            softMute,
+            appeal);
     }
 
     private String getPlayerName(UUID uuid) {
