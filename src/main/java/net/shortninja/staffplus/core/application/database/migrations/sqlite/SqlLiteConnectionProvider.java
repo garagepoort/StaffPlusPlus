@@ -32,10 +32,10 @@ public class SqlLiteConnectionProvider implements SqlConnectionProvider {
                 long totalWaitTime = 0;
                 while (connection != null && !connection.isClosed()) {
                     Thread.sleep(200);
-                    staffPlusPlus.getLogger().info("Waiting for available connection");
                     totalWaitTime += 200;
                     if (totalWaitTime > 3000) {
                         connection.close();
+                        break;
                     }
                 }
 
