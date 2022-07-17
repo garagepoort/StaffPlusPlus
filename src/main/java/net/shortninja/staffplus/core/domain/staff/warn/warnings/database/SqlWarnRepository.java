@@ -86,7 +86,7 @@ public class SqlWarnRepository implements WarnRepository {
     public List<Warning> getWarnings(UUID uuid) {
         return query.create().find(
             "SELECT * FROM sp_warnings w " +
-                "INNER JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " +
                 "WHERE w.Player_UUID = ? " + getServerNameFilterWithAnd(warningSyncServers),
             (ps) -> ps.setString(1, uuid.toString()),
             this::buildWarning);
@@ -106,7 +106,7 @@ public class SqlWarnRepository implements WarnRepository {
     public List<Warning> getAllWarnings(int offset, int amount) {
         return query.create().find(
             "SELECT * FROM sp_warnings w " +
-                "INNER JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) "
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) "
                 + getServerNameFilterWithWhere(options.serverSyncConfiguration.warningSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?",
             (ps) -> {
                 ps.setInt(1, offset);
@@ -119,7 +119,7 @@ public class SqlWarnRepository implements WarnRepository {
         String filterQuery = mapFilters(warningFilters, false);
         String query =
             "SELECT * FROM sp_warnings w " +
-                "INNER JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " +
                 " WHERE 1=1 AND " + filterQuery + " ORDER BY w.timestamp DESC LIMIT ?,?";
         return this.query.create().find(query,
             (ps) -> {
@@ -153,7 +153,7 @@ public class SqlWarnRepository implements WarnRepository {
     public List<Warning> getWarnings() {
         return query.create().find(
             "SELECT * FROM sp_warnings w " +
-            "INNER JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) "
+            "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) "
             + getServerNameFilterWithWhere(warningSyncServers), this::buildWarning);
     }
 
@@ -205,7 +205,7 @@ public class SqlWarnRepository implements WarnRepository {
     @Override
     public Optional<Warning> findWarning(int warningId) {
         return query.create().findOne("SELECT * FROM sp_warnings w " +
-            "INNER JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " + " WHERE w.id = ?",
+            "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " + " WHERE w.id = ?",
             (select) -> select.setInt(1, warningId),
             this::buildWarning);
     }
