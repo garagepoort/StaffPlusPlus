@@ -154,7 +154,7 @@ public class GadgetHandler {
             lastRandomTeleport.put(uuid, lastIndex);
         }
 
-        messages.send(player, messages.modeRandomTeleport, messages.prefixGeneral);
+        messages.send(player, messages.modeRandomTeleport.replace("%target%", currentPlayer.getName()), messages.prefixGeneral);
         player.teleport(currentPlayer);
     }
 
