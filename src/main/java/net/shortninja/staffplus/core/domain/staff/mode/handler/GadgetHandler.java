@@ -38,7 +38,7 @@ import java.util.stream.Stream;
 
 @IocBean
 public class GadgetHandler {
-    private final static Map<UUID, Integer> lastRandomTeleport = new HashMap<UUID, Integer>();
+    private final static Map<UUID, Integer> lastRandomTeleport = new HashMap<>();
 
     @ConfigProperty("permissions:random-teleport-bypass")
     private String randomTeleportBypass;
