@@ -145,7 +145,7 @@ public class SqlWarnRepository implements WarnRepository {
     @Override
     public long getWarnCount(WarningFilters warningFilters) {
         String filterQuery = mapFilters(warningFilters, true);
-        String query = "SELECT count(*) as count FROM sp_warnings WHERE 1=1 " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncServers);
+        String query = "SELECT count(*) as count FROM sp_warnings w WHERE 1=1 " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncServers);
         return this.query.create().getOne(query, (ps) -> insertFilterValues(warningFilters, ps, 1), (rs) -> rs.getLong("count"));
     }
 
