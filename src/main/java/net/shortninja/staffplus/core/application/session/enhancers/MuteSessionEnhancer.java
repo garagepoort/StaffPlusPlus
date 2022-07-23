@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionEnhancer;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 
-@IocBean
+@IocBean(conditionalOnProperty = "mute-module.enabled=true")
 @IocMultiProvider(SessionEnhancer.class)
 public class MuteSessionEnhancer implements SessionEnhancer {
     private final MuteService muteService;

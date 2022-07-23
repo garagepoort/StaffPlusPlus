@@ -11,7 +11,7 @@ import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 import java.util.Collections;
 import java.util.List;
 
-@IocBean
+@IocBean(conditionalOnProperty = "investigations-module.enabled=true")
 @IocMultiProvider(SessionEnhancer.class)
 public class InvestigationSessionEnhancer implements SessionEnhancer {
     private final InvestigationsRepository investigationsRepository;
