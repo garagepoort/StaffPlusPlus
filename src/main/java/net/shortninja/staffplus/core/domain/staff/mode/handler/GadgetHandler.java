@@ -256,7 +256,7 @@ public class GadgetHandler {
                     item.setAmount(options.staffItemsConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? modeUsers.size() : permission.getStaffCount());
                     break;
                 }
-            }
+            }p
         }
     }
 
