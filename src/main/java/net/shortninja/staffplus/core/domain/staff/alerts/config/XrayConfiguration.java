@@ -14,7 +14,7 @@ public class XrayConfiguration {
     @ConfigProperty("alerts-module.xray-alerts.blocks")
     @ConfigTransformer(XrayBlockConfigTransformer.class)
     public List<XrayBlockConfig> alertsXrayBlocks;
-    @ConfigProperty("permissions:xray")
+    @ConfigProperty("permissions:alerts.notifications.xray")
     public String permissionXray;
     @ConfigProperty("permissions:xray-bypass")
     public String permissionXrayBypass;
