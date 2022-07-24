@@ -142,7 +142,7 @@ public class GadgetHandler {
             return;
         }
 
-        Player currentPlayer = null;
+        Player currentPlayer;
         if (options.staffItemsConfiguration.getRandomTeleportModeConfiguration().isRandom()) {
             Random random = new Random();
             currentPlayer = onlinePlayers.get(random.nextInt(onlinePlayers.size()));
