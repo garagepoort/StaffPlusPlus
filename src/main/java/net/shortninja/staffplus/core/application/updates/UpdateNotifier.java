@@ -38,7 +38,7 @@ public class UpdateNotifier extends BukkitRunnable {
                     if (response.isSuccessful()) {
                         String currentVersion = StaffPlusPlus.get().getDescription().getVersion();
 
-                        String jar = response.body().get("1.18").getAsString();
+                        String jar = response.body().get("1.19").getAsString();
                         if (jar == null) {
                             return;
                         }
