@@ -10,7 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 
-@IocBukkitListener
+@IocBukkitListener(conditionalOnProperty = "vanish-module.enabled=true")
 public class MobsAttackingVanishedListener implements Listener {
     private final OnlineSessionsManager sessionManager;
 

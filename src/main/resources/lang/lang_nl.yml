@@ -183,6 +183,8 @@ list-vanish: "&bJe verdwijning van de spelerlijst is &7%status%&b!"
 player-vanish: "&bYour player vanish has been &7%status%&b!"
 vanish-enabled: "&2Vanish enabled"
 vanish-chat-prevented: "&bYou are not allowed to chat right now!"
+vanish-join-message: "&e%player% joined the game"
+vanish-leave-message: "&e%player% left the game"
 
 ############################################################
 # +------------------------------------------------------+ #
