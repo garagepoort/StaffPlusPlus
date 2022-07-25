@@ -52,7 +52,7 @@ public class VanishJoinListener implements Listener, OnLoad {
         vanishPlayersBukkitService.updateVanish(player);
         PlayerSettings playerSettings = playerSettingsRepository.get(player);
         if (playerSettings.isVanished()) {
-            vanishService.addVanish(player, playerSettings.getVanishType());
+            vanishService.addVanish(player, playerSettings.getVanishType(), true);
             event.setJoinMessage("");
         }
     }
