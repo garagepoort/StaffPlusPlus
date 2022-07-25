@@ -135,6 +135,9 @@ list-vanish: '&bРежим скрытности в табе &7%status%&b!'
 player-vanish: '&bРежим скрытности &7%status%&b!'
 vanish-enabled: '&2Вас не видно'
 vanish-chat-prevented: '&bВы не можете писать в чат из-за режима скрытности!'
+vanish-join-message: "&e%player% joined the game"
+vanish-leave-message: "&e%player% left the game"
+
 ticket-submitted: '&bВаш тикет был подан! &7(#%ticket%)'
 ticket-opened: '&bТикет &7#%ticket% &bбыл отмечен как открытый!'
 ticket-removed: '&bТикет &7#%ticket% &bбыл помечен как закрытый! (%reason%)'

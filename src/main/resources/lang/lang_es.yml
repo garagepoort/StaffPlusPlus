@@ -186,6 +186,8 @@ list-vanish: "&b¡Su invisibilidad en lista ha sido &7%status%&b!"
 player-vanish: "&b¡Su invisibilidad a jugadores ha sido &7%status%&b!"
 vanish-enabled: "&2Invisibilidad activada"
 vanish-chat-prevented: "&b¡No tienes permiso de escribir en este momento!"
+vanish-join-message: "&e%player% joined the game"
+vanish-leave-message: "&e%player% left the game"
 
 ############################################################
 # +------------------------------------------------------+ #
