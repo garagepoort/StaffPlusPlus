@@ -28,11 +28,15 @@ public class VanishService {
     }
 
     public void addVanish(Player player, VanishType vanishType) {
+        addVanish(player, vanishType, false);
+    }
+
+    public void addVanish(Player player, VanishType vanishType, boolean onJoin) {
         if (!vanishConfiguration.enabled) {
             return;
         }
 
-        if(vanishCache.getOrDefault(player.getUniqueId(), VanishType.NONE) == vanishType) {
+        if (vanishCache.getOrDefault(player.getUniqueId(), VanishType.NONE) == vanishType) {
             return;
         }
 
@@ -40,7 +44,7 @@ public class VanishService {
         settings.setVanishType(vanishType);
         playerSettingsRepository.save(settings);
         vanishCache.put(player.getUniqueId(), vanishType);
-        sendEvent(new VanishOnEvent(vanishType, player));
+        sendEvent(new VanishOnEvent(vanishType, player, onJoin));
     }
 
     public void removeVanish(Player player) {

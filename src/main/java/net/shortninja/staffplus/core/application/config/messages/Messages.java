@@ -10,7 +10,6 @@ import net.shortninja.staffplus.core.common.gui.gradient.GradientColorProcessor;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.Strings;
 import net.shortninja.staffplusplus.session.SppInteractor;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -468,7 +467,7 @@ public class Messages {
     }
 
     public void sendGlobalMessage(String message, String prefix) {
-        Bukkit.broadcastMessage(buildMessage(prefix, message));
+        Bukkit.getOnlinePlayers().forEach(onlinePlayer -> send(onlinePlayer, message, prefix));
     }
 
     public void sendGroupMessage(String message, String permission, String prefix) {
@@ -495,14 +494,6 @@ public class Messages {
         prefix = placeholderService.setPlaceholders(receiver, prefix);
         messageSenderFactory.getSender(receiver, message)
             .sendMessage(receiver, message, prefix);
-    }
-
-    private String buildMessage(String prefix, String message) {
-        if (StringUtils.isEmpty(prefix)) {
-            return colorize(message);
-        } else {
-            return colorize(prefix + " " + message);
-        }
     }
 
 }
