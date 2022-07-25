@@ -184,6 +184,8 @@ list-vanish: '&bAnda menghilang dari list &7%status%&b!'
 player-vanish: '&bPemain Anda benar benar menghilang &7%status%&b!'
 vanish-enabled: '&2Menghilang diaktifkan'
 vanish-chat-prevented: "&bYou are not allowed to chat right now!"
+vanish-join-message: "&e%player% joined the game"
+vanish-leave-message: "&e%player% left the game"
 
 ############################################################
 # +------------------------------------------------------+ #
