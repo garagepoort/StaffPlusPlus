@@ -3,13 +3,11 @@ package net.shortninja.staffplus.core.domain.staff.joinmessages;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.util.Comparator;
 import java.util.Optional;
 
 @IocBukkitListener(conditionalOnProperty = "joinmessages-module.enabled=true")
@@ -27,17 +25,10 @@ public class JoinMessageListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent playerJoinEvent) {
-        Optional<JoinMessageGroup> joinMessageGroup = getJoinMessageGroup(playerJoinEvent.getPlayer());
+        Optional<JoinMessageGroup> joinMessageGroup = joinMessagesConfiguration.getJoinMessageGroup(playerJoinEvent.getPlayer());
         joinMessageGroup.ifPresent(messageGroup -> {
             String joinMessage = messages.parse(playerJoinEvent.getPlayer(), messageGroup.getMessage().replace("%player%", playerJoinEvent.getPlayer().getName()));
             playerJoinEvent.setJoinMessage(joinMessage);
         });
-    }
-
-    private Optional<JoinMessageGroup> getJoinMessageGroup(Player player) {
-        return joinMessagesConfiguration.joinMessageGroups.stream()
-            .sorted(Comparator.comparingInt(JoinMessageGroup::getWeight).reversed())
-            .filter(g -> permissionHandler.has(player, g.getPermission()))
-            .findFirst();
     }
 }
