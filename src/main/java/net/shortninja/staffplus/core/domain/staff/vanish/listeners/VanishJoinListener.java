@@ -12,7 +12,9 @@ import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishService;
 import net.shortninja.staffplus.core.domain.staff.vanish.gui.VanishPlayersBukkitService;
+import net.shortninja.staffplusplus.session.IPlayerSession;
 import net.shortninja.staffplusplus.session.SessionManager;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -69,6 +71,9 @@ public class VanishJoinListener implements Listener, OnLoad {
 
     private void setVanishMetaData(Player player) {
         player.setMetadata("vanished",
-            new LazyMetadataValue(staffPlusPlus, LazyMetadataValue.CacheStrategy.NEVER_CACHE, sessionManager.get(player)::isVanished));
+            new LazyMetadataValue(staffPlusPlus, LazyMetadataValue.CacheStrategy.NEVER_CACHE, () -> {
+                IPlayerSession session = sessionManager.get(player);
+                return session.getVanishType() == VanishType.TOTAL || session.getVanishType() == VanishType.LIST;
+            }));
     }
 }
