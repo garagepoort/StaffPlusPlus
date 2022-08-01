@@ -1,5 +1,29 @@
 # Changelog Staff++ | v1.19
 
+# V1.19.10
+
+### Features
+- 1.19.1 support
+- add join and leave message upon vanish
+
+# V1.19.9
+
+### Bugs
+- Xray alerts were sent to all players
+
+# V1.19.8
+
+### Bugs
+- Disabling the mute module still did a database call to check if a player was muted or not
+
+# V1.19.7
+
+### Features
+- Add %target% placeholder for random teleport message
+
+### Bugs
+- Fix players GUI not opening
+
 # V1.19.6
 
 ### Bugs
