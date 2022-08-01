@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
-import be.garagepoort.mcioc.tubinggui.GuiActionReturnType;
 import be.garagepoort.mcioc.tubinggui.GuiController;
 import be.garagepoort.mcioc.tubinggui.GuiParam;
 import be.garagepoort.mcioc.tubinggui.templates.GuiTemplate;
@@ -28,7 +27,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static be.garagepoort.mcioc.tubinggui.AsyncGui.async;
-import static be.garagepoort.mcioc.tubinggui.GuiActionReturnType.BACK;
 import static be.garagepoort.mcioc.tubinggui.templates.GuiTemplate.template;
 
 @GuiController
@@ -121,9 +119,8 @@ public class WarningsGuiController {
     }
 
     @GuiAction("manage-warnings/delete")
-    public GuiActionReturnType deleteWarning(@GuiParam("warningId") int warningId) {
-        warnService.removeWarning(warningId);
-        return BACK;
+    public void deleteWarning(Player player, @GuiParam("warningId") int warningId) {
+        bukkitUtils.runTaskAsync(player, () -> warnService.removeWarning(warningId));
     }
 
     @GuiAction("manage-warnings/expire")
