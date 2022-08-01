@@ -5,14 +5,17 @@ import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationConcludedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationPausedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationStartedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
+import net.shortninja.staffplus.core.domain.staff.investigate.database.investigation.InvestigationsRepository;
 import net.shortninja.staffplusplus.investigate.IInvestigation;
 import net.shortninja.staffplusplus.investigate.InvestigationConcludedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationPausedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
+import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -20,6 +23,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @IocBukkitListener
@@ -32,11 +37,13 @@ public class InvestigationChatNotifier implements Listener {
     private final PlayerManager playerManager;
     private final Messages messages;
     private final InvestigationConfiguration investigationConfiguration;
+    private final InvestigationsRepository investigationsRepository;
 
-    public InvestigationChatNotifier(PlayerManager playerManager, Messages messages, InvestigationConfiguration investigationConfiguration) {
+    public InvestigationChatNotifier(PlayerManager playerManager, Messages messages, InvestigationConfiguration investigationConfiguration, InvestigationsRepository investigationsRepository) {
         this.playerManager = playerManager;
         this.messages = messages;
         this.investigationConfiguration = investigationConfiguration;
+        this.investigationsRepository = investigationsRepository;
     }
 
     @EventHandler
@@ -91,7 +98,8 @@ public class InvestigationChatNotifier implements Listener {
     public void notifyUnderInvestigationOnJoin(StaffPlusPlusJoinedEvent event) {
         Player player = event.getPlayer();
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
-            if (event.getPlayerSession().isUnderInvestigation() && StringUtils.isNotEmpty(messages.underInvestigationJoin)) {
+            List<Investigation> investigation = investigationsRepository.findAllInvestigationForInvestigated(player.getUniqueId(), Collections.singletonList(InvestigationStatus.OPEN));
+            if (!investigation.isEmpty() && StringUtils.isNotEmpty(messages.underInvestigationJoin)) {
                 messages.send(player, messages.underInvestigationJoin, messages.prefixInvestigations);
             }
         });
