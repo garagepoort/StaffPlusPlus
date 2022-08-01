@@ -31,8 +31,8 @@ public class SqlLiteConnectionProvider implements SqlConnectionProvider {
 
                 long totalWaitTime = 0;
                 while (connection != null && !connection.isClosed()) {
-                    Thread.sleep(200);
-                    totalWaitTime += 200;
+                    Thread.sleep(1);
+                    totalWaitTime += 1;
                     if (totalWaitTime > 3000) {
                         connection.close();
                         break;
