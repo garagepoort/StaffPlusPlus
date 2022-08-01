@@ -135,7 +135,7 @@ public class SqlWarnRepository implements WarnRepository {
     @Override
     public List<Warning> getAppealedWarnings(int offset, int amount) {
         return this.query.create().find(
-            "SELECT sp_warnings.* FROM sp_warnings INNER JOIN sp_appeals appeals on sp_warnings.id = appeals.appealable_id AND appeals.status = 'OPEN' AND appeals.type = ?"
+            "SELECT * FROM sp_warnings INNER JOIN sp_appeals appeals on sp_warnings.id = appeals.appealable_id AND appeals.status = 'OPEN' AND appeals.type = ?"
                 + getServerNameFilterWithWhere(options.serverSyncConfiguration.warningSyncServers) +
                 " ORDER BY sp_warnings.timestamp DESC LIMIT ?,?",
             (ps) -> {
