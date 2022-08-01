@@ -94,7 +94,10 @@ public class SqlWarnRepository implements WarnRepository {
 
     @Override
     public List<Warning> getWarnings(UUID uuid, int offset, int amount) {
-        return query.create().find("SELECT * FROM sp_warnings WHERE Player_UUID = ? " + getServerNameFilterWithAnd(warningSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?",
+        return query.create().find(
+            "SELECT * FROM sp_warnings w " +
+                "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " +
+                "WHERE Player_UUID = ? " + getServerNameFilterWithAnd(warningSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?",
             (ps) -> {
                 ps.setString(1, uuid.toString());
                 ps.setInt(2, offset);
