@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.application.config.migrators.CommandsMigrat
 import net.shortninja.staffplus.core.application.config.migrators.CommandsMultipleAliasesMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.CommandsV2Migrator;
 import net.shortninja.staffplus.core.application.config.migrators.CustomStaffModeModuleCommandMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.FlatFileStorageTypeMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.FreezeModuleMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.PermissionsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.PermissionsV2Migrator;
@@ -54,7 +55,8 @@ public class StaffPlusPlusConfigurationProvider implements TubingConfigurationPr
             new PhraseDetectionToGroupsMigrator(),
             new CommandsMultipleAliasesMigrator(),
             new SoundOrbPickupMigrator(),
-            new BlacklistModuleMigrator());
+            new BlacklistModuleMigrator(),
+            new FlatFileStorageTypeMigrator());
     }
 
     @Override
