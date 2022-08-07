@@ -1,5 +1,16 @@
 # Changelog Staff++ | v1.19
 
+# V1.19.12
+
+### Features
+- 1.19.2 support
+
+# V1.19.11
+
+### Features
+- Improve performance by making session enhancers async
+- Small change to sqlite connections, to allow faster connections.
+
 # V1.19.10
 
 ### Features
