@@ -1,13 +1,13 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
-<#macro investigationItem slot investigation itemId="investigation-info" onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP">
+<#macro investigationItem slot investigation itemId="investigation-info" onRightClick="$NOOP" onLeftClick="$NOOP" onLeftShiftClick="$NOOP">
     <GuiItem
         id="${itemId}"
         class="investigation-info"
         slot="${slot}"
         onLeftClick="${onLeftClick}"
         onRightClick="${onRightClick}"
-        onMiddleClick="${onMiddleClick}"
+        onLeftShiftClick="${onLeftShiftClick}"
         material="BOOK">
         <name class="item-name" color="&7">
             Investigation

@@ -2,7 +2,7 @@
 <#assign BukkitUtils=statics['net.shortninja.staffplus.core.common.utils.BukkitUtils']>
 <#import "/gui/commons/commons.ftl" as commons/>
 <#include "/gui/commons/translate.ftl"/>
-<#macro playerhead slot sppPlayer itemId="player-info" onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
+<#macro playerhead slot sppPlayer itemId="player-info" onRightClick="$NOOP" onLeftClick="$NOOP" onLeftShiftClick="$NOOP" actions=[]>
     <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
     <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
     <#assign session=GuiUtils.getSession(sppPlayer)/>
@@ -11,7 +11,7 @@
              slot="${slot}"
              onLeftClick="${onLeftClick}"
              onRightClick="${onRightClick}"
-             onMiddleClick="${onMiddleClick}"
+             onLeftShiftClick="${onLeftShiftClick}"
              material="PLAYER_HEAD">
         <name class="item-name" color="&5">${sppPlayer.username}</name>
         <Lore>

@@ -2,7 +2,7 @@
 <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
 <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
 
-<#macro muteitem slot mute itemId="mute-info" onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
+<#macro muteitem slot mute itemId="mute-info" onRightClick="$NOOP" onLeftClick="$NOOP" onLeftShiftClick="$NOOP" actions=[]>
     <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
     <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
     <GuiItem
@@ -11,7 +11,7 @@
         slot="${slot}"
         onLeftClick="${onLeftClick}"
         onRightClick="${onRightClick}"
-        onMiddleClick="${onMiddleClick}"
+        onLeftShiftClick="${onLeftShiftClick}"
         material="PLAYER_HEAD">
         <name class="item-name" color="&3">Mute</name>
         <Lore>

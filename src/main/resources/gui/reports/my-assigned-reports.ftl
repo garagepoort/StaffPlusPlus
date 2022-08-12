@@ -12,8 +12,8 @@
         report=report
         onLeftClick="manage-reports/view/detail?reportId=${report.id}"
         onRightClick="manage-reports/resolve?reportId=${report.id}"
-        onMiddleClick="manage-reports/reject?reportId=${report.id}"
-        actions=["gui.reports.my-assigned-reports.left-click-to-detail", "gui.reports.my-assigned-reports.right-click-to-resolve", "gui.reports.my-assigned-reports.middle-click-to-reject"]
+        onLeftShiftClick="manage-reports/reject?reportId=${report.id}"
+        actions=["gui.reports.my-assigned-reports.left-click-to-detail", "gui.reports.my-assigned-reports.right-click-to-resolve", "gui.reports.my-assigned-reports.left-shift-click-to-reject"]
         />
     </#list>
 

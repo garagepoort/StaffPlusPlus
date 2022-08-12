@@ -445,14 +445,14 @@ gui:
             title: "Reports assigned to you"
             left-click-to-detail: "&7Left click to &6view detail"
             right-click-to-resolve: "&7Right click to &2resolve"
-            middle-click-to-reject: "&7Middle click to &Creject"
+            left-shift-click-to-reject: "&7Left shift click to &Creject"
         my-reports:
             title: "My reports"
         open-reports:
             title: "Open reports"
             left-click-to-accept: "&7Left click to &6accept"
             right-click-to-resolve: "&7Right click to &2resolve"
-            middle-click-to-reject: "&7Middle click to &Creject"
+            left-shift-click-to-reject: "&7Left shift click to &Creject"
         closed-reports:
             title: "Closed reports"
         find-reports:
