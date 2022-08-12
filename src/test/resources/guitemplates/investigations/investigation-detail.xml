@@ -1,7 +1,7 @@
 <TubingGui size="54" id="investigation-detail">
     <title class="gui-title">Manage Investigation</title>
 
-    <GuiItem id="investigation-info" class="investigation-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="BOOK">
+    <GuiItem id="investigation-info" class="investigation-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onLeftShiftClick="$NOOP" material="BOOK">
         <name class="item-name" color="&amp;7">
             Investigation
         </name>
