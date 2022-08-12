@@ -1,6 +1,6 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 <#include "/gui/commons/translate.ftl"/>
-<#macro reportitem slot report itemId="report-info" onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
+<#macro reportitem slot report itemId="report-info" onRightClick="$NOOP" onLeftClick="$NOOP" onLeftShiftClick="$NOOP" actions=[]>
     <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
     <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
     <GuiItem
@@ -9,7 +9,7 @@
         slot="${slot}"
         onLeftClick="${onLeftClick}"
         onRightClick="${onRightClick}"
-        onMiddleClick="${onMiddleClick}"
+        onLeftShiftClick="${onLeftShiftClick}"
         material="PAPER">
         <name class="item-name" color="&5">
             <@translate key="gui.reports.report"/>

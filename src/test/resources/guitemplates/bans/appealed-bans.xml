@@ -1,6 +1,6 @@
 <TubingGui size="54" id="bans-overview">
     <title class="gui-title">Appealed bans</title>
-    <GuiItem id="ban-info-0" class="ban-info" slot="0" onLeftClick="manage-bans/view/detail?banId=12" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PLAYER_HEAD">
+    <GuiItem id="ban-info-0" class="ban-info" slot="0" onLeftClick="manage-bans/view/detail?banId=12" onRightClick="$NOOP" onLeftShiftClick="$NOOP" material="PLAYER_HEAD">
         <name class="item-name" color="&amp;C">Ban</name>
         <Lore>
             <LoreLine>
