@@ -6,7 +6,6 @@
 <#macro stafflocationsitem slot location itemId="staff-location-info"
         onRightClick="$NOOP"
         onLeftClick="$NOOP"
-        onMiddleClick="$NOOP"
         onLeftShiftClick="$NOOP"
         actions=[]>
     <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
@@ -17,7 +16,6 @@
         slot="${slot}"
         onLeftClick="${onLeftClick}"
         onRightClick="${onRightClick}"
-        onMiddleClick="${onMiddleClick}"
         onLeftShiftClick="${onLeftShiftClick}"
         material="${location.icon}">
         <name class="item-name" color="&3">${location.name}</name>

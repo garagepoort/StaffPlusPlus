@@ -1,6 +1,6 @@
 <TubingGui size="54" id="staff-location-detail">
    <title class="gui-title">Manage Staff location</title>
-   <GuiItem id="location-info" class="staff-location-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" onLeftShiftClick="$NOOP" material="PAPER">
+   <GuiItem id="location-info" class="staff-location-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onLeftShiftClick="$NOOP" material="PAPER">
       <name class="item-name" color="&amp;3">stafflocation</name>
       <Lore>
          <LoreLine>

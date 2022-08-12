@@ -452,14 +452,14 @@ gui:
             title: "Reportes asignados a usted"
             left-click-to-detail: "&7Clic izquierdo para &6ver detalles"
             right-click-to-resolve: "&7Clic derecho para &2resolver"
-            middle-click-to-reject: "&7Clic medio para &crechazar"
+            left-shift-click-to-reject: "&7Clic medio para &crechazar"
         my-reports:
             title: "Mis reportes"
         open-reports:
             title: "Abrir reportes"
             left-click-to-accept: "&7Clic izquierdo para &6aceptar"
             right-click-to-resolve: "&7Clic derecho para &2resolver"
-            middle-click-to-reject: "&7Clic medio para &Crechazar"
+            left-shift-click-to-reject: "&7Clic medio para &Crechazar"
         closed-reports:
             title: "Reportes cerrados"
         find-reports:
