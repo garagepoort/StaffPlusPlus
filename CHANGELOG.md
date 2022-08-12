@@ -1,5 +1,14 @@
 # Changelog Staff++ | v1.19
 
+# V1.19.13
+
+### Bug fixes
+- Logging error/warning at startup has been fixed 
+- middle click not working on newer versions of MC. All middle clicks have been replaced by left-shift clicks. 
+- 
+### Features
+- 1.19.2 support
+
 # V1.19.12
 
 ### Features

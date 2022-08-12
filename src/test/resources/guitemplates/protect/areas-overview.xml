@@ -1,6 +1,6 @@
 <TubingGui size="54" id="protected-areas-overview">
     <title class="gui-title">Protected areas</title>
-    <GuiItem id="protected-area-info-0" class="protected-area-info" slot="0" onLeftClick="protected-areas/view/detail?areaId=12" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PAPER">
+    <GuiItem id="protected-area-info-0" class="protected-area-info" slot="0" onLeftClick="protected-areas/view/detail?areaId=12" onRightClick="$NOOP" onLeftShiftClick="$NOOP" material="PAPER">
         <name class="item-name" color="&amp;3">area</name>
         <Lore>
             <LoreLine>

@@ -1,6 +1,6 @@
 <TubingGui size="54" id="report-detail">
     <title class="gui-title">Report by: reporterName</title>
-    <GuiItem id="report-info" class="report-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PAPER">
+    <GuiItem id="report-info" class="report-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onLeftShiftClick="$NOOP" material="PAPER">
         <name class="item-name" color="&amp;5">
             Report        </name>
         <Lore>
