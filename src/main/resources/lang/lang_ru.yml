@@ -346,14 +346,14 @@ gui:
       title: Назначенные вам жалобы
       left-click-to-detail: '&7Нажмите ЛКМ для &6просмотра деталей'
       right-click-to-resolve: '&7Нажмите ПКМ, чтобы &2завершить'
-      middle-click-to-reject: '&7Нажмите СКМ, чтобы &Cотклонить'
+      left-shift-click-to-reject: '&7Нажмите СКМ, чтобы &Cотклонить'
     my-reports:
       title: Мои жалобы
     open-reports:
       title: Открытые жалобы
       left-click-to-accept: '&7ЛКМ чтобы &6принять'
       right-click-to-resolve: '&7ПКМ чтобы &2завершить'
-      middle-click-to-reject: '&7СКМ чтобы &Cотклонить'
+      left-shift-click-to-reject: '&7СКМ чтобы &Cотклонить'
     closed-reports:
       title: Закрытые жалобы
     find-reports:

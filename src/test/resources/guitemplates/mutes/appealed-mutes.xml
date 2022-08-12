@@ -1,7 +1,7 @@
 <TubingGui size="54" id="mutes-overview">
     <title class="gui-title">Appealed mutes</title>
 
-    <GuiItem id="mute-info-0" class="mute-info" slot="0" onLeftClick="manage-mutes/view/detail?muteId=12" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PLAYER_HEAD">
+    <GuiItem id="mute-info-0" class="mute-info" slot="0" onLeftClick="manage-mutes/view/detail?muteId=12" onRightClick="$NOOP" onLeftShiftClick="$NOOP" material="PLAYER_HEAD">
         <name class="item-name" color="&amp;3">Mute</name>
         <Lore>
             <LoreLine>
