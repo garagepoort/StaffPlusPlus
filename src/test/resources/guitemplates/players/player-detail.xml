@@ -1,6 +1,6 @@
 <TubingGui size="27" id="player-detail">
    <title class="gui-title">garagepoort</title>
-   <GuiItem id="player-info" class="player-info" slot="0" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="SKULL_ITEM">
+   <GuiItem id="player-info" class="player-info" slot="0" onLeftClick="$NOOP" onRightClick="$NOOP" onLeftShiftClick="$NOOP" material="SKULL_ITEM">
       <name class="item-name" color="&amp;5">garagepoort</name>
       <Lore>
          <LoreLine permission="staff.player-view.detail.uuid">

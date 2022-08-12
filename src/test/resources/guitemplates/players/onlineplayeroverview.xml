@@ -1,7 +1,7 @@
 <TubingGui size="54" id="players-overview">
     <title class="gui-title">Online players</title>
 
-    <GuiItem id="player-info-0" class="player-info" slot="0" onLeftClick="players/view/detail?targetPlayerName=player1" onRightClick="$NOOP" onMiddleClick="$NOOP" material="SKULL_ITEM">
+    <GuiItem id="player-info-0" class="player-info" slot="0" onLeftClick="players/view/detail?targetPlayerName=player1" onRightClick="$NOOP" onLeftShiftClick="$NOOP" material="SKULL_ITEM">
         <name class="item-name" color="&amp;5">player1</name>
         <Lore>
 
@@ -25,7 +25,7 @@
             <LoreLine>&amp;7Left click to &amp;6view players details</LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="player-info-1" class="player-info" slot="1" onLeftClick="players/view/detail?targetPlayerName=player2" onRightClick="$NOOP" onMiddleClick="$NOOP" material="SKULL_ITEM">
+    <GuiItem id="player-info-1" class="player-info" slot="1" onLeftClick="players/view/detail?targetPlayerName=player2" onRightClick="$NOOP" onLeftShiftClick="$NOOP" material="SKULL_ITEM">
         <name class="item-name" color="&amp;5">player2</name>
         <Lore>
 

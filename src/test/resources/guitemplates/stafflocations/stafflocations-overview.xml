@@ -1,6 +1,6 @@
 <TubingGui size="54" id="staff-locations-overview">
     <title class="gui-title">Saved locations</title>
-    <GuiItem id="staff-location-info-0" class="staff-location-info" slot="0" onLeftClick="staff-locations/teleport?locationId=12" onRightClick="staff-locations/view/detail?locationId=12" onMiddleClick="$NOOP" onLeftShiftClick="staff-locations/view/delete-confirmation?locationId=12&amp;locationName=stafflocation" material="PAPER">
+    <GuiItem id="staff-location-info-0" class="staff-location-info" slot="0" onLeftClick="staff-locations/teleport?locationId=12" onRightClick="staff-locations/view/detail?locationId=12" onLeftShiftClick="staff-locations/view/delete-confirmation?locationId=12&amp;locationName=stafflocation" material="PAPER">
         <name class="item-name" color="&amp;3">stafflocation</name>
         <Lore>
             <LoreLine>

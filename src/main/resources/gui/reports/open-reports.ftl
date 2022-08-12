@@ -12,8 +12,8 @@
         report=report
         onLeftClick="manage-reports/accept?reportId=${report.id}"
         onRightClick="manage-reports/accept-and-resolve?reportId=${report.id}"
-        onMiddleClick="manage-reports/accept-and-reject?reportId=${report.id}"
-        actions=["gui.reports.open-reports.left-click-to-accept", "gui.reports.open-reports.right-click-to-resolve", "gui.reports.open-reports.middle-click-to-reject"]
+        onLeftShiftClick="manage-reports/accept-and-reject?reportId=${report.id}"
+        actions=["gui.reports.open-reports.left-click-to-accept", "gui.reports.open-reports.right-click-to-resolve", "gui.reports.open-reports.left-shift-click-to-reject"]
         />
     </#list>
 

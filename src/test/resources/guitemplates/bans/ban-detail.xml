@@ -1,7 +1,7 @@
 <TubingGui size="54" id="investigation-detail">
     <title class="gui-title">Player: target</title>
 
-    <GuiItem id="ban-info" class="ban-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="SKULL_ITEM">
+    <GuiItem id="ban-info" class="ban-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onLeftShiftClick="$NOOP" material="SKULL_ITEM">
         <name class="item-name" color="&amp;C">Ban</name>
         <Lore>
             <LoreLine>
