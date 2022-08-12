@@ -1,5 +1,5 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
-<#macro areaitem slot area itemId="protected-area-info" onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
+<#macro areaitem slot area itemId="protected-area-info" onRightClick="$NOOP" onLeftClick="$NOOP" onLeftShiftClick="$NOOP" actions=[]>
     <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
     <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
     <GuiItem
@@ -8,7 +8,7 @@
         slot="${slot}"
         onLeftClick="${onLeftClick}"
         onRightClick="${onRightClick}"
-        onMiddleClick="${onMiddleClick}"
+        onLeftShiftClick="${onLeftShiftClick}"
         material="PAPER">
         <name class="item-name" color="&3">${area.name}</name>
         <Lore>
