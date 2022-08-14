@@ -5,9 +5,7 @@
 ### Bug fixes
 - Logging error/warning at startup has been fixed 
 - middle click not working on newer versions of MC. All middle clicks have been replaced by left-shift clicks. 
-- 
-### Features
-- 1.19.2 support
+- Approving of Mute appeals was broken
 
 # V1.19.12
 
