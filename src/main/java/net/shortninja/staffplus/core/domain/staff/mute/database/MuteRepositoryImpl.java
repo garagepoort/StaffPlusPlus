@@ -270,7 +270,7 @@ public class MuteRepositoryImpl implements MuteRepository {
         if(appealId != null) {
             int appealableId = rs.getInt(14);
             UUID appealerUuid = UUID.fromString(rs.getString(15));
-            String resolverStringUuid = rs.getString(18);
+            String resolverStringUuid = rs.getString(16);
             String appealReason = rs.getString(17);
             String resolveReason = rs.getString(18);
             AppealStatus status = AppealStatus.valueOf(rs.getString(19));
