@@ -97,7 +97,7 @@ public class SqlWarnRepository implements WarnRepository {
         return query.create().find(
             "SELECT * FROM sp_warnings w " +
                 "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) " +
-                "WHERE Player_UUID = ? " + getServerNameFilterWithAnd(warningSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?",
+                "WHERE Player_UUID = ? " + getServerNameFilterWithAnd(warningSyncServers) + " ORDER BY w.timestamp DESC LIMIT ?,?",
             (ps) -> {
                 ps.setString(1, uuid.toString());
                 ps.setInt(2, offset);
@@ -110,7 +110,7 @@ public class SqlWarnRepository implements WarnRepository {
         return query.create().find(
             "SELECT * FROM sp_warnings w " +
                 "LEFT JOIN sp_appeals ap ON ap.id = (select id from sp_appeals ap2 WHERE ap2.appealable_id = w.id AND type = 'WARNING' LIMIT 1) "
-                + getServerNameFilterWithWhere(options.serverSyncConfiguration.warningSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?",
+                + getServerNameFilterWithWhere(options.serverSyncConfiguration.warningSyncServers) + " ORDER BY w.timestamp DESC LIMIT ?,?",
             (ps) -> {
                 ps.setInt(1, offset);
                 ps.setInt(2, amount);
