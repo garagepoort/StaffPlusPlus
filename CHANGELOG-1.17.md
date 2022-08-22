@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.19
 
+# V1.19.14
+
+### Bug fixes
+- Fix my-warnings GUI
+
 # V1.19.13
 
 ### Bug fixes
