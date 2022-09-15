@@ -40,6 +40,7 @@ public class StaffPlusPlus extends TubingBukkitPlugin implements IStaffPlus {
                     getLogger().info("Copying old staff+ folder");
                     copyFolder(oldStaffPlusFolder.toPath(), newStaffPlusPlusFolder.toPath());
                 }
+                firstInstallFile.getParentFile().mkdirs();
                 firstInstallFile.createNewFile();
             }
         } catch (IOException e) {
