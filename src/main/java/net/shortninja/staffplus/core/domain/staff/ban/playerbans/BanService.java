@@ -13,21 +13,13 @@ import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
-import net.shortninja.staffplusplus.ban.BanEvent;
-import net.shortninja.staffplusplus.ban.BanExtensionEvent;
-import net.shortninja.staffplusplus.ban.BanFilters;
-import net.shortninja.staffplusplus.ban.BanReductionEvent;
-import net.shortninja.staffplusplus.ban.UnbanEvent;
+import net.shortninja.staffplusplus.ban.*;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static java.util.stream.Collectors.toMap;
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
@@ -47,18 +39,22 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     private final BanReasonResolver banReasonResolver;
     private final BanTemplateResolver banTemplateResolver;
     private final InfractionsConfiguration infractionsConfiguration;
+    private final PlayerRanks playerRanks;
 
-    @ConfigProperty("bans.ranks")
-    private List<String> ranks;
-
-    public BanService(PermissionHandler permission, BansRepository bansRepository, BanConfiguration banConfiguration,
-                      BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver, InfractionsConfiguration infractionsConfiguration) {
+    public BanService(PermissionHandler permission,
+                      BansRepository bansRepository,
+                      BanConfiguration banConfiguration,
+                      BanReasonResolver banReasonResolver,
+                      BanTemplateResolver banTemplateResolver,
+                      InfractionsConfiguration infractionsConfiguration,
+                      @ConfigProperty("bans.ranks") List<String> ranks) {
         this.permission = permission;
         this.bansRepository = bansRepository;
         this.banConfiguration = banConfiguration;
         this.banReasonResolver = banReasonResolver;
         this.banTemplateResolver = banTemplateResolver;
         this.infractionsConfiguration = infractionsConfiguration;
+        this.playerRanks = new PlayerRanks(ranks, permission);
     }
 
     public void permBan(CommandSender issuer, SppPlayer playerToBan, String reason, String template, boolean isSilent) {
@@ -150,6 +146,9 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         if (playerToBan.isOnline() && permission.has(playerToBan.getPlayer(), banConfiguration.permissionBanByPass)) {
             throw new BusinessException("&CThis player bypasses being banned");
         }
+        if(!canBanRank(issuer, playerToBan)) {
+            throw new BusinessException("&CYou don't have permission to ban this player!");
+        }
 
         bansRepository.findActiveBan(playerToBan.getId()).ifPresent(ban -> {
             throw new BusinessException("&CCannot ban this player, the player is already banned");
@@ -166,7 +165,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         ban.setId(bansRepository.addBan(ban));
 
         String banMessage = replaceBanPlaceholders(templateMessage, ban);
-        if(endDate == null || endDate > System.currentTimeMillis()) {
+        if (endDate == null || endDate > System.currentTimeMillis()) {
             sendEvent(new BanEvent(ban, banMessage));
         }
     }
@@ -226,18 +225,9 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
 
     private boolean canBanRank(CommandSender issuer, SppPlayer bannedPlayer) {
-        for (String rank : ranks) {
-            if(perm)
+        if (issuer instanceof ConsoleCommandSender) {
+            return true;
         }
-        return true;
-    }
-
-    private Optional<String> playerRank(Player player) {
-        for (int i = ranks.size() - 1; i >= 0; i--) {
-            if(permission.has(player, ranks.get(i))) {
-                return Optional.ofNullable(ranks.get(i));
-            }
-        }
-        return Optional.empty();
+        return playerRanks.hasHigherRank((Player) issuer, bannedPlayer.getOfflinePlayer());
     }
 }
