@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.application.config.Options;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -43,17 +43,18 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     private static final String LIMIT = ".limit";
     private final PermissionHandler permission;
     private final BansRepository bansRepository;
-    private final Options options;
     private final BanConfiguration banConfiguration;
     private final BanReasonResolver banReasonResolver;
     private final BanTemplateResolver banTemplateResolver;
     private final InfractionsConfiguration infractionsConfiguration;
 
-    public BanService(PermissionHandler permission, BansRepository bansRepository, BanConfiguration banConfiguration, Options options,
+    @ConfigProperty("bans.ranks")
+    private List<String> ranks;
+
+    public BanService(PermissionHandler permission, BansRepository bansRepository, BanConfiguration banConfiguration,
                       BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver, InfractionsConfiguration infractionsConfiguration) {
         this.permission = permission;
         this.bansRepository = bansRepository;
-        this.options = options;
         this.banConfiguration = banConfiguration;
         this.banReasonResolver = banReasonResolver;
         this.banTemplateResolver = banTemplateResolver;
@@ -221,5 +222,22 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     @Override
     public long getBanCount(BanFilters banFilters) {
         return this.bansRepository.getBanCount(banFilters);
+    }
+
+
+    private boolean canBanRank(CommandSender issuer, SppPlayer bannedPlayer) {
+        for (String rank : ranks) {
+            if(perm)
+        }
+        return true;
+    }
+
+    private Optional<String> playerRank(Player player) {
+        for (int i = ranks.size() - 1; i >= 0; i--) {
+            if(permission.has(player, ranks.get(i))) {
+                return Optional.ofNullable(ranks.get(i));
+            }
+        }
+        return Optional.empty();
     }
 }
