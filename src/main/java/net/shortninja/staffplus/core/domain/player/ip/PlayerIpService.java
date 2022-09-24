@@ -25,6 +25,10 @@ public class PlayerIpService {
         this.options = options;
     }
 
+    public List<PlayerIpRecord> getPlayersMatchingIp(String ipAddress) {
+        return ipAddress.contains("/") ? getMatchedBySubnet(ipAddress) : getMatchedByIp(ipAddress);
+    }
+
     public void savePlayerIp(Player player) {
         String ipFromPlayer = BukkitUtils.getIpFromPlayer(player);
         playerIpRepository.save(player.getUniqueId(), player.getName(), ipFromPlayer, options.serverName);
