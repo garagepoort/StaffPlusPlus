@@ -47,7 +47,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
                       BanReasonResolver banReasonResolver,
                       BanTemplateResolver banTemplateResolver,
                       InfractionsConfiguration infractionsConfiguration,
-                      @ConfigProperty("bans.ranks") List<String> ranks) {
+                      @ConfigProperty("ban-module.ranks") List<String> ranks) {
         this.permission = permission;
         this.bansRepository = bansRepository;
         this.banConfiguration = banConfiguration;
