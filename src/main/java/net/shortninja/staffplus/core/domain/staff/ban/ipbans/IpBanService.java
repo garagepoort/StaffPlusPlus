@@ -1,15 +1,24 @@
 package net.shortninja.staffplus.core.domain.staff.ban.ipbans;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.player.ip.PlayerIpRecord;
+import net.shortninja.staffplus.core.domain.player.ip.PlayerIpService;
 import net.shortninja.staffplus.core.domain.staff.ban.ipbans.database.IpBanRepository;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.PlayerRanks;
 import net.shortninja.staffplusplus.ban.IpBanEvent;
 import net.shortninja.staffplusplus.ban.IpUnbanEvent;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.net.util.SubnetUtils;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -28,12 +37,23 @@ public class IpBanService {
     private final Options options;
     private final Messages messages;
     private final IpBanTemplateResolver ipBanTemplateResolver;
+    private final PlayerRanks playerRanks;
+    private final PlayerIpService playerIpService;
+    private final PlayerManager playerManager;
 
-    public IpBanService(IpBanRepository ipBanRepository, Options options, Messages messages, IpBanTemplateResolver ipBanTemplateResolver) {
+    public IpBanService(IpBanRepository ipBanRepository,
+                        Options options,
+                        Messages messages,
+                        IpBanTemplateResolver ipBanTemplateResolver,
+                        PermissionHandler permission,
+                        @ConfigProperty("ban-module.ranks") List<String> ranks, PlayerIpService playerIpService, PlayerManager playerManager) {
         this.ipBanRepository = ipBanRepository;
         this.options = options;
         this.messages = messages;
         this.ipBanTemplateResolver = ipBanTemplateResolver;
+        this.playerIpService = playerIpService;
+        this.playerManager = playerManager;
+        this.playerRanks = new PlayerRanks(ranks, permission);
     }
 
     public void banIp(CommandSender issuer, String ipAddress, String template, boolean isSilent) {
@@ -93,5 +113,24 @@ public class IpBanService {
 
     public List<IpBan> getAllActiveBans() {
         return ipBanRepository.getBannedIps();
+    }
+
+    private boolean canBanRank(CommandSender issuer, String ipAddress) {
+        if (issuer instanceof ConsoleCommandSender) {
+            return true;
+        }
+        List<SppPlayer> playersMatchingIp = playerIpService.getPlayersMatchingIp(ipAddress)
+            .stream()
+            .map(r -> playerManager.getOnOrOfflinePlayer(r.getPlayerUuid()))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toList());
+
+        for (SppPlayer sppPlayer : playersMatchingIp) {
+            if (playerRanks.hasHigherRank((Player) issuer, sppPlayer.getOfflinePlayer())) {
+
+            }
+        }
+        return playerRanks.hasHigherRank((Player) issuer, bannedPlayer.getOfflinePlayer());
     }
 }

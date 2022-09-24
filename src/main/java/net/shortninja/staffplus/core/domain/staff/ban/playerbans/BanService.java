@@ -120,6 +120,10 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     }
 
     public void unban(CommandSender issuer, SppPlayer playerToUnban, String reason, boolean isSilent) {
+        if(!canBanRank(issuer, playerToUnban)) {
+            throw new BusinessException("&CYou don't have permission to unban this player!");
+        }
+
         Ban ban = bansRepository.findActiveBan(playerToUnban.getId())
             .orElseThrow(() -> new BusinessException("&CCannot unban, this user is not banned"));
 
