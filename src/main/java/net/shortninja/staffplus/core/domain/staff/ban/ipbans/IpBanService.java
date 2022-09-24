@@ -7,16 +7,13 @@ import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.ip.PlayerIpRecord;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpService;
 import net.shortninja.staffplus.core.domain.staff.ban.ipbans.database.IpBanRepository;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.PlayerRanks;
 import net.shortninja.staffplusplus.ban.IpBanEvent;
 import net.shortninja.staffplusplus.ban.IpUnbanEvent;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.net.util.SubnetUtils;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -69,6 +66,9 @@ public class IpBanService {
         if (!matchingIpBans.isEmpty()) {
             throw new BusinessException("&cThis ip is already banned by the following rules: " + matchingIpBans.stream().map(IpBan::getIp).collect(Collectors.joining(" | ")), messages.prefixBans);
         }
+        if (!canBanRank(issuer, ipAddress)) {
+            throw new BusinessException("&CYou don't have permission to ban this ip!", messages.prefixBans);
+        }
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
         UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID;
@@ -102,6 +102,9 @@ public class IpBanService {
     }
 
     public void unbanIp(CommandSender sender, String ipAddress, boolean silent) {
+        if (!canBanRank(sender, ipAddress)) {
+            throw new BusinessException("&CYou don't have permission to unban this ip!", messages.prefixBans);
+        }
         IpBan ipBan = ipBanRepository.getActiveBannedRule(ipAddress).orElseThrow(() -> new BusinessException("No ipban found with rule: " + ipAddress, messages.prefixBans));
         ipBan.setSilentUnban(silent);
 
@@ -116,21 +119,18 @@ public class IpBanService {
     }
 
     private boolean canBanRank(CommandSender issuer, String ipAddress) {
+        if(playerRanks.isEmpty()) {
+            return true;
+        }
+
         if (issuer instanceof ConsoleCommandSender) {
             return true;
         }
-        List<SppPlayer> playersMatchingIp = playerIpService.getPlayersMatchingIp(ipAddress)
+        return playerIpService.getPlayersMatchingIp(ipAddress)
             .stream()
             .map(r -> playerManager.getOnOrOfflinePlayer(r.getPlayerUuid()))
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .collect(Collectors.toList());
-
-        for (SppPlayer sppPlayer : playersMatchingIp) {
-            if (playerRanks.hasHigherRank((Player) issuer, sppPlayer.getOfflinePlayer())) {
-
-            }
-        }
-        return playerRanks.hasHigherRank((Player) issuer, bannedPlayer.getOfflinePlayer());
+            .allMatch(sppPlayer -> playerRanks.hasHigherRank((Player) issuer, sppPlayer.getOfflinePlayer()));
     }
 }

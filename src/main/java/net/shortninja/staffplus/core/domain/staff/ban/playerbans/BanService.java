@@ -229,7 +229,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
 
     private boolean canBanRank(CommandSender issuer, SppPlayer bannedPlayer) {
-        if (issuer instanceof ConsoleCommandSender) {
+        if (playerRanks.isEmpty() || issuer instanceof ConsoleCommandSender) {
             return true;
         }
         return playerRanks.hasHigherRank((Player) issuer, bannedPlayer.getOfflinePlayer());

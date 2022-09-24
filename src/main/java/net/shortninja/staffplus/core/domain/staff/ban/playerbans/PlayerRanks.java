@@ -36,4 +36,8 @@ public class PlayerRanks {
         }
         return Optional.empty();
     }
+
+    public boolean isEmpty() {
+        return ranks.isEmpty();
+    }
 }
