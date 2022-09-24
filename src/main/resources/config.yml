@@ -395,11 +395,7 @@ ban-module:
     enabled: true
     permban-template: ''
     tempban-template: ''
-    ranks:
-        - helper
-        - moderator
-        - admin
-        - owner
+    ranks: []
     appeals:
         enabled: true
         unban-on-approve: true
