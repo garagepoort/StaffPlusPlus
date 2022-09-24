@@ -1,15 +1,21 @@
 package net.shortninja.staffplus.core.domain.staff.ban.ipbans;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.player.ip.PlayerIpService;
 import net.shortninja.staffplus.core.domain.staff.ban.ipbans.database.IpBanRepository;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.PlayerRanks;
 import net.shortninja.staffplusplus.ban.IpBanEvent;
 import net.shortninja.staffplusplus.ban.IpUnbanEvent;
 import org.apache.commons.net.util.SubnetUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -28,12 +34,23 @@ public class IpBanService {
     private final Options options;
     private final Messages messages;
     private final IpBanTemplateResolver ipBanTemplateResolver;
+    private final PlayerRanks playerRanks;
+    private final PlayerIpService playerIpService;
+    private final PlayerManager playerManager;
 
-    public IpBanService(IpBanRepository ipBanRepository, Options options, Messages messages, IpBanTemplateResolver ipBanTemplateResolver) {
+    public IpBanService(IpBanRepository ipBanRepository,
+                        Options options,
+                        Messages messages,
+                        IpBanTemplateResolver ipBanTemplateResolver,
+                        PermissionHandler permission,
+                        @ConfigProperty("ban-module.ranks") List<String> ranks, PlayerIpService playerIpService, PlayerManager playerManager) {
         this.ipBanRepository = ipBanRepository;
         this.options = options;
         this.messages = messages;
         this.ipBanTemplateResolver = ipBanTemplateResolver;
+        this.playerIpService = playerIpService;
+        this.playerManager = playerManager;
+        this.playerRanks = new PlayerRanks(ranks, permission);
     }
 
     public void banIp(CommandSender issuer, String ipAddress, String template, boolean isSilent) {
@@ -48,6 +65,9 @@ public class IpBanService {
         List<IpBan> matchingIpBans = findMatchingIpBans(ipAddress);
         if (!matchingIpBans.isEmpty()) {
             throw new BusinessException("&cThis ip is already banned by the following rules: " + matchingIpBans.stream().map(IpBan::getIp).collect(Collectors.joining(" | ")), messages.prefixBans);
+        }
+        if (!canBanRank(issuer, ipAddress)) {
+            throw new BusinessException("&CYou don't have permission to ban this ip!", messages.prefixBans);
         }
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
@@ -82,6 +102,9 @@ public class IpBanService {
     }
 
     public void unbanIp(CommandSender sender, String ipAddress, boolean silent) {
+        if (!canBanRank(sender, ipAddress)) {
+            throw new BusinessException("&CYou don't have permission to unban this ip!", messages.prefixBans);
+        }
         IpBan ipBan = ipBanRepository.getActiveBannedRule(ipAddress).orElseThrow(() -> new BusinessException("No ipban found with rule: " + ipAddress, messages.prefixBans));
         ipBan.setSilentUnban(silent);
 
@@ -93,5 +116,21 @@ public class IpBanService {
 
     public List<IpBan> getAllActiveBans() {
         return ipBanRepository.getBannedIps();
+    }
+
+    private boolean canBanRank(CommandSender issuer, String ipAddress) {
+        if(playerRanks.isEmpty()) {
+            return true;
+        }
+
+        if (issuer instanceof ConsoleCommandSender) {
+            return true;
+        }
+        return playerIpService.getPlayersMatchingIp(ipAddress)
+            .stream()
+            .map(r -> playerManager.getOnOrOfflinePlayer(r.getPlayerUuid()))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .allMatch(sppPlayer -> playerRanks.hasHigherRank((Player) issuer, sppPlayer.getOfflinePlayer()));
     }
 }

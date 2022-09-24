@@ -41,7 +41,7 @@ public class IpBanCmdUtil {
 
 
     public void  sendBanChoiceMessage(Player sender, String ipAddress, ChoiceAction confirmAction) {
-        List<PlayerIpRecord> players = ipAddress.contains("/") ? playerIpService.getMatchedBySubnet(ipAddress) : playerIpService.getMatchedByIp(ipAddress);
+        List<PlayerIpRecord> players = playerIpService.getPlayersMatchingIp(ipAddress);
 
         messages.send(sender, "&6Following players are matching the current IP rule you will add. They will all be banned", messages.prefixBans);
         printPlayerList(sender, players);
