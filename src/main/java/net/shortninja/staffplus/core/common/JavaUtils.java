@@ -377,7 +377,7 @@ public class JavaUtils {
     }
 
     private static void addColor(String message, Function<String, JSONMessage> jsonMessageFunction) {
-        String[] coloredString = message.split("(?=&1|&2|&3|&4|&5|&6|&7|&8|&9|&0|&a|&e|&b|&d|&f|&c)");
+        String[] coloredString = message.split("(?=&1|&2|&3|&4|&5|&6|&7|&8|&9|&0|&a|&e|&b|&d|&f|&c|&k|&l|&m|&n|&o|&r)");
         for (String messagePart : coloredString) {
             if (messagePart.length() < 2) {
                 jsonMessageFunction.apply(messagePart).color(ChatColor.GOLD);
