@@ -57,24 +57,29 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         this.playerRanks = new PlayerRanks(ranks, permission);
     }
 
+    @Override
     public void permBan(CommandSender issuer, SppPlayer playerToBan, String reason, String template, boolean isSilent) {
         ban(issuer, playerToBan, reason, template, null, PERM_BAN, isSilent);
     }
 
+    @Override
     public void permBan(CommandSender issuer, SppPlayer playerToBan, String reason, boolean isSilent) {
         ban(issuer, playerToBan, reason, null, null, PERM_BAN, isSilent);
     }
 
+    @Override
     public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason, String template, boolean isSilent) {
         permission.validateDuration(issuer, banConfiguration.permissionTempbanPlayer + LIMIT, durationInMillis);
         ban(issuer, playerToBan, reason, template, durationInMillis, TEMP_BAN, isSilent);
     }
 
+    @Override
     public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason, boolean isSilent) {
         permission.validateDuration(issuer, banConfiguration.permissionTempbanPlayer + LIMIT, durationInMillis);
         ban(issuer, playerToBan, reason, null, durationInMillis, TEMP_BAN, isSilent);
     }
 
+    @Override
     public void extendBan(CommandSender sender, SppPlayer player, long duration) {
         Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
         if (ban.getEndDate() == null) {
@@ -90,6 +95,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         sendEvent(new BanExtensionEvent(updatedBan, duration, sender));
     }
 
+    @Override
     public void reduceBan(CommandSender sender, SppPlayer player, long duration) {
         Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
         if (ban.getEndDate() == null) {
@@ -103,14 +109,17 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         sendEvent(new BanReductionEvent(updatedBan, duration, sender));
     }
 
+    @Override
     public Optional<Ban> getBanByBannedUuid(UUID playerUuid) {
         return bansRepository.findActiveBan(playerUuid);
     }
 
+    @Override
     public Ban getActiveById(int banId) {
         return bansRepository.findActiveBan(banId).orElseThrow(() -> new BusinessException("&CNo ban found with this id"));
     }
 
+    @Override
     public Ban getById(int banId) {
         return bansRepository.getBan(banId).orElseThrow(() -> new BusinessException("&CNo ban found with this id"));
     }
@@ -119,6 +128,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         return bansRepository.getActiveBans(offset, amount);
     }
 
+    @Override
     public void unban(CommandSender issuer, SppPlayer playerToUnban, String reason, boolean isSilent) {
         if(!canBanRank(issuer, playerToUnban)) {
             throw new BusinessException("&CYou don't have permission to unban this player!");
@@ -134,6 +144,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         unban(ban);
     }
 
+    @Override
     public void unban(SppPlayer issuer, int banId, String reason) {
         Ban ban = bansRepository.findActiveBan(banId)
             .orElseThrow(() -> new BusinessException("&CCannot unban, this user is not banned"));
