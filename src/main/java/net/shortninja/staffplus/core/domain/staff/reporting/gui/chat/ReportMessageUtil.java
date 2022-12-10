@@ -16,7 +16,9 @@ public class ReportMessageUtil {
     }
 
     public String replaceReportPlaceholders(String message, IReport report) {
-        return replaceReportPlaceholders(message,
+        return replaceReportPlaceholders(
+            report.getId(),
+            message,
             report.getStaffName(),
             report.getReporterName(),
             report.getCulpritName(),
@@ -26,7 +28,9 @@ public class ReportMessageUtil {
     }
 
     public String replaceReportPlaceholders(String message, ReportBungeeDto report) {
-        return replaceReportPlaceholders(message,
+        return replaceReportPlaceholders(
+            report.getId(),
+            message,
             report.getStaffName(),
             report.getReporterName(),
             report.getCulpritName(),
@@ -36,7 +40,9 @@ public class ReportMessageUtil {
     }
 
     public String replaceReportPlaceholders(String message, String staff, IReport report) {
-        return replaceReportPlaceholders(message,
+        return replaceReportPlaceholders(
+            report.getId(),
+            message,
             staff,
             report.getReporterName(),
             report.getCulpritName(),
@@ -46,7 +52,9 @@ public class ReportMessageUtil {
     }
 
     public String replaceReportPlaceholders(String message, String staff, ReportBungeeDto report) {
-        return replaceReportPlaceholders(message,
+        return replaceReportPlaceholders(
+            report.getId(),
+            message,
             staff,
             report.getReporterName(),
             report.getCulpritName(),
@@ -55,8 +63,9 @@ public class ReportMessageUtil {
             report.getCloseReason());
     }
 
-    public String replaceReportPlaceholders(String message, String staff, String reporterName, String culpritName, String reason, ReportStatus reportStatus, String closeReason) {
+    public String replaceReportPlaceholders(int reportId, String message, String staff, String reporterName, String culpritName, String reason, ReportStatus reportStatus, String closeReason) {
         String result = message;
+        result = result.replace("%reportId%", String.valueOf(reportId));
         if (staff != null) result = result.replace("%staff%", staff);
         if (reporterName != null) result = result.replace("%reporter%", reporterName);
         if (culpritName != null) result = result.replace("%culprit%", culpritName);
