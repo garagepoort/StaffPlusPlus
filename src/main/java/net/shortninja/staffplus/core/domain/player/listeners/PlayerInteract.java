@@ -1,9 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
-import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.tubinggui.GuiActionService;
-import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
@@ -14,12 +12,10 @@ import net.shortninja.staffplus.core.domain.staff.chests.ChestGuiBuilder;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.CpsHandler;
-import net.shortninja.staffplus.core.domain.staff.mode.handler.CustomModuleExecutor;
-import net.shortninja.staffplus.core.domain.staff.mode.handler.CustomModulePreProcessor;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetType;
-import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
@@ -31,12 +27,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
-import static net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration.ModuleType.COMMAND_DYNAMIC;
 
 @IocBukkitListener
 public class PlayerInteract implements Listener {
@@ -50,11 +43,10 @@ public class PlayerInteract implements Listener {
     private final FreezeHandler freezeHandler;
     private final PlayerManager playerManager;
     private final OnlineSessionsManager sessionManager;
-    private final List<CustomModulePreProcessor> customModulePreProcessors;
-    private final Messages messages;
     private final GuiActionService guiActionService;
     private final ChestGuiBuilder chestGuiBuilder;
     private final CommandUtil commandUtil;
+    private final CustomModuleHandler customModuleHandler;
 
 
     public PlayerInteract(IProtocolService protocolService, CpsHandler cpsHandler,
@@ -62,20 +54,18 @@ public class PlayerInteract implements Listener {
                           FreezeHandler freezeHandler,
                           PlayerManager playerManager,
                           OnlineSessionsManager sessionManager,
-                          @IocMulti(CustomModulePreProcessor.class) List<CustomModulePreProcessor> customModulePreProcessors,
-                          Messages messages, GuiActionService guiActionService, ChestGuiBuilder chestGuiBuilder,
-                          CommandUtil commandUtil) {
+                          GuiActionService guiActionService, ChestGuiBuilder chestGuiBuilder,
+                          CommandUtil commandUtil, CustomModuleHandler customModuleHandler) {
         this.protocolService = protocolService;
         this.cpsHandler = cpsHandler;
         this.gadgetHandler = gadgetHandler;
         this.freezeHandler = freezeHandler;
         this.playerManager = playerManager;
         this.sessionManager = sessionManager;
-        this.customModulePreProcessors = customModulePreProcessors;
-        this.messages = messages;
         this.guiActionService = guiActionService;
         this.chestGuiBuilder = chestGuiBuilder;
         this.commandUtil = commandUtil;
+        this.customModuleHandler = customModuleHandler;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -176,7 +166,7 @@ public class PlayerInteract implements Listener {
                 });
                 break;
             case CUSTOM:
-                isHandled = handleCustomModule(player, item);
+                isHandled = customModuleHandler.handleCustomModule(player, item);
                 break;
             default:
                 break;
@@ -184,31 +174,5 @@ public class PlayerInteract implements Listener {
 
         staffTimings.put(player, System.currentTimeMillis());
         return isHandled;
-    }
-
-    private boolean handleCustomModule(Player player, ItemStack item) {
-        Optional<CustomModuleConfiguration> customModuleConfiguration = gadgetHandler.getModule(item);
-        if (!customModuleConfiguration.isPresent()) {
-            return false;
-        }
-
-        HashMap<String, String> placeholders = new HashMap<>();
-        placeholders.put("%clicker%", player.getName());
-        Player targetPlayer = JavaUtils.getTargetPlayer(player);
-        if (targetPlayer != null) {
-            placeholders.put("%clicked%", targetPlayer.getName());
-        }
-
-        if (customModuleConfiguration.get().getType() == COMMAND_DYNAMIC && targetPlayer == null) {
-            messages.send(player, "No target in range", messages.prefixGeneral);
-            return true;
-        }
-
-        CustomModuleExecutor moduleExecution = (p, pl) -> gadgetHandler.executeModule(p, targetPlayer, customModuleConfiguration.get(), pl);
-        for (CustomModulePreProcessor customModulePreProcessor : customModulePreProcessors) {
-            moduleExecution = customModulePreProcessor.process(moduleExecution, customModuleConfiguration.get(), placeholders);
-        }
-        moduleExecution.execute(player, placeholders);
-        return true;
     }
 }
