@@ -55,7 +55,8 @@ public class StaffCustomItemsConfigLoader extends AbstractConfigLoader<List<Cust
             short data = getMaterialData(config.getString(CUSTOM_MODULES + identifier + ".item"));
             String name = config.getString(CUSTOM_MODULES + identifier + ".name");
             String enabledOnState = config.getString(CUSTOM_MODULES + identifier + ".enabled-on-state");
-            String goToState = config.getString(CUSTOM_MODULES + identifier + ".go-to-state");
+            String enableState = config.getString(CUSTOM_MODULES + identifier + ".enable-state");
+            String disableState = config.getString(CUSTOM_MODULES + identifier + ".disable-state");
 
             ConfirmationConfig confirmationConfig = getConfirmationConfig(config, identifier);
 
@@ -89,7 +90,7 @@ public class StaffCustomItemsConfigLoader extends AbstractConfigLoader<List<Cust
             boolean requireInput = config.getBoolean(CUSTOM_MODULES + identifier + ".require-input", false);
             String inputPrompt = config.getString(CUSTOM_MODULES + identifier + ".input-prompt", null);
             item = protocolService.getVersionProtocol().addNbtString(item, identifier);
-            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, item, actions, confirmationConfig, requireInput, inputPrompt, enabledOnState, goToState));
+            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, item, actions, confirmationConfig, requireInput, inputPrompt, enabledOnState, enableState, disableState));
         }
         return customModuleConfigurations;
     }
