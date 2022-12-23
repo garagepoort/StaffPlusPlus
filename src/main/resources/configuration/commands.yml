@@ -17,6 +17,8 @@ staff-hub: ["staffhub"]
 
 # The command for toggling freeze on players.
 freeze: ["freeze"]
+# The command for toggling nightvision.
+nightvision: ["nightvision"]
 # The command sending messages on a freeze channel.
 freezechannel.chat: ["fc"]
 

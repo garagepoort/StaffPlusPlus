@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.mode.handler;
+package net.shortninja.staffplus.core.domain.staff.mode.custommodules.preprocessors;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
@@ -6,7 +6,8 @@ import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.confirmation.ConfirmationConfig;
 import net.shortninja.staffplus.core.domain.confirmation.ConfirmationService;
-import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleExecutor;
 
 import java.util.Map;
 

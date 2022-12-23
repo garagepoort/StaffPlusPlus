@@ -9,6 +9,8 @@ import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsReposi
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.custommodules.state.CustomModuleStateMachine;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -25,25 +27,28 @@ public class StaffModeItemsService {
     private static final Logger logger = StaffPlusPlus.get().getLogger();
     private final List<ModeItemConfiguration> MODE_ITEMS;
 
-    private final Options options;
     private final PlayerSettingsRepository playerSettingsRepository;
+    private final CustomModuleStateMachine customModuleStateMachine;
 
-    public StaffModeItemsService(Options options, PlayerSettingsRepository playerSettingsRepository) {
-        this.options = options;
+    public StaffModeItemsService(Options options, PlayerSettingsRepository playerSettingsRepository, CustomModuleStateMachine customModuleStateMachine) {
         this.playerSettingsRepository = playerSettingsRepository;
 
-        MODE_ITEMS = Arrays.asList(
-            options.staffItemsConfiguration.getCompassModeConfiguration(),
-            options.staffItemsConfiguration.getRandomTeleportModeConfiguration(),
-            options.staffItemsConfiguration.getVanishModeConfiguration(),
-            options.staffItemsConfiguration.getGuiModeConfiguration(),
-            options.staffItemsConfiguration.getCounterModeConfiguration(),
-            options.staffItemsConfiguration.getFreezeModeConfiguration(),
-            options.staffItemsConfiguration.getCpsModeConfiguration(),
-            options.staffItemsConfiguration.getExamineModeConfiguration(),
-            options.staffItemsConfiguration.getFollowModeConfiguration(),
-            options.staffItemsConfiguration.getPlayerDetailsModeConfiguration()
-        );
+        MODE_ITEMS = Stream.of(Arrays.asList(
+                options.staffItemsConfiguration.getCompassModeConfiguration(),
+                options.staffItemsConfiguration.getRandomTeleportModeConfiguration(),
+                options.staffItemsConfiguration.getVanishModeConfiguration(),
+                options.staffItemsConfiguration.getGuiModeConfiguration(),
+                options.staffItemsConfiguration.getCounterModeConfiguration(),
+                options.staffItemsConfiguration.getFreezeModeConfiguration(),
+                options.staffItemsConfiguration.getCpsModeConfiguration(),
+                options.staffItemsConfiguration.getExamineModeConfiguration(),
+                options.staffItemsConfiguration.getFollowModeConfiguration(),
+                options.staffItemsConfiguration.getPlayerDetailsModeConfiguration()
+            ), options.customModuleConfigurations)
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
+
+        this.customModuleStateMachine = customModuleStateMachine;
     }
 
     public void setStaffModeItems(Player player, GeneralModeConfiguration modeConfiguration) {
@@ -51,7 +56,7 @@ public class StaffModeItemsService {
         JavaUtils.clearInventory(player);
 
         modeConfiguration.getItemSlots().forEach((moduleName, slot) -> {
-            Optional<ModeItemConfiguration> module = getModule(moduleName);
+            Optional<? extends ModeItemConfiguration> module = getModule(moduleName);
             if (!module.isPresent()) {
                 logger.warning("No module found with name [" + moduleName + "]. Skipping...");
             } else {
@@ -65,6 +70,13 @@ public class StaffModeItemsService {
             return;
         }
 
+        if(modeItem instanceof CustomModuleConfiguration) {
+            CustomModuleConfiguration customModuleConfiguration = (CustomModuleConfiguration) modeItem;
+            if(customModuleConfiguration.getEnabledOnState().isPresent() && !customModuleStateMachine.isActive(player, customModuleConfiguration.getEnabledOnState().get())) {
+                return;
+            }
+        }
+
         if (modeItem instanceof VanishModeConfiguration) {
             player.getInventory().setItem(slot, ((VanishModeConfiguration) modeItem).getModeVanishItem(session, modeConfiguration.getModeVanish()));
         } else {
@@ -72,13 +84,9 @@ public class StaffModeItemsService {
         }
     }
 
-    private Optional<ModeItemConfiguration> getModule(String name) {
-        return getAllModeItems().stream().filter(m -> m.getIdentifier().equals(name)).findFirst();
-    }
-
-    private List<ModeItemConfiguration> getAllModeItems() {
-        return Stream.of(MODE_ITEMS, options.customModuleConfigurations)
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList());
+    private Optional<? extends ModeItemConfiguration> getModule(String name) {
+        return MODE_ITEMS.stream()
+            .filter(m -> m.getIdentifier().equals(name))
+            .findFirst();
     }
 }
