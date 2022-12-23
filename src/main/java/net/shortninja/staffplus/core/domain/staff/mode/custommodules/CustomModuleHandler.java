@@ -57,8 +57,8 @@ public class CustomModuleHandler {
             moduleExecution = customModulePreProcessor.process(moduleExecution, moduleConfiguration, placeholders);
         }
         moduleExecution.execute(player, placeholders);
-        if (moduleConfiguration.getGoToState().isPresent() || moduleConfiguration.getEnabledOnState().isPresent()) {
-            customModuleStateMachine.switchState(player, moduleConfiguration.getEnabledOnState().orElse(null), moduleConfiguration.getGoToState().orElse(null));
+        if (moduleConfiguration.getEnableState().isPresent() || moduleConfiguration.getDisableState().isPresent()) {
+            customModuleStateMachine.switchState(player, moduleConfiguration.getDisableState().orElse(null), moduleConfiguration.getEnableState().orElse(null));
         }
         return true;
     }
