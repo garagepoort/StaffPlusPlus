@@ -5,11 +5,11 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.Materials;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.StaffCustomItemsLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.StaffCustomItemsConfigLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffModesLoader;
-import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleConfiguration;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -42,15 +42,15 @@ public class Options {
      */
 
     private final StaffModesLoader staffModesLoader;
-    private final StaffCustomItemsLoader staffCustomItemsLoader;
+    private final StaffCustomItemsConfigLoader staffCustomItemsConfigLoader;
     private final StaffItemsLoader staffItemsLoader;
 
     public Options(StaffModesLoader staffModesLoader,
-                   StaffCustomItemsLoader staffCustomItemsLoader,
+                   StaffCustomItemsConfigLoader staffCustomItemsConfigLoader,
                    StaffItemsLoader staffItemsLoader,
                    ServerSyncConfiguration serverSyncConfiguration) {
         this.staffModesLoader = staffModesLoader;
-        this.staffCustomItemsLoader = staffCustomItemsLoader;
+        this.staffCustomItemsConfigLoader = staffCustomItemsConfigLoader;
         this.staffItemsLoader = staffItemsLoader;
         this.serverSyncConfiguration = serverSyncConfiguration;
         reload();
@@ -58,7 +58,7 @@ public class Options {
 
     public void reload() {
         modeConfigurations = this.staffModesLoader.loadConfig();
-        customModuleConfigurations = this.staffCustomItemsLoader.loadConfig();
+        customModuleConfigurations = this.staffCustomItemsConfigLoader.loadConfig();
         staffItemsConfiguration = this.staffItemsLoader.loadConfig();
 
     }
