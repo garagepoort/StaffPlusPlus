@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.mode.handler;
+package net.shortninja.staffplus.core.domain.staff.mode.custommodules.preprocessors;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
@@ -6,7 +6,8 @@ import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
-import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleExecutor;
 import org.bukkit.Bukkit;
 
 import java.util.Map;

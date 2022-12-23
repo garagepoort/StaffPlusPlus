@@ -4,8 +4,10 @@ import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.World;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GeneralModeConfiguration {
 
@@ -32,6 +34,7 @@ public class GeneralModeConfiguration {
     private boolean nightVision;
     private Map<String, Integer> itemSlots;
     private List<String> validWorlds;
+    private Set<String> initialItemStates = new HashSet<>();
     private boolean vanishOnEnter;
 
     public GeneralModeConfiguration() {
@@ -230,5 +233,13 @@ public class GeneralModeConfiguration {
 
     public boolean isVanishOnEnter() {
         return vanishOnEnter;
+    }
+
+    public void setInitialItemStates(Set<String> initialItemStates) {
+        this.initialItemStates = initialItemStates;
+    }
+
+    public Set<String> getInitialItemStates() {
+        return new HashSet<>(initialItemStates);
     }
 }

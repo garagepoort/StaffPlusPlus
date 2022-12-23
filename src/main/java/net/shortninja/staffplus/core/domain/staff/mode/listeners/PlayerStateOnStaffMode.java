@@ -2,11 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.mode.listeners;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.potioneffects.PotionEffectService;
 import net.shortninja.staffplus.core.domain.staff.mode.ModeProvider;
-import net.shortninja.staffplus.core.domain.staff.mode.StaffModeItemsService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
@@ -21,17 +19,14 @@ import org.bukkit.event.Listener;
 public class PlayerStateOnStaffMode implements Listener {
 
     private final PlayerManager playerManager;
-    private final StaffModeItemsService staffModeItemsService;
     private final ModeProvider modeProvider;
     private final Messages messages;
     private final PotionEffectService potionEffectService;
 
     public PlayerStateOnStaffMode(PlayerManager playerManager,
-                                  StaffModeItemsService staffModeItemsService,
                                   ModeProvider modeProvider,
                                   Messages messages, PotionEffectService potionEffectService) {
         this.playerManager = playerManager;
-        this.staffModeItemsService = staffModeItemsService;
         this.modeProvider = modeProvider;
         this.messages = messages;
         this.potionEffectService = potionEffectService;
@@ -42,8 +37,6 @@ public class PlayerStateOnStaffMode implements Listener {
         playerManager.getOnlinePlayer(event.getPlayerUuid())
             .map(SppPlayer::getPlayer)
             .ifPresent(player -> {
-                GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, event.getMode());
-                staffModeItemsService.setStaffModeItems(player, modeConfiguration);
                 potionEffectService.removeAllPotionEffects(player);
                 messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
             });
@@ -55,7 +48,6 @@ public class PlayerStateOnStaffMode implements Listener {
             .map(SppPlayer::getPlayer)
             .ifPresent(player -> {
                 GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, event.getToMode());
-                staffModeItemsService.setStaffModeItems(player, modeConfiguration);
                 potionEffectService.removeAllPotionEffects(player);
                 messages.send(player, "&eYou switched to staff mode &6" + modeConfiguration.getName(), messages.prefixGeneral);
             });
@@ -67,9 +59,6 @@ public class PlayerStateOnStaffMode implements Listener {
             .map(SppPlayer::getPlayer)
             .ifPresent(player -> {
                 IModeData modeData = event.getModeData();
-                JavaUtils.clearInventory(player);
-                player.getInventory().setContents(modeData.getPlayerInventory());
-                player.updateInventory();
                 player.setExp(modeData.getXp());
                 player.setAllowFlight(modeData.hasFlight());
                 player.setGameMode(modeData.getGameMode());

@@ -198,6 +198,10 @@ counter-show-vanished: "staff.mode.counter-show-vanished"
 # Permission for using staff mode follow
 follow: "staff.mode.follow"
 
+
+# Permission for execution nightvision command
+nightvision: "staff.nightvision.nightvision"
+
 ########################
 # FREEZE
 # GROUP: staff.freeze
