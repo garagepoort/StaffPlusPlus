@@ -11,7 +11,7 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.confirmation.ConfirmationConfig;
 import net.shortninja.staffplus.core.domain.staff.mode.item.ConfirmationType;
-import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -23,11 +23,11 @@ import java.util.Arrays;
 import java.util.List;
 
 @IocBean
-public class StaffCustomItemsLoader extends AbstractConfigLoader<List<CustomModuleConfiguration>> {
+public class StaffCustomItemsConfigLoader extends AbstractConfigLoader<List<CustomModuleConfiguration>> {
     private static final String CUSTOM_MODULES = "custom-modules.";
     private final IProtocolService protocolService;
 
-    public StaffCustomItemsLoader(IProtocolService protocolService, ConfigurationLoader configurationLoader) {
+    public StaffCustomItemsConfigLoader(IProtocolService protocolService, ConfigurationLoader configurationLoader) {
         super(configurationLoader);
         this.protocolService = protocolService;
     }
@@ -54,6 +54,8 @@ public class StaffCustomItemsLoader extends AbstractConfigLoader<List<CustomModu
             Material type = Options.stringToMaterial(sanitize(config.getString(CUSTOM_MODULES + identifier + ".item")));
             short data = getMaterialData(config.getString(CUSTOM_MODULES + identifier + ".item"));
             String name = config.getString(CUSTOM_MODULES + identifier + ".name");
+            String enabledOnState = config.getString(CUSTOM_MODULES + identifier + ".enabled-on-state");
+            String goToState = config.getString(CUSTOM_MODULES + identifier + ".go-to-state");
 
             ConfirmationConfig confirmationConfig = getConfirmationConfig(config, identifier);
 
@@ -87,7 +89,7 @@ public class StaffCustomItemsLoader extends AbstractConfigLoader<List<CustomModu
             boolean requireInput = config.getBoolean(CUSTOM_MODULES + identifier + ".require-input", false);
             String inputPrompt = config.getString(CUSTOM_MODULES + identifier + ".input-prompt", null);
             item = protocolService.getVersionProtocol().addNbtString(item, identifier);
-            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, item, actions, confirmationConfig, requireInput, inputPrompt));
+            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, item, actions, confirmationConfig, requireInput, inputPrompt, enabledOnState, goToState));
         }
         return customModuleConfigurations;
     }
