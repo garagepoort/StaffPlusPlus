@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -108,6 +109,9 @@ public class StaffModesLoader extends AbstractConfigLoader<Map<String, GeneralMo
         }
         if (configurationSection.contains("gui")) {
             modeConfig.setItemSlots(getItemSlots(configurationSection.getList("gui", new ArrayList<>())));
+        }
+        if (configurationSection.contains("initial-item-states")) {
+            modeConfig.setInitialItemStates(new HashSet<>(configurationSection.getStringList("initial-item-states")));
         }
     }
 
