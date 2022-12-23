@@ -15,8 +15,9 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
     private final ConfirmationConfig confirmationConfig;
     private final boolean requireInput;
     private final String inputPrompt;
-    private final String onState;
-    private final String toState;
+    private final String enabledOnState;
+    private final String enableState;
+    private String disableState;
 
     public CustomModuleConfiguration(boolean enabled,
                                      String identifier,
@@ -26,16 +27,18 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
                                      ConfirmationConfig confirmationConfig,
                                      boolean requireInput,
                                      String inputPrompt,
-                                     String onState,
-                                     String toState) {
+                                     String enabledOnState,
+                                     String enableState,
+                                     String disableState) {
         super(identifier);
         this.confirmationConfig = confirmationConfig;
         this.requireInput = requireInput;
         this.inputPrompt = inputPrompt;
         this.moduleType = moduleType;
         this.actions = actions;
-        this.onState = onState;
-        this.toState = toState;
+        this.enabledOnState = enabledOnState;
+        this.enableState = enableState;
+        this.disableState = disableState;
         this.enchantment = "";
         this.level = 0;
         setEnabled(enabled);
@@ -75,10 +78,14 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
     }
 
     public Optional<String> getEnabledOnState() {
-        return Optional.ofNullable(onState);
+        return Optional.ofNullable(enabledOnState);
     }
 
-    public Optional<String> getGoToState() {
-        return Optional.ofNullable(toState);
+    public Optional<String> getEnableState() {
+        return Optional.ofNullable(enableState);
+    }
+
+    public Optional<String> getDisableState() {
+        return Optional.ofNullable(disableState);
     }
 }
