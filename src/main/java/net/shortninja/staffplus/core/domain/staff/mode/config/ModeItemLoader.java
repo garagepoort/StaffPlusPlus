@@ -27,7 +27,8 @@ public abstract class ModeItemLoader<T extends ModeItemConfiguration> extends Ab
     protected T loadGeneralConfig(T modeItemConfiguration) {
         String prefix = "modules." + getModuleName() + ".";
 
-        boolean enabled = staffModeModulesConfig.getBoolean(prefix + "enabled");
+        boolean enabled = staffModeModulesConfig.getBoolean(prefix + "enabled", true);
+        boolean movable = staffModeModulesConfig.getBoolean(prefix + "movable", true);
         Material type = stringToMaterial(sanitize(staffModeModulesConfig.getString(prefix + "item")));
         short durability = getMaterialData(staffModeModulesConfig.getString(prefix + "item"));
         String name = staffModeModulesConfig.getString(prefix + "name");
@@ -40,6 +41,7 @@ public abstract class ModeItemLoader<T extends ModeItemConfiguration> extends Ab
         ItemStack item = Items.builder().setMaterial(type).setData(durability).setName(name).setLore(lore).build();
 
         modeItemConfiguration.setEnabled(enabled);
+        modeItemConfiguration.setMovable(movable);
         item = protocolService.getVersionProtocol().addNbtString(item, modeItemConfiguration.getIdentifier());
         modeItemConfiguration.setItem(item);
 
