@@ -16,6 +16,7 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.mode.ModeProvider;
+import net.shortninja.staffplus.core.domain.staff.mode.StaffModeItemsService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishService;
@@ -29,7 +30,6 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
@@ -56,6 +56,7 @@ public class GadgetHandler {
     private final GuiActionService guiActionService;
     private final BukkitUtils bukkitUtils;
     private final ModeProvider modeProvider;
+    private final StaffModeItemsService staffModeItemsService;
 
     public GadgetHandler(IProtocolService protocolService,
                          PermissionHandler permission,
@@ -65,7 +66,7 @@ public class GadgetHandler {
                          PlayerSettingsRepository playerSettingsRepository, CpsHandler cpsHandler,
                          VanishService vanishService,
                          PlayerManager playerManager,
-                         GuiActionService guiActionService, BukkitUtils bukkitUtils, ModeProvider modeProvider) {
+                         GuiActionService guiActionService, BukkitUtils bukkitUtils, ModeProvider modeProvider, StaffModeItemsService staffModeItemsService) {
         this.protocolService = protocolService;
         this.permission = permission;
         this.options = options;
@@ -78,6 +79,7 @@ public class GadgetHandler {
         this.guiActionService = guiActionService;
         this.bukkitUtils = bukkitUtils;
         this.modeProvider = modeProvider;
+        this.staffModeItemsService = staffModeItemsService;
     }
 
     public GadgetType getGadgetType(String value) {
@@ -113,14 +115,6 @@ public class GadgetHandler {
         }
 
         return GadgetType.CUSTOM;
-    }
-
-    public Optional<CustomModuleConfiguration> getModule(ItemStack item) {
-        String identifier = protocolService.getVersionProtocol().getNbtString(item);
-        return options.customModuleConfigurations
-            .stream()
-            .filter(m -> m.getIdentifier().equals(identifier))
-            .findFirst();
     }
 
     public void onCompass(Player player) {
