@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.mode;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
@@ -12,6 +13,7 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.V
 import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.custommodules.state.CustomModuleStateMachine;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,10 +31,13 @@ public class StaffModeItemsService {
 
     private final PlayerSettingsRepository playerSettingsRepository;
     private final CustomModuleStateMachine customModuleStateMachine;
+    private final IProtocolService protocolService;
+    private final List<CustomModuleConfiguration> customModuleConfigurations;
 
-    public StaffModeItemsService(Options options, PlayerSettingsRepository playerSettingsRepository, CustomModuleStateMachine customModuleStateMachine) {
+    public StaffModeItemsService(Options options, PlayerSettingsRepository playerSettingsRepository, CustomModuleStateMachine customModuleStateMachine, IProtocolService protocolService) {
         this.playerSettingsRepository = playerSettingsRepository;
 
+        customModuleConfigurations = options.customModuleConfigurations;
         MODE_ITEMS = Stream.of(Arrays.asList(
                 options.staffItemsConfiguration.getCompassModeConfiguration(),
                 options.staffItemsConfiguration.getRandomTeleportModeConfiguration(),
@@ -44,11 +49,12 @@ public class StaffModeItemsService {
                 options.staffItemsConfiguration.getExamineModeConfiguration(),
                 options.staffItemsConfiguration.getFollowModeConfiguration(),
                 options.staffItemsConfiguration.getPlayerDetailsModeConfiguration()
-            ), options.customModuleConfigurations)
+            ), customModuleConfigurations)
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
 
         this.customModuleStateMachine = customModuleStateMachine;
+        this.protocolService = protocolService;
     }
 
     public void setStaffModeItems(Player player, GeneralModeConfiguration modeConfiguration) {
@@ -84,9 +90,25 @@ public class StaffModeItemsService {
         }
     }
 
-    private Optional<? extends ModeItemConfiguration> getModule(String name) {
+    public Optional<? extends ModeItemConfiguration> getModule(String name) {
         return MODE_ITEMS.stream()
             .filter(m -> m.getIdentifier().equals(name))
             .findFirst();
+    }
+
+    public Optional<CustomModuleConfiguration> getCustomModule(String name) {
+        return customModuleConfigurations.stream()
+            .filter(m -> m.getIdentifier().equals(name))
+            .findFirst();
+    }
+
+    public Optional<? extends ModeItemConfiguration> getModule(ItemStack item) {
+        String identifier = protocolService.getVersionProtocol().getNbtString(item);
+        return getModule(identifier);
+    }
+
+    public Optional<CustomModuleConfiguration> getCustomModule(ItemStack item) {
+        String identifier = protocolService.getVersionProtocol().getNbtString(item);
+        return getCustomModule(identifier);
     }
 }
