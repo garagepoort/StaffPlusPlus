@@ -6,6 +6,7 @@ public class ModeItemConfiguration {
     private String identifier;
     private boolean enabled;
     private ItemStack item;
+    private boolean movable;
 
     public ModeItemConfiguration(String identifier) {
         this.identifier = identifier;
@@ -29,5 +30,13 @@ public class ModeItemConfiguration {
 
     public String getIdentifier() {
         return identifier;
+    }
+
+    public void setMovable(boolean movable) {
+        this.movable = movable;
+    }
+
+    public boolean isMovable() {
+        return movable;
     }
 }
