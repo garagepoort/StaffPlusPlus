@@ -46,6 +46,7 @@ public class StaffCustomItemsConfigLoader extends AbstractConfigLoader<List<Cust
 
         for (String identifier : config.getConfigurationSection("custom-modules").getKeys(false)) {
             boolean enabled = config.getBoolean(CUSTOM_MODULES + identifier + ".enabled");
+            boolean movable = config.getBoolean(CUSTOM_MODULES + identifier + ".movable", true);
             if (!enabled) {
                 continue;
             }
@@ -90,7 +91,7 @@ public class StaffCustomItemsConfigLoader extends AbstractConfigLoader<List<Cust
             boolean requireInput = config.getBoolean(CUSTOM_MODULES + identifier + ".require-input", false);
             String inputPrompt = config.getString(CUSTOM_MODULES + identifier + ".input-prompt", null);
             item = protocolService.getVersionProtocol().addNbtString(item, identifier);
-            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, item, actions, confirmationConfig, requireInput, inputPrompt, enabledOnState, enableState, disableState));
+            customModuleConfigurations.add(new CustomModuleConfiguration(true, movable, identifier, moduleType, item, actions, confirmationConfig, requireInput, inputPrompt, enabledOnState, enableState, disableState));
         }
         return customModuleConfigurations;
     }

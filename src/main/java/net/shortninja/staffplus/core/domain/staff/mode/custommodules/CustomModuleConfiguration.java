@@ -20,6 +20,7 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
     private String disableState;
 
     public CustomModuleConfiguration(boolean enabled,
+                                     boolean movable,
                                      String identifier,
                                      ModuleType moduleType,
                                      ItemStack item,
@@ -42,6 +43,7 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
         this.enchantment = "";
         this.level = 0;
         setEnabled(enabled);
+        setMovable(movable);
         setItem(item);
     }
 
