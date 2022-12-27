@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.domain.staff.mode.StaffModeItemsService;
 import net.shortninja.staffplus.core.domain.staff.mode.custommodules.preprocessors.CustomModulePreProcessor;
 import net.shortninja.staffplus.core.domain.staff.mode.custommodules.state.CustomModuleStateMachine;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
@@ -21,20 +22,22 @@ public class CustomModuleHandler {
 
     private final GadgetHandler gadgetHandler;
     private final CustomModuleStateMachine customModuleStateMachine;
+    private final StaffModeItemsService staffModeItemsService;
     private final Messages messages;
     private final List<CustomModulePreProcessor> customModulePreProcessors;
 
     public CustomModuleHandler(GadgetHandler gadgetHandler,
-                               CustomModuleStateMachine customModuleStateMachine, Messages messages,
+                               CustomModuleStateMachine customModuleStateMachine, StaffModeItemsService staffModeItemsService, Messages messages,
                                @IocMulti(CustomModulePreProcessor.class) List<CustomModulePreProcessor> customModulePreProcessors) {
         this.gadgetHandler = gadgetHandler;
         this.customModuleStateMachine = customModuleStateMachine;
+        this.staffModeItemsService = staffModeItemsService;
         this.messages = messages;
         this.customModulePreProcessors = customModulePreProcessors;
     }
 
     public boolean handleCustomModule(Player player, ItemStack item) {
-        Optional<CustomModuleConfiguration> customModuleConfiguration = gadgetHandler.getModule(item);
+        Optional<CustomModuleConfiguration> customModuleConfiguration = staffModeItemsService.getCustomModule(item);
         if (!customModuleConfiguration.isPresent()) {
             return false;
         }
