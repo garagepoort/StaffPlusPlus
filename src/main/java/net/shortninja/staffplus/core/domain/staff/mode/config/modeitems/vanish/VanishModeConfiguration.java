@@ -1,21 +1,29 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish;
 
-import net.shortninja.staffplus.core.common.IProtocolService;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperties;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
+import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemConfigTransformer;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemConfiguration;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.inventory.ItemStack;
 
+@IocBean
+@ConfigProperties("staffmode-modules:modules.vanish-module")
 public class VanishModeConfiguration extends ModeItemConfiguration {
 
-    private final ItemStack modeVanishItemOff;
-
-    public VanishModeConfiguration(IProtocolService protocolService, String identifier, ItemStack modeVanishItemOff) {
-        super(identifier);
-        this.modeVanishItemOff = protocolService.getVersionProtocol().addNbtString(modeVanishItemOff, identifier);
-    }
+    @ConfigProperty("item-off")
+    @ConfigTransformer(ModeItemConfigTransformer.class)
+    private ItemStack modeVanishItemOff;
 
     public ItemStack getModeVanishItem(PlayerSettings session, VanishType vanishType) {
-        return session.getVanishType() == vanishType ? getItem() : modeVanishItemOff;
+        return session.getVanishType() == vanishType ? item : modeVanishItemOff;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "vanish-module";
     }
 }

@@ -20,10 +20,13 @@ import net.shortninja.staffplus.core.application.config.migrators.SoundOrbPickup
 import net.shortninja.staffplus.core.application.config.migrators.StaffChatChannelMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffChatMessageFormatMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffCustomModulesCommandMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffCustomModulesRemoveKeyMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeCommandMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeModulesMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeNewConfiguredCommandsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModesMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffCustomModulesItemMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffModulesItemMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.ThresholdCommandsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.WarningCommandsMigrator;
 
@@ -56,7 +59,10 @@ public class StaffPlusPlusConfigurationProvider implements TubingConfigurationPr
             new CommandsMultipleAliasesMigrator(),
             new SoundOrbPickupMigrator(),
             new BlacklistModuleMigrator(),
-            new FlatFileStorageTypeMigrator());
+            new FlatFileStorageTypeMigrator(),
+            new StaffCustomModulesRemoveKeyMigrator(),
+            new StaffCustomModulesItemMigrator(),
+            new StaffModulesItemMigrator());
     }
 
     @Override
