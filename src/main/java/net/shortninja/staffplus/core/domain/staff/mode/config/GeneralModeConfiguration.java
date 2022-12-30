@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class GeneralModeConfiguration {
 
@@ -241,5 +242,19 @@ public class GeneralModeConfiguration {
 
     public Set<String> getInitialItemStates() {
         return new HashSet<>(initialItemStates);
+    }
+
+    public List<String> getModulesWithSameLocation(String module) {
+        Integer moduleLocation = itemSlots.get(module);
+        return getModulesInSlot(moduleLocation).stream()
+            .filter(s -> !s.equalsIgnoreCase(module))
+            .collect(Collectors.toList());
+    }
+
+    private List<String> getModulesInSlot(int slot) {
+        return itemSlots.entrySet().stream()
+            .filter(e ->e.getValue() == slot)
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
     }
 }
