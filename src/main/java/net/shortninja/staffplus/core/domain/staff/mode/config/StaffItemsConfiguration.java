@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.compass.CompassModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.counter.CounterModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.cps.CpsModeConfiguration;
@@ -11,6 +12,7 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.playerde
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.randomteleport.RandomTeleportModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
 
+@IocBean
 public class StaffItemsConfiguration {
 
     private final CompassModeConfiguration compassModeConfiguration;
@@ -32,7 +34,8 @@ public class StaffItemsConfiguration {
                                    FreezeModeStaffModuleConfiguration freezeModeStaffModuleConfiguration,
                                    GuiModeConfiguration guiModeConfiguration,
                                    RandomTeleportModeConfiguration randomTeleportModeConfiguration,
-                                   VanishModeConfiguration vanishModeConfiguration, PlayerDetailsModeConfiguration playerDetailsModeConfiguration) {
+                                   VanishModeConfiguration vanishModeConfiguration,
+                                   PlayerDetailsModeConfiguration playerDetailsModeConfiguration) {
         this.compassModeConfiguration = compassModeConfiguration;
         this.counterModeConfiguration = counterModeConfiguration;
         this.cpsModeConfiguration = cpsModeConfiguration;
@@ -42,7 +45,6 @@ public class StaffItemsConfiguration {
         this.guiModeConfiguration = guiModeConfiguration;
         this.randomTeleportModeConfiguration = randomTeleportModeConfiguration;
         this.vanishModeConfiguration = vanishModeConfiguration;
-
         this.playerDetailsModeConfiguration = playerDetailsModeConfiguration;
     }
 

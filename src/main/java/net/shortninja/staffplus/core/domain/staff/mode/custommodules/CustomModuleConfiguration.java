@@ -1,51 +1,39 @@
 package net.shortninja.staffplus.core.domain.staff.mode.custommodules;
 
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import be.garagepoort.mcioc.configuration.transformers.ToEnum;
 import net.shortninja.staffplus.core.domain.confirmation.ConfirmationConfig;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemConfiguration;
-import org.bukkit.inventory.ItemStack;
+import net.shortninja.staffplus.core.domain.staff.mode.item.ConfirmationType;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CustomModuleConfiguration extends ModeItemConfiguration {
-    private final ModuleType moduleType;
-    private final List<String> actions;
-    private final String enchantment;
-    private final int level;
-    private final ConfirmationConfig confirmationConfig;
-    private final boolean requireInput;
-    private final String inputPrompt;
-    private final String enabledOnState;
-    private final String enableState;
-    private String disableState;
+    @ConfigProperty("type")
+    @ConfigTransformer(ToEnum.class)
+    private ModuleType moduleType;
+    @ConfigProperty("commands")
+    private List<String> actions;
 
-    public CustomModuleConfiguration(boolean enabled,
-                                     boolean movable,
-                                     String identifier,
-                                     ModuleType moduleType,
-                                     ItemStack item,
-                                     List<String> actions,
-                                     ConfirmationConfig confirmationConfig,
-                                     boolean requireInput,
-                                     String inputPrompt,
-                                     String enabledOnState,
-                                     String enableState,
-                                     String disableState) {
-        super(identifier);
-        this.confirmationConfig = confirmationConfig;
-        this.requireInput = requireInput;
-        this.inputPrompt = inputPrompt;
-        this.moduleType = moduleType;
-        this.actions = actions;
-        this.enabledOnState = enabledOnState;
-        this.enableState = enableState;
-        this.disableState = disableState;
-        this.enchantment = "";
-        this.level = 0;
-        setEnabled(enabled);
-        setMovable(movable);
-        setItem(item);
-    }
+    @ConfigProperty("confirmation")
+    @ConfigTransformer(ToEnum.class)
+    private ConfirmationType confirmationType;
+    @ConfigProperty("confirmation-message")
+    private String confirmationMessage;
+
+    @ConfigProperty("require-input")
+    private boolean requireInput;
+    @ConfigProperty("input-prompt")
+    private String inputPrompt;
+
+    @ConfigProperty("enabled-on-state")
+    private String enabledOnState;
+    @ConfigProperty("enable-state")
+    private String enableState;
+    @ConfigProperty("disable-state")
+    private String disableState;
 
     public ModuleType getType() {
         return moduleType;
@@ -55,20 +43,12 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
         return actions;
     }
 
-    public String getEnchantment() {
-        return enchantment;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
     public enum ModuleType {
         COMMAND_STATIC, COMMAND_DYNAMIC, COMMAND_CONSOLE, ITEM;
     }
 
     public Optional<ConfirmationConfig> getConfirmationConfig() {
-        return Optional.ofNullable(confirmationConfig);
+        return Optional.ofNullable(confirmationType != null ? new ConfirmationConfig(confirmationType, confirmationMessage) : null);
     }
 
     public boolean isRequireInput() {
