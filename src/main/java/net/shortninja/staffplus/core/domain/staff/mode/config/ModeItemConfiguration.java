@@ -1,16 +1,19 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import org.bukkit.inventory.ItemStack;
 
 public class ModeItemConfiguration {
-    private String identifier;
-    private boolean enabled;
-    private ItemStack item;
-    private boolean movable;
-
-    public ModeItemConfiguration(String identifier) {
-        this.identifier = identifier;
-    }
+    @ConfigProperty("name")
+    protected String identifier;
+    @ConfigProperty("enabled")
+    protected boolean enabled;
+    @ConfigProperty("item")
+    @ConfigTransformer(ModeItemConfigTransformer.class)
+    protected ItemStack item;
+    @ConfigProperty("movable")
+    protected boolean movable = true;
 
     public boolean isEnabled() {
         return enabled;

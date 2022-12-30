@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
@@ -27,17 +29,23 @@ import java.util.stream.Stream;
 public class StaffModeItemsService {
 
     private static final Logger logger = StaffPlusPlus.get().getLogger();
-    private final List<ModeItemConfiguration> MODE_ITEMS;
 
+    private final List<ModeItemConfiguration> MODE_ITEMS;
     private final PlayerSettingsRepository playerSettingsRepository;
+    private final List<CustomModuleConfiguration> customModuleConfigurations;
     private final CustomModuleStateMachine customModuleStateMachine;
     private final IProtocolService protocolService;
-    private final List<CustomModuleConfiguration> customModuleConfigurations;
 
-    public StaffModeItemsService(Options options, PlayerSettingsRepository playerSettingsRepository, CustomModuleStateMachine customModuleStateMachine, IProtocolService protocolService) {
+
+    public StaffModeItemsService(Options options, PlayerSettingsRepository playerSettingsRepository,
+                                 CustomModuleStateMachine customModuleStateMachine,
+                                 IProtocolService protocolService,
+                                 @ConfigProperty("staffmode-custom-modules:custom-modules")
+                                 @ConfigObjectList(CustomModuleConfiguration.class)
+                                 List<CustomModuleConfiguration> customModuleConfigurations) {
         this.playerSettingsRepository = playerSettingsRepository;
+        this.customModuleConfigurations = customModuleConfigurations;
 
-        customModuleConfigurations = options.customModuleConfigurations;
         MODE_ITEMS = Stream.of(Arrays.asList(
                 options.staffItemsConfiguration.getCompassModeConfiguration(),
                 options.staffItemsConfiguration.getRandomTeleportModeConfiguration(),
@@ -49,7 +57,8 @@ public class StaffModeItemsService {
                 options.staffItemsConfiguration.getExamineModeConfiguration(),
                 options.staffItemsConfiguration.getFollowModeConfiguration(),
                 options.staffItemsConfiguration.getPlayerDetailsModeConfiguration()
-            ), customModuleConfigurations)
+            ),
+                customModuleConfigurations)
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
 
@@ -84,9 +93,12 @@ public class StaffModeItemsService {
         }
 
         if (modeItem instanceof VanishModeConfiguration) {
-            player.getInventory().setItem(slot, ((VanishModeConfiguration) modeItem).getModeVanishItem(session, modeConfiguration.getModeVanish()));
+            ItemStack modeVanishItem = ((VanishModeConfiguration) modeItem).getModeVanishItem(session, modeConfiguration.getModeVanish());
+            ItemStack item = protocolService.getVersionProtocol().addNbtString(modeVanishItem, modeItem.getIdentifier());
+            player.getInventory().setItem(slot, item);
         } else {
-            player.getInventory().setItem(slot, modeItem.getItem());
+            ItemStack item = protocolService.getVersionProtocol().addNbtString(modeItem.getItem(), modeItem.getIdentifier());
+            player.getInventory().setItem(slot, item);
         }
     }
 
