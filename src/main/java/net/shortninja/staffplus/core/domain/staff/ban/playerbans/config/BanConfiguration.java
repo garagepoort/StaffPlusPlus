@@ -24,14 +24,10 @@ public class BanConfiguration {
     public String permissionExtendBanPlayer;
     @ConfigProperty("permissions:reduceban")
     public String permissionReduceBanPlayer;
-    @ConfigProperty("permissions:unban")
-    public String permissionUnbanPlayer;
     @ConfigProperty("permissions:ban-bypass")
     public String permissionBanByPass;
     @ConfigProperty("permissions:ban-template-overwrite")
     public String permissionBanTemplateOverwrite;
-    @ConfigProperty("permissions:ban-view")
-    public String permissionBanView;
     @ConfigProperty("permissions:ban-silent")
     public String permissionBanSilent;
     @ConfigProperty("permissions:ban-notifications")

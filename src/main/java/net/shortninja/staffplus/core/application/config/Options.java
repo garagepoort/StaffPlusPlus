@@ -5,16 +5,12 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.Materials;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.StaffCustomItemsConfigLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffModesLoader;
-import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleConfiguration;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
-import java.util.List;
 import java.util.Map;
 
 @IocBean
@@ -31,36 +27,25 @@ public class Options {
 
     public Map<String, GeneralModeConfiguration> modeConfigurations;
     public final ServerSyncConfiguration serverSyncConfiguration;
-    public StaffItemsConfiguration staffItemsConfiguration;
+    public final StaffItemsConfiguration staffItemsConfiguration;
 
-    /*
-     * Custom
-     */
-    public List<CustomModuleConfiguration> customModuleConfigurations;
     /*
      * Permissions
      */
 
     private final StaffModesLoader staffModesLoader;
-    private final StaffCustomItemsConfigLoader staffCustomItemsConfigLoader;
-    private final StaffItemsLoader staffItemsLoader;
 
     public Options(StaffModesLoader staffModesLoader,
-                   StaffCustomItemsConfigLoader staffCustomItemsConfigLoader,
-                   StaffItemsLoader staffItemsLoader,
-                   ServerSyncConfiguration serverSyncConfiguration) {
+                   ServerSyncConfiguration serverSyncConfiguration,
+                   StaffItemsConfiguration staffItemsConfiguration) {
         this.staffModesLoader = staffModesLoader;
-        this.staffCustomItemsConfigLoader = staffCustomItemsConfigLoader;
-        this.staffItemsLoader = staffItemsLoader;
         this.serverSyncConfiguration = serverSyncConfiguration;
+        this.staffItemsConfiguration = staffItemsConfiguration;
         reload();
     }
 
     public void reload() {
         modeConfigurations = this.staffModesLoader.loadConfig();
-        customModuleConfigurations = this.staffCustomItemsConfigLoader.loadConfig();
-        staffItemsConfiguration = this.staffItemsLoader.loadConfig();
-
     }
 
 
@@ -95,5 +80,28 @@ public class Options {
             sound = Material.valueOf(getMaterial(string));
 
         return sound;
+    }
+
+    public static String sanitizeMaterial(String string) {
+        if (string.contains(":")) {
+            string = string.replace(string.substring(string.lastIndexOf(':')), "");
+        }
+
+        return string.toUpperCase();
+    }
+
+    public static short getMaterialData(String string) {
+        short data = 0;
+
+        if (string.contains(":")) {
+            String dataString = string.substring(string.lastIndexOf(':') + 1);
+
+            if (JavaUtils.isInteger(dataString)) {
+                data = (short) Integer.parseInt(dataString);
+            } else
+                Bukkit.getLogger().severe("Invalid material data '" + dataString + "' from '" + string + "'!");
+        }
+
+        return data;
     }
 }
