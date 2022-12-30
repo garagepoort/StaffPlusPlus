@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperties;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcsqlmigrations.DatabaseType;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
@@ -13,22 +14,23 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
+@ConfigProperties("storage.mysql")
 public class MySQLConnectionProvider implements SqlConnectionProvider {
 
-    @ConfigProperty("storage.mysql.host")
+    @ConfigProperty("host")
     private String host;
-    @ConfigProperty("storage.mysql.user")
+    @ConfigProperty("user")
     private String user;
-    @ConfigProperty("storage.mysql.database")
+    @ConfigProperty("database")
     private String database;
-    @ConfigProperty("storage.mysql.password")
+    @ConfigProperty("password")
     private String password;
-    @ConfigProperty("storage.mysql.port")
+    @ConfigProperty("port")
     private int port;
-    @ConfigProperty("storage.mysql.ssl-enabled")
+    @ConfigProperty("ssl-enabled")
     private boolean sslEnabled;
 
-    @ConfigProperty("storage.mysql.max-pool-size")
+    @ConfigProperty("max-pool-size")
     private int maxPoolSize;
 
     private HikariDataSource datasource;
