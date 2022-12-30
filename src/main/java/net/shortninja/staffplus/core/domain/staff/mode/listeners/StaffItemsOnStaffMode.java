@@ -38,12 +38,12 @@ public class StaffItemsOnStaffMode implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onModulesStateSwitch(ModuleStateChangedEvent event) {
+    public void onModulesStateChange(ModuleStateChangedEvent event) {
         playerManager.getOnlinePlayer(event.getPlayerUuid())
             .map(SppPlayer::getPlayer)
             .ifPresent(player -> {
                 GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, playerSettingsRepository.get(player).getModeName().get());
-                staffModeItemsService.setStaffModeItems(player, modeConfiguration);
+                staffModeItemsService.refreshStaffModeItems(player, modeConfiguration);
             });
     }
 
