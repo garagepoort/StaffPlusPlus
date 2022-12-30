@@ -1,20 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperties;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemConfiguration;
 
+@IocBean
+@ConfigProperties("staffmode-modules:modules.gui-module")
 public class GuiModeConfiguration extends ModeItemConfiguration {
-    public boolean modeGuiMiner;
-    public String modeGuiMinerTitle;
-    public String modeGuiMinerName;
-    public String modeGuiMinerLore;
+    @ConfigProperty("xray-level")
     public int modeGuiMinerLevel;
 
-    public GuiModeConfiguration(String identifier, boolean modeGuiMiner, String modeGuiMinerTitle, String modeGuiMinerName, String modeGuiMinerLore, int modeGuiMinerLevel) {
-        super(identifier);
-        this.modeGuiMiner = modeGuiMiner;
-        this.modeGuiMinerTitle = modeGuiMinerTitle;
-        this.modeGuiMinerName = modeGuiMinerName;
-        this.modeGuiMinerLore = modeGuiMinerLore;
-        this.modeGuiMinerLevel = modeGuiMinerLevel;
+    @Override
+    public String getIdentifier() {
+        return "gui-module";
     }
 }
