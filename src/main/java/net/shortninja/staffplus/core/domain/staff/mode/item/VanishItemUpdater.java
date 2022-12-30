@@ -7,7 +7,6 @@ import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.mode.ModeProvider;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeItemsService;
-import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
 import net.shortninja.staffplusplus.vanish.VanishOffEvent;
 import net.shortninja.staffplusplus.vanish.VanishOnEvent;
@@ -17,6 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
+
+import static net.shortninja.staffplus.core.domain.staff.mode.StaffModule.VANISH_MODULE;
 
 @IocBukkitListener(conditionalOnProperty = "vanish-module.enabled=true")
 public class VanishItemUpdater implements Listener {
@@ -52,9 +53,8 @@ public class VanishItemUpdater implements Listener {
     private void resetVanishItem(Player player) {
         PlayerSettings playerSettings = playerSettingsRepository.get(player);
         if (playerSettings.isInStaffMode()) {
-            GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, playerSettings.getModeName().get());
             getVanishItemSlot(player).ifPresent(slot -> {
-                staffModeItemsService.setModeItem(player, playerSettings, vanishModeConfiguration, slot, modeConfiguration);
+                staffModeItemsService.setModuleItem(player, VANISH_MODULE, slot);
             });
         }
     }
