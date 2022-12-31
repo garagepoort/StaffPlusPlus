@@ -1,6 +1,6 @@
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 <TubingGui size="27" id="hub">
-    <title class="gui-title">${$config.get("staffmode-modules:modules.gui-module.name")}</title>
+    <title class="gui-title">${$config.get("staffmode-modules:modules.gui-module.item.name")}</title>
 
     <#list [0,8,9,17,18,26] as slot>
         <GuiItem slot="${slot}"
