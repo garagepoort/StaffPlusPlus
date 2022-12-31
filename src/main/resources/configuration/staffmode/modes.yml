@@ -19,6 +19,7 @@ modes:
         disable-on-world-change: false
         enable-commands: []
         disable-commands: []
+        initial-item-states: []
         gui:
             - compass-module:1
             - random-teleport-module:2
