@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.configuration.IConfigTransformer;
 import be.garagepoort.mcioc.configuration.yaml.configuration.ConfigurationSection;
 import net.shortninja.staffplus.core.common.Items;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
@@ -35,7 +34,7 @@ public class ModeItemConfigTransformer implements IConfigTransformer<ItemStack, 
             if (!map.getOrDefault("enchantment", "").equalsIgnoreCase("")) {
                 String enchantInfo = map.get("enchantment");
                 String[] enchantInfoParts = enchantInfo.split(":");
-                Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantInfoParts[0]));
+                Enchantment enchantment = Enchantment.getByName(enchantInfoParts[0]);
                 if (enchantment == null) {
                     enchantment = Enchantment.DURABILITY;
                 }
@@ -57,7 +56,7 @@ public class ModeItemConfigTransformer implements IConfigTransformer<ItemStack, 
             if (!map.getString("enchantment", "").equalsIgnoreCase("")) {
                 String enchantInfo = map.getString("enchantment");
                 String[] enchantInfoParts = enchantInfo.split(":");
-                Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantInfoParts[0]));
+                Enchantment enchantment = Enchantment.getByName(enchantInfoParts[0]);
                 if (enchantment == null) {
                     enchantment = Enchantment.DURABILITY;
                 }
