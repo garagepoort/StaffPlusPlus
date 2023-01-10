@@ -31,11 +31,6 @@ authentication:
 # Leave blank to disable.
 blocked-commands: "/example1, /example2, /example3"
 
-# Commands that staff will not be allowed to use while in staff mode.
-# Must have "permissions.block" permission to take effect.
-# Leave blank to disable.
-blocked-mode-commands: "/example1, /example2, /example3"
-
 # The default color of glass for the side of GUIs. Just a cosmetic thing that staff members can change.
 glass-color: 0
 
@@ -559,38 +554,6 @@ trace-module:
     # If FILE is used, the trace files will be saved to a 'trace' directory underneath the StaffPlusPlus plugin folder.
     # Possible values: CHAT|FILE
     output-channels: CHAT;FILE
-
-############################################################
-# +------------------------------------------------------+ #
-# |                      ENDERCHESTS                     | #
-# +------------------------------------------------------+ #
-############################################################
-
-# Interaction with enderchests
-enderchest-module:
-    enabled: true
-
-
-############################################################
-# +------------------------------------------------------+ #
-# |                   INVESTIGATIONS                     | #
-# +------------------------------------------------------+ #
-############################################################
-
-# Allow all investigation functionalities
-investigations-module:
-    enabled: true
-    allow-offline-investigation: false
-    enforce-staff-mode: false
-    max-concurrent-investigations: 1
-    automatic-pause: true
-    notifications:
-        investigated:
-            title-message-enabled: true
-            chat-message-enabled: true
-    start-investigation-commands: [ ]
-    conclude-investigation-commands: [ ]
-    pause-investigation-commands: [ ]
 
 
 ############################################################

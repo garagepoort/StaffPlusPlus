@@ -1,0 +1,24 @@
+########################
+# MODE
+# GROUP: staff.mode
+########################
+# Permission for toggling staff mode.
+mode: "staff.mode.mode"
+# Permission for turning on a specific staff mode
+mode-specific: "staff.mode.specific-mode"
+# permission to interact with chests/hoppers/dispensers.
+mode-silent-chest-interaction: "staff.mode.silent-chest-interaction"
+# Permission for using the staff mode compass
+compass: "staff.mode.compass"
+# Permission for using the staff mode random teleport
+random-teleport: "staff.mode.random-teleport"
+# This excludes the player from being randomly teleported to!
+random-teleport-bypass: "staff.mode.random-teleport.bypass"
+# Permission for the staff mode GUI hub
+gui: "staff.mode.gui"
+# Permission for the staff mode counter GUI
+counter: "staff.mode.counter"
+# Permission to show if staff members are vanished in the counter GUI
+counter-show-vanished: "staff.mode.counter-show-vanished"
+# Permission for using staff mode follow
+follow: "staff.mode.follow"

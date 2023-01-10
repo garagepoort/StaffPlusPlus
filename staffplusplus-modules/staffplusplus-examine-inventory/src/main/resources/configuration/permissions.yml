@@ -1,0 +1,20 @@
+########################
+# INVENTORY INTERACTION
+# GROUP: staff.inventory
+########################
+# Permission for using the clear inventory config
+invClear: "staff.inventory.clearinv"
+# Permission for bypassing clear inventory
+invClear-bypass: "staff.inventory.clearinv-bypass"
+# Permission for using examine command
+examine: "staff.examine"
+# Permission to have inventory interaction while in examine mode
+examine-inventory-interaction.online: "staff.inventory.inventory-interaction"
+# Permission to have inventory interaction while in examine mode for offline players
+examine-inventory-interaction.offline: "staff.inventory.inventory-interaction-offline"
+# Permission to view player's inventory while in examine mode
+examine-view-inventory.online: "staff.inventory.view-inventory"
+# Permission to view player's inventory while in examine mode for offline player
+examine-view-inventory.offline: "staff.inventory.view-inventory-offline"
+# Permission to view player's ip in the examine view
+examine-view-ip: "staff.examine.view-ip"

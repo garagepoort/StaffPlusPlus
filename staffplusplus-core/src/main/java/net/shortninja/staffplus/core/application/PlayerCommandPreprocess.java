@@ -3,11 +3,8 @@ package net.shortninja.staffplus.core.application;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.config.SplitByComma;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
-import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.cmd.BaseCmd;
 import net.shortninja.staffplus.core.common.cmd.CmdHandler;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -33,32 +30,22 @@ public class PlayerCommandPreprocess implements Listener {
     @ConfigTransformer(SplitByComma.class)
     private List<String> blockedCommands = new ArrayList<>();
 
-    @ConfigProperty("blocked-mode-commands")
-    @ConfigTransformer(SplitByComma.class)
-    private List<String> blockedModeCommands = new ArrayList<>();
-
     private final PermissionHandler permission;
-
-    private final Options options;
     private final Messages messages;
     private final CmdHandler cmdHandler;
     private final TraceService traceService;
-    private final OnlineSessionsManager sessionManager;
 
     @ConfigProperty("permissions:block")
     private String permissionBlock;
 
     public PlayerCommandPreprocess(PermissionHandler permission,
-                                   Options options,
                                    Messages messages,
                                    CmdHandler cmdHandler,
-                                   TraceService traceService, OnlineSessionsManager sessionManager) {
+                                   TraceService traceService) {
         this.permission = permission;
-        this.options = options;
         this.messages = messages;
         this.cmdHandler = cmdHandler;
         this.traceService = traceService;
-        this.sessionManager = sessionManager;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -74,12 +61,8 @@ public class PlayerCommandPreprocess implements Listener {
             return;
         }
 
-        OnlinePlayerSession session = sessionManager.get(player);
         if (blockedCommands.contains(command) && permission.hasOnly(player, permissionBlock)) {
             messages.send(player, messages.commandBlocked, messages.prefixGeneral);
-            event.setCancelled(true);
-        } else if (session.isInStaffMode() && blockedModeCommands.contains(command)) {
-            messages.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
         }
     }

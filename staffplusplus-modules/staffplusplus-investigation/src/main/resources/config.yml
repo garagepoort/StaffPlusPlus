@@ -1,0 +1,20 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                   INVESTIGATIONS                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Allow all investigation functionalities
+investigations-module:
+    enabled: true
+    allow-offline-investigation: false
+    enforce-staff-mode: false
+    max-concurrent-investigations: 1
+    automatic-pause: true
+    notifications:
+        investigated:
+            title-message-enabled: true
+            chat-message-enabled: true
+    start-investigation-commands: [ ]
+    conclude-investigation-commands: [ ]
+    pause-investigation-commands: [ ]

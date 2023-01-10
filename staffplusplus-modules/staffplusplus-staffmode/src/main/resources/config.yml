@@ -1,0 +1,4 @@
+# Commands that staff will not be allowed to use while in staff mode.
+# Must have "permissions.block" permission to take effect.
+# Leave blank to disable.
+blocked-mode-commands: "/example1, /example2, /example3"

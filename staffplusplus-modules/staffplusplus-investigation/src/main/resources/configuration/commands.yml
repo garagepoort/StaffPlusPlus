@@ -1,0 +1,11 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                      INVESTIGATIONS                  | #
+# +------------------------------------------------------+ #
+############################################################
+investigations.manage:
+    start: ["investigate"]
+    pause: ["pause-investigation"]
+    conclude: ["conclude-investigation"]
+    gui: ["manage-investigations"]
+    add-note: ["inote"]

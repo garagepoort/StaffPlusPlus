@@ -27,8 +27,6 @@ strip: "staff.strip"
 broadcast: "staff.broadcast"
 # Permission for initializing clicks per second tests
 cps: "staff.cps"
-# Permission for using examine
-examine: "staff.examine"
 # Permission to open the infractions gui
 infractions:
     view: "staff.infractions.view"
@@ -98,21 +96,6 @@ warnings:
         notifications: "staff.warnings.appeals.notifications"
 
 ########################
-# INVESTIGATION
-# GROUP: staff.investigation
-########################
-investigations:
-    # All permission for managing investigations
-    manage:
-        investigate: "staff.investigation.manage.investigate"
-        notifications: "staff.investigation.manage.notifications"
-        view: "staff.investigation.manage.view"
-        link-evidence: "staff.investigation.manage.link-evidence"
-        add-note: "staff.investigation.manage.add-note"
-        delete-note: "staff.investigation.manage.delete-note"
-        delete-note-others: "staff.investigation.manage.delete-note-others"
-
-########################
 # VANISH
 # GROUP: staff.vanish
 ########################
@@ -172,32 +155,6 @@ xray-bypass: "staff.xray-bypass"
 command-detection-bypass: "staff.command-detection.bypass"
 # Permission for bypassing chat phrase detection.
 chat-phrase-detection-bypass: "staff.chat-phrase-detection.bypass"
-
-########################
-# MODE
-# GROUP: staff.mode
-########################
-# Permission for toggling staff mode.
-mode: "staff.mode.mode"
-# Permission for turning on a specific staff mode
-mode-specific: "staff.mode.specific-mode"
-# permission to interact with chests/hoppers/dispensers.
-mode-silent-chest-interaction: "staff.mode.silent-chest-interaction"
-# Permission for using the staff mode compass
-compass: "staff.mode.compass"
-# Permission for using the staff mode random teleport
-random-teleport: "staff.mode.random-teleport"
-# This excludes the player from being randomly teleported to!
-random-teleport-bypass: "staff.mode.random-teleport.bypass"
-# Permission for the staff mode GUI hub
-gui: "staff.mode.gui"
-# Permission for the staff mode counter GUI
-counter: "staff.mode.counter"
-# Permission to show if staff members are vanished in the counter GUI
-counter-show-vanished: "staff.mode.counter-show-vanished"
-# Permission for using staff mode follow
-follow: "staff.mode.follow"
-
 
 # Permission for execution nightvision command
 nightvision: "staff.nightvision.nightvision"
@@ -336,25 +293,6 @@ alt-detect-check: "staff.altdetects.check"
 alt-detect-bypass: "staff.altdetects.bypass"
 
 ########################
-# INVENTORY INTERACTION
-# GROUP: staff.inventory
-########################
-# Permission for using the clear inventory config
-invClear: "staff.inventory.clearinv"
-# Permission for bypassing clear inventory
-invClear-bypass: "staff.inventory.clearinv-bypass"
-# Permission to have inventory interaction while in examine mode
-examine-inventory-interaction.online: "staff.inventory.inventory-interaction"
-# Permission to have inventory interaction while in examine mode for offline players
-examine-inventory-interaction.offline: "staff.inventory.inventory-interaction-offline"
-# Permission to view player's inventory while in examine mode
-examine-view-inventory.online: "staff.inventory.view-inventory"
-# Permission to view player's inventory while in examine mode for offline player
-examine-view-inventory.offline: "staff.inventory.view-inventory-offline"
-# Permission to view player's ip in the examine view
-examine-view-ip: "staff.examine.view-ip"
-
-########################
 # ENDERCHEST
 # GROUP: staff.enderchests
 ########################
@@ -364,34 +302,6 @@ enderchests:
         online: "staff.enderchests.view.online"
         offline: "staff.enderchests.view.offline"
     interact: "staff.enderchests.interact"
-
-# Permission to open the players GUI.
-players: "staff.players"
-########################
-# PLAYER GUI VIEW
-# GROUP: staff.player-view.detail
-# GROUP: staff.player-view.overview
-# Below permissions determine what GUI items are shown in the player detail view
-########################
-playerView:
-    detail:
-        food: "staff.player-view.detail.food"
-        ip: "staff.player-view.detail.ip"
-        uuid: "staff.player-view.detail.uuid"
-        gamemode: "staff.player-view.detail.gamemode"
-        location: "staff.player-view.detail.location"
-        timeplayed: "staff.player-view.detail.timeplayed"
-        frozen: "staff.player-view.detail.frozen"
-        protected: "staff.player-view.detail.protected"
-        investigation: "staff.player-view.detail.investigation"
-        muted: "staff.player-view.detail.muted"
-        vanished: "staff.player-view.detail.vanished"
-    overview:
-        online-players: "staff.player-view.overview.onlineplayers"
-        offline-players: "staff.player-view.overview.offlineplayers"
-        staff-members: "staff.player-view.overview.staff"
-        miners: "staff.player-view.overview.miners"
-        protected: "staff.player-view.overview.protected"
 
 ########################
 # PLAYER NOTES

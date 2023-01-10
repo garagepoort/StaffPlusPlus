@@ -1,0 +1,6 @@
+# The command for examining players' inventory
+examine: ["examine"]
+# The command for clearing a players inventory
+clearInv: ["clear"]
+# The command to view a players ender chest
+echest_view: ["eview"]

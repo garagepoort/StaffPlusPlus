@@ -12,8 +12,7 @@
 
     <modules>
         <module>staffplusplus-core</module>
-        <module>staffplusplus-staffmode</module>
-        <module>staffplusplus-investigation</module>
+        <module>staffplusplus-modules</module>
         <module>staffplusplus-plugin</module>
     </modules>
 
@@ -44,6 +43,41 @@
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
                 <version>8.2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-staffmode</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-investigation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-players-gui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-reporting</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-reporting</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-examine-inventory</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

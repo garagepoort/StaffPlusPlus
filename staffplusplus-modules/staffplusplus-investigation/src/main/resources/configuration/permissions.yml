@@ -1,0 +1,14 @@
+########################
+# INVESTIGATION
+# GROUP: staff.investigation
+########################
+investigations:
+    # All permission for managing investigations
+    manage:
+        investigate: "staff.investigation.manage.investigate"
+        notifications: "staff.investigation.manage.notifications"
+        view: "staff.investigation.manage.view"
+        link-evidence: "staff.investigation.manage.link-evidence"
+        add-note: "staff.investigation.manage.add-note"
+        delete-note: "staff.investigation.manage.delete-note"
+        delete-note-others: "staff.investigation.manage.delete-note-others"

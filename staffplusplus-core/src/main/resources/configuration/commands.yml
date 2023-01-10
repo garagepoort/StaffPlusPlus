@@ -34,9 +34,6 @@ teleport-to-player: ["teleportToPlayer"]
 # The command for teleporting a player to your location
 teleport-here: ["teleportHere"]
 
-# The command for examining players' inventory
-examine: ["examine"]
-
 # The command for reading notes.
 notes: ["notes"]
 # The command for creating player notes
@@ -52,8 +49,6 @@ my-reports: ["my-reports"]
 # The command for reporting and managing reports.
 report: ["report"]
 
-players: ["players"]
-
 # The command for reporting and managing reports specifically targeting a player.
 reportPlayer: ["reportPlayer"]
 
@@ -67,12 +62,6 @@ reports:
         cli: ["reports"]
         teleport-to-report: ["teleport-to-report"]
 
-investigations.manage:
-    start: ["investigate"]
-    pause: ["pause-investigation"]
-    conclude: ["conclude-investigation"]
-    gui: ["manage-investigations"]
-    add-note: ["inote"]
 # The command for warning players
 warn: ["warn"]
 
@@ -118,14 +107,8 @@ register: ["register"]
 # The command for stripping a player's armor.
 strip: ["strip"]
 
-# The command for clearing a players inventory
-clearInv: ["clear"]
-
 # The command to start/stop tracing a player
 trace: ["trace"]
-
-# The command to view a players ender chest
-echest_view: ["eview"]
 
 # The command to broadcast a message over all servers
 broadcast: ["broadcast"]
