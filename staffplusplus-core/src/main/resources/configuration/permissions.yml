@@ -14,8 +14,6 @@ staffplus: "staff"
 ipPerm: "staff.hideip"
 # Permission for blocking listed commands at "blocked-commands" and "blocked-mode-commands".
 block: "staff.block"
-# Permission for bypassing the word blacklist.
-blacklist: "staff.blacklist.bypass"
 
 # Permission for giving a player's previous inventory back.
 revive: "staff.revive"
@@ -125,33 +123,8 @@ chat-toggle: "staff.chat.toggle"
 # Permission for using "/chat slow".
 chat-slow: "staff.chat.slow"
 
-########################
-# ALERTS
-# GROUP: staff.alerts
-########################
-alerts:
-    # Permission for managing the alerts you will get
-    manage-alerts: "staff.alerts.alerts"
-    notifications:
-        # Permission for receiving mention alerts.
-        mention: "staff.alerts.mention"
-        # Permission for receiving name change alerts.
-        name-change: "staff.alerts.namechange"
-        # Permission for receiving xray alerts.
-        xray: "staff.alerts.xray"
-        # Permission for receiving alt detect alerts.
-        alt-detect: "staff.alerts.alt-detects"
-        # Permission for receiving chat word mentions alerts.
-        chat-phrase-detection: "staff.alerts.chat-phrase-detection"
-        # Permission for receiving chat word mentions alerts.
-        command-detection: "staff.alerts.command-detection"
-        # Permission for bypassing chat word mentions alerts.
-        # Permission for receiving chat blacklist alerts.
-        blacklist-detection: "staff.alerts.blacklist-detection"
-
 name-change-bypass: "staff.namechange-bypass"
 mention-bypass: "staff.mention-bypass"
-xray-bypass: "staff.xray-bypass"
 command-detection-bypass: "staff.command-detection.bypass"
 # Permission for bypassing chat phrase detection.
 chat-phrase-detection-bypass: "staff.chat-phrase-detection.bypass"

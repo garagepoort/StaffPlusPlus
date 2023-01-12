@@ -86,9 +86,6 @@ chat: ["chat"]
 # The command for creating and managing tickets.
 ticket: ["ticket"]
 
-# The command for alerts management.
-alerts: ["alerts"]
-
 # The command for toggling player following.
 follow: ["follow"]
 

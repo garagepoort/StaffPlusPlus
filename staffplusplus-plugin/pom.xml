@@ -23,6 +23,14 @@
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-blacklist</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-alerts</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
             <artifactId>staffplusplus-investigation</artifactId>
         </dependency>
         <dependency>

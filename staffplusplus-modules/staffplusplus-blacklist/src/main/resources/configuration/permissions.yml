@@ -1,0 +1,2 @@
+# Permission for bypassing the word blacklist.
+blacklist: "staff.blacklist.bypass"

@@ -292,57 +292,6 @@ chat-module:
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                    Blacklist                         | #
-# +------------------------------------------------------+ #
-############################################################
-# All word blacklist options.
-# Leave any of the lists below blank to disable them!
-blacklist-module:
-    # Whether or not the blacklist will be enabled.
-    enabled: false
-
-    censor-chat: true
-    censor-signs: true
-    censor-anvil: true
-    censor-book: true
-    # Whether or not messages that have censored words in them will be hoverable.
-    # This means you will be able to hover over a chat message to see an uncensored message if you have the "permissions.blacklist" permission.
-    # This may not work well with other chat plugins!
-    hoverable: false
-
-    # The character that will replace blocked word characters.
-    character: "*"
-
-    # Whether or not messages that have merged blocked words will be detected.
-    # So if you block the word "ass", it will also block "asshole" or "dickass".
-    # May cause issues with legal words like "bypass"! Fix is below.
-    merging: true
-
-    # All words that will be censored.
-    # Separate words with commas.
-    words: fuck, shit, ass, bitch, dick, cock, piss, cunt, fag, faggot, slut, nigger, nigga
-
-    # All characters that will be censored.
-    # These are merely characters that will be detected anywhere in messages.
-    characters: 卐, 卍
-
-    # All domain levels that will be censored.
-    # This can prevent users from sending links in chat.
-    # This will only check the end of words which have detected periods!
-    domains: com, net, org
-
-    # All strings that will be detected as periods in messages. Of course characters like "." and "," are detected by default.
-    # This will work in coordination with "domains".
-    # For example, it can detect "mineplex()com" as "mineplex.com".
-    periods: (), (dot),
-
-    # All words that will be allowed to be typed no matter what.
-    # This helps quite a bit if you have "merging" enabled.
-    # I recommend using http://www.morewords.com/contains/[word]/!
-    allowed: bypass, assembly, assassin, compass, assume, assault, asset, assort
-
-############################################################
-# +------------------------------------------------------+ #
 # |                      Broadcast                       | #
 # +------------------------------------------------------+ #
 ############################################################
@@ -477,57 +426,6 @@ protect-module:
 alt-detect-module:
     enabled: false
     same-ip-required: false
-
-############################################################
-# +------------------------------------------------------+ #
-# |                        Alerts                        | #
-# +------------------------------------------------------+ #
-############################################################
-
-# Requires "permissions.notify" permission.
-alerts-module:
-    # Whether or not staff will be notified when a user changes their name.
-    name-notify: true
-    name-notify-console: false
-    name-notify-bungee: ''
-
-    # Whether or not staff will be notified when they are mentioned.
-    mention-notify: true
-    mention-notify-console: false
-    mention-notify-bungee: ''
-
-    # Whether or not staff will be notified when the chat module detect phrases.
-    chat-phrase-detection: true
-    chat-phrase-detection-console: false
-    chat-phrase-detection-bungee: ''
-
-    # Whether or not staff will be notified when the command-detection gets triggered.
-    command-detection: true
-    command-detection-console: false
-
-    # Whether or not staff will be notified when the command-detection gets triggered.
-    blacklist-detection: true
-    blacklist-detection-console: false
-    blacklist-notify-bungee: ''
-
-    # The sound that is played to staff when notified.
-    sound: ENTITY_EXPERIENCE_ORB_PICKUP
-
-    # Notifies staff when a player mines blocks listed in "blocks".
-    xray-alerts:
-        # Whether or not this module is enabled.
-        enabled: true
-        console: false
-        notify-bungee: ''
-        # Block type that, when mined, will invoke an alert.
-        blocks: SPAWNER, EMERALD_ORE, DIAMOND_ORE, GOLD_ORE, IRON_ORE, COAL_ORE, LAPIS_ORE, REDSTONE_ORE
-
-    alt-detect-notify:
-        enabled: true
-        console: false
-        # Trust levels for which an alert should be triggered
-        # POSITIVE;FAIRLY_POSITIVE;POSSIBLE;NOT_LIKELY
-        trust-levels: FAIRLY_POSITIVE;POSITIVE
 
 command-detection:
     enabled: true

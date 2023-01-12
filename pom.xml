@@ -51,7 +51,22 @@
             </dependency>
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-blacklist</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-alerts</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-staffmode</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-blacklist</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

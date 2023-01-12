@@ -7,7 +7,6 @@ import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
-import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
@@ -27,7 +26,6 @@ public class PlayerQuit implements Listener {
     private final Messages messages;
     private final OnlineSessionsManager sessionManager;
     private final TraceService traceService;
-    private final XrayService xrayService;
     private final IProtocolService protocolService;
     private final FreezeConfiguration freezeConfiguration;
     private final PlayerSettingsRepository playerSettingsRepository;
@@ -36,7 +34,6 @@ public class PlayerQuit implements Listener {
     public PlayerQuit(Messages messages,
                       OnlineSessionsManager sessionManager,
                       TraceService traceService,
-                      XrayService xrayService,
                       IProtocolService protocolService,
                       FreezeConfiguration freezeConfiguration,
                       PlayerSettingsRepository playerSettingsRepository,
@@ -44,7 +41,6 @@ public class PlayerQuit implements Listener {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.traceService = traceService;
-        this.xrayService = xrayService;
         this.protocolService = protocolService;
         this.freezeConfiguration = freezeConfiguration;
         this.playerSettingsRepository = playerSettingsRepository;
@@ -72,7 +68,6 @@ public class PlayerQuit implements Listener {
 
         traceService.sendTraceMessage(player.getUniqueId(), "Left the game");
         traceService.stopAllTracesForPlayer(player.getUniqueId());
-        xrayService.clearTrace(player);
 
         if (session.isFrozen()) {
             messages.sendGroupMessage(messages.freezeLogout.replace("%player%", player.getName()), permissionFreeze, messages.prefixGeneral);

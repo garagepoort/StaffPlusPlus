@@ -1,6 +1,7 @@
-package net.shortninja.staffplus.core.domain.staff.tracing.listener;
+package net.shortninja.staffplus.core.alerts.listeners;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
+import net.shortninja.staffplus.core.alerts.xray.XrayService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -13,9 +14,11 @@ import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.BLOCK
 
 @IocBukkitListener
 public class BlockBreak implements Listener {
+    private final XrayService xrayService;
     private final TraceService traceService;
 
-    public BlockBreak(TraceService traceService) {
+    public BlockBreak(XrayService xrayService, TraceService traceService) {
+        this.xrayService = xrayService;
         this.traceService = traceService;
     }
 
@@ -24,6 +27,7 @@ public class BlockBreak implements Listener {
         Player player = event.getPlayer();
         if (event.isCancelled()) {
             Block block = event.getBlock();
+            xrayService.handleBlockBreak(block, player);
             traceService.sendTraceMessage(BLOCK_BREAK, event.getPlayer().getUniqueId(),
                 String.format("Block [%s] broken at [%s,%s,%s]", block.getType(), block.getX(), block.getY(), block.getZ()));
         }
