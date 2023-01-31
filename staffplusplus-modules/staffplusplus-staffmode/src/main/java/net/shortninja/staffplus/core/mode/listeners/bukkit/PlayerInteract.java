@@ -9,8 +9,6 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.CommandUtil;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGuiBuilder;
-import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
-import net.shortninja.staffplus.core.domain.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.core.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.mode.custommodules.CustomModuleHandler;
 import net.shortninja.staffplus.core.mode.handler.CpsHandler;
@@ -30,6 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import net.shortninja.staffplus.core.freeze.FreezeHandler;
+import net.shortninja.staffplus.core.freeze.FreezeRequest;
 
 @IocBukkitListener
 public class PlayerInteract implements Listener {

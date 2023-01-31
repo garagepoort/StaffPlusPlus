@@ -8,7 +8,6 @@ import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.cmd.BaseCmd;
 import net.shortninja.staffplus.core.common.cmd.CmdHandler;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,8 +20,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.COMMANDS;
-
 @IocBukkitListener
 public class PlayerCommandPreprocess implements Listener {
 
@@ -33,19 +30,16 @@ public class PlayerCommandPreprocess implements Listener {
     private final PermissionHandler permission;
     private final Messages messages;
     private final CmdHandler cmdHandler;
-    private final TraceService traceService;
 
     @ConfigProperty("permissions:block")
     private String permissionBlock;
 
     public PlayerCommandPreprocess(PermissionHandler permission,
                                    Messages messages,
-                                   CmdHandler cmdHandler,
-                                   TraceService traceService) {
+                                   CmdHandler cmdHandler) {
         this.permission = permission;
         this.messages = messages;
         this.cmdHandler = cmdHandler;
-        this.traceService = traceService;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -53,7 +47,6 @@ public class PlayerCommandPreprocess implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         String command = event.getMessage().toLowerCase();
-        traceService.sendTraceMessage(COMMANDS, uuid, "Player invoked command: [" + command + "]");
 
         if (command.startsWith("/help staffplusplus") || command.startsWith("/help staff++")) {
             sendHelp(player);

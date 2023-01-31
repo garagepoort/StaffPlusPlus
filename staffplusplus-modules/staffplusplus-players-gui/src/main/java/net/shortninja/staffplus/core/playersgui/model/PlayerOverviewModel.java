@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.playersgui.model;
 
-import net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBan;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
-import net.shortninja.staffplus.core.domain.staff.mute.Mute;
+import net.shortninja.staffplus.core.punishments.ban.ipbans.IpBan;
+import net.shortninja.staffplus.core.punishments.ban.playerbans.Ban;
+import net.shortninja.staffplus.core.punishments.mute.Mute;
 import net.shortninja.staffplus.core.reporting.Report;
 import net.shortninja.staffplusplus.warnings.IWarning;
 

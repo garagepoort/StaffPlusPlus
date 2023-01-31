@@ -4,10 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
-import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.domain.staff.staffchat.config.StaffChatConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConfiguration;
@@ -25,35 +21,36 @@ public class MetricsService {
                           @ConfigProperty("infractions-module.enabled") boolean infractionsModuleEnabled,
                           @ConfigProperty("webui-module.enabled") boolean webUiModuleEnabled,
                           WarningConfiguration warningConfiguration,
-                          BanConfiguration banConfiguration,
+//                          BanConfiguration banConfiguration,
                           AltDetectConfiguration altDetectConfiguration,
-                          MuteConfiguration muteConfiguration,
+//                          MuteConfiguration muteConfiguration,
 //                          ReportConfiguration reportConfiguration,
-                          KickConfiguration kickConfiguration,
+//                          KickConfiguration kickConfiguration,
                           WarningAppealConfiguration warningAppealConfiguration,
 //                          InvestigationConfiguration investigationConfiguration,
                           VanishConfiguration vanishConfiguration,
-                          StaffChatConfiguration staffChatConfiguration,
-                          FreezeConfiguration freezeConfiguration) {
+                          StaffChatConfiguration staffChatConfiguration
+                          //FreezeConfiguration freezeConfiguration
+                          ) {
         Metrics metrics = new Metrics(TubingBukkitPlugin.getPlugin(), PLUGIN_ID);
 
         boolean warningConfigurationEnabled = warningConfiguration.isEnabled();
         boolean appealConfigurationEnabled = warningAppealConfiguration.enabled;
 //        boolean reportConfigurationEnabled = reportConfiguration.isEnabled();
-        boolean banConfigurationEnabled = banConfiguration.enabled;
-        boolean muteConfigurationEnabled = muteConfiguration.muteEnabled;
-        boolean kickConfigurationEnabled = kickConfiguration.kickEnabled;
+//        boolean banConfigurationEnabled = banConfiguration.enabled;
+//        boolean muteConfigurationEnabled = muteConfiguration.muteEnabled;
+//        boolean kickConfigurationEnabled = kickConfiguration.kickEnabled;
 
         metrics.addCustomChart(new Metrics.SimplePie("alt_detection_module", () -> String.valueOf(altDetectConfiguration.enabled)));
-        metrics.addCustomChart(new Metrics.SimplePie("ban_module", () -> String.valueOf(banConfigurationEnabled)));
+//        metrics.addCustomChart(new Metrics.SimplePie("ban_module", () -> String.valueOf(banConfigurationEnabled)));
         metrics.addCustomChart(new Metrics.SimplePie("blacklist_module", () -> String.valueOf(blacklistModuleEnabled)));
         metrics.addCustomChart(new Metrics.SimplePie("broadcast_module", () -> String.valueOf(broadcastModuleEnabled)));
         metrics.addCustomChart(new Metrics.SimplePie("chat_module", () -> String.valueOf(chatModuleEnabled)));
-        metrics.addCustomChart(new Metrics.SimplePie("freeze_module", () -> String.valueOf(freezeConfiguration.enabled)));
+//        metrics.addCustomChart(new Metrics.SimplePie("freeze_module", () -> String.valueOf(freezeConfiguration.enabled)));
         metrics.addCustomChart(new Metrics.SimplePie("infractions_module", () -> String.valueOf(infractionsModuleEnabled)));
 //        metrics.addCustomChart(new Metrics.SimplePie("investigations_module", () -> String.valueOf(investigationConfiguration.isEnabled())));
-        metrics.addCustomChart(new Metrics.SimplePie("kick_module", () -> String.valueOf(kickConfigurationEnabled)));
-        metrics.addCustomChart(new Metrics.SimplePie("mute_module", () -> String.valueOf(muteConfigurationEnabled)));
+//        metrics.addCustomChart(new Metrics.SimplePie("kick_module", () -> String.valueOf(kickConfigurationEnabled)));
+//        metrics.addCustomChart(new Metrics.SimplePie("mute_module", () -> String.valueOf(muteConfigurationEnabled)));
 //        metrics.addCustomChart(new Metrics.SimplePie("reports_module", () -> String.valueOf(reportConfigurationEnabled)));
         metrics.addCustomChart(new Metrics.SimplePie("staff_chat_module", () -> String.valueOf(staffChatConfiguration.isEnabled())));
         metrics.addCustomChart(new Metrics.SimplePie("storage_type", () -> storageType));

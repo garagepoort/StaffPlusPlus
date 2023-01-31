@@ -1,0 +1,8 @@
+########################
+# TRACE
+# GROUP: staff.trace
+########################
+# Permission for using trace.
+trace: "staff.trace.trace"
+# Permission for bypassing being traced.
+trace-bypass: "staff.trace.bypass"

@@ -66,6 +66,26 @@
             </dependency>
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-freeze</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-teleport</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-punishments</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-tracing</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-blacklist</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -77,6 +97,11 @@
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-players-gui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-protection</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

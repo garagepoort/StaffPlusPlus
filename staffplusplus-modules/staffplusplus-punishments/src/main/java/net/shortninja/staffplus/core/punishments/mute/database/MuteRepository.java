@@ -1,0 +1,50 @@
+package net.shortninja.staffplus.core.punishments.mute.database;
+
+import net.shortninja.staffplus.core.punishments.mute.Mute;
+import net.shortninja.staffplusplus.mute.MuteFilters;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface MuteRepository {
+
+    int addMute(Mute mute);
+
+    List<Mute> getActiveMutes(int offset, int amount);
+
+    List<Mute> getMutesForPlayer(UUID playerUuid);
+
+    Map<UUID, Long> getMuteDurationByPlayer();
+
+    void update(Mute mute);
+
+    Optional<Mute> findActiveMute(UUID playerUuid);
+
+    List<Mute> getAllActiveMutes(List<String> playerUuids);
+
+    Optional<Mute> findActiveMute(int id);
+
+    Map<UUID, Integer> getCountByPlayer();
+
+    List<Mute> getMyMutes(UUID playerUuid, int offset, int amount);
+
+    List<Mute> getMutesForPlayerPaged(UUID playerUuid, int offset, int amount);
+
+    List<UUID> getAllPermanentMutedPlayers();
+
+    long getTotalCount();
+
+    long getActiveCount();
+
+    Optional<Mute> getLastMute(UUID playerUuid);
+
+    void setMuteDuration(int muteId, long duration);
+
+    Optional<Mute> getMute(int muteId);
+
+    List<Mute> getAppealedMutes(int offset, int amount);
+
+    long getMuteCount(MuteFilters muteFilters);
+}

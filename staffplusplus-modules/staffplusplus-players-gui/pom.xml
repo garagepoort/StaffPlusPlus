@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>staffplusplus-reporting</artifactId>
+            <artifactId>staffplusplus-punishments</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>

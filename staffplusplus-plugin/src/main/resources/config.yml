@@ -330,67 +330,6 @@ infractions-module:
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                      BANNING                       | #
-# +------------------------------------------------------+ #
-############################################################
-
-ban-module:
-    # Whether or not the plugin will use "/ban-player" features.
-    enabled: true
-    permban-template: ''
-    tempban-template: ''
-    ranks: []
-    appeals:
-        enabled: true
-        unban-on-approve: true
-        resolve-reason-enabled: false
-        fixed-reason: false
-        reasons:
-            - ''
-    ipban:
-        enabled: true
-        confirmation: CHAT
-        permban-template: ''
-        tempban-template: ''
-############################################################
-# +------------------------------------------------------+ #
-# |                      KICKING                       | #
-# +------------------------------------------------------+ #
-############################################################
-
-kick-module:
-    # Whether or not the plugin will use "/kick" features.
-    enabled: true
-    fixed-reason: false
-    reasons: [ ]
-
-############################################################
-# +------------------------------------------------------+ #
-# |                      MUTING                       | #
-# +------------------------------------------------------+ #
-############################################################
-
-mute-module:
-    # Whether or not the plugin will use "/mute player" features.
-    enabled: true
-    # Will the player know he is muted.
-    default-soft-mutes: false
-    # Commands that get blocked when a player is muted
-    blocked-commands:
-        - msg
-        - whisper
-        - tell
-    appeals:
-        enabled: true
-        unmute-on-approve: true
-        resolve-reason-enabled: false
-        fixed-reason: false
-        reasons:
-            - ''
-        on-approved-commands: [ ]
-        on-rejected-commands: [ ]
-############################################################
-# +------------------------------------------------------+ #
 # |                      MUTING                       | #
 # +------------------------------------------------------+ #
 ############################################################
@@ -402,20 +341,6 @@ joinmessages-module:
         -   permission: 'staff.joinmessages.staff'
             message: '&6[Staff] &4%player% &7joined the server'
             weight: 1
-
-############################################################
-# +------------------------------------------------------+ #
-# |                      Protection                       | #
-# +------------------------------------------------------+ #
-############################################################
-
-protect-module:
-    # Whether or not the plugin will use "/protect-player" features.
-    player-enabled: true
-    # Whether or not the plugin will use "/protect-area" features.
-    area-enabled: true
-    # The max area size that can be protected.
-    area-max-size: 40
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -452,32 +377,6 @@ trace-module:
     # If FILE is used, the trace files will be saved to a 'trace' directory underneath the StaffPlusPlus plugin folder.
     # Possible values: CHAT|FILE
     output-channels: CHAT;FILE
-
-
-############################################################
-# +------------------------------------------------------+ #
-# |                      Freezing                        | #
-# +------------------------------------------------------+ #
-############################################################
-freeze-module:
-    enabled: true
-    chatchannels:
-        enabled: false
-    chat: false
-    damage: false
-    blindness: false
-    timer: 5
-    sound: ENTITY_EXPERIENCE_ORB_PICKUP
-    prompt: false
-    prompt-title: '&bFrozen'
-    logout-commands: ban %player%
-    title-message-enabled: true
-    chat-message-enabled: true
-    # Commands that are allowed when a player is frozen
-    allowed-commands: [ ]
-    # command hooks for freeze/unfreeze
-    freeze-commands: [ ]
-    unfreeze-commands: [ ]
 
 ############################################################
 # +------------------------------------------------------+ #

@@ -9,15 +9,15 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
-import net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBan;
-import net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBanConfiguration;
-import net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBanService;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
-import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.playersgui.model.PlayerOverviewModel;
+import net.shortninja.staffplus.core.punishments.ban.ipbans.IpBan;
+import net.shortninja.staffplus.core.punishments.ban.ipbans.IpBanConfiguration;
+import net.shortninja.staffplus.core.punishments.ban.ipbans.IpBanService;
+import net.shortninja.staffplus.core.punishments.ban.playerbans.BanService;
+import net.shortninja.staffplus.core.punishments.ban.playerbans.config.BanConfiguration;
+import net.shortninja.staffplus.core.punishments.mute.MuteService;
+import net.shortninja.staffplus.core.punishments.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.reporting.Report;
 import net.shortninja.staffplus.core.reporting.ReportService;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -82,13 +82,6 @@ public class PlayersGuiController {
 
 
         params.put("target", sppPlayer);
-//        params.put("model", new PlayerOverviewModel(
-//            banConfiguration.enabled ? banService.getBanByBannedUuid(sppPlayer.getId()) : Optional.empty(),
-//            muteConfiguration.muteEnabled ? muteService.getMuteByMutedUuid(sppPlayer.getId()) : Optional.empty(),
-//            ipBanConfiguration.enabled ? getIpBans(sppPlayer) : emptyList(),
-//            reportsEnabled ? getReports(sppPlayer) : emptyList(),
-//            reportsEnabled ? getReported(sppPlayer) : emptyList(),
-//            warningConfiguration.isEnabled() ? getWarnings(sppPlayer) : emptyList()));
         params.put("model", new PlayerOverviewModel(
             banConfiguration.enabled ? banService.getBanByBannedUuid(sppPlayer.getId()) : Optional.empty(),
             muteConfiguration.muteEnabled ? muteService.getMuteByMutedUuid(sppPlayer.getId()) : Optional.empty(),

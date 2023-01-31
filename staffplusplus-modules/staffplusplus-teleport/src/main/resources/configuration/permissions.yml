@@ -1,0 +1,12 @@
+########################
+# TELEPORT
+# GROUP: staff.teleport
+########################
+# Permission for using teleport.
+teleport-to-location: "staff.teleport.teleport-to-location"
+# Permission for using teleportToPlayer.
+teleport-to-player: "staff.teleport.teleport-to-player"
+# Permission for using teleportHere.
+teleport-here: "staff.teleport.teleport-here"
+# Permission for bypassing teleport.
+teleport-bypass: "staff.teleport.teleport.bypass"

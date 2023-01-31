@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
-import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,17 +13,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.CHAT;
-
 @IocBukkitListener
 public class AsyncPlayerChat implements Listener {
     private final List<ChatInterceptor> chatInterceptors;
-    private final TraceService traceService;
 
-    public AsyncPlayerChat(@IocMulti(ChatInterceptor.class) List<ChatInterceptor> chatInterceptors,
-                           TraceService traceService) {
+    public AsyncPlayerChat(@IocMulti(ChatInterceptor.class) List<ChatInterceptor> chatInterceptors) {
         this.chatInterceptors = chatInterceptors.stream().sorted(Comparator.comparingInt(ChatInterceptor::getPriority)).collect(Collectors.toList());
-        this.traceService = traceService;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -38,7 +32,5 @@ public class AsyncPlayerChat implements Listener {
                 return;
             }
         }
-
-        traceService.sendTraceMessage(CHAT, player.getUniqueId(), event.getMessage());
     }
 }

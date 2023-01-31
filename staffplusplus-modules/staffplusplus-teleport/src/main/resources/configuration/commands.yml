@@ -1,0 +1,11 @@
+# The command for teleporting a player to predefined locations
+teleport-to-location: ["teleportToLocation"]
+
+# The command for teleporting a player back to a previous location
+teleport-back: ["teleportBack"]
+
+# The command for teleporting yourself to another player
+teleport-to-player: ["teleportToPlayer"]
+
+# The command for teleporting a player to your location
+teleport-here: ["teleportHere"]

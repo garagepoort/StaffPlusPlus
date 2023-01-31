@@ -16,8 +16,13 @@
         <module>staffplusplus-blacklist</module>
         <module>staffplusplus-reporting</module>
         <module>staffplusplus-players-gui</module>
+        <module>staffplusplus-teleport</module>
         <module>staffplusplus-examine-inventory</module>
+        <module>staffplusplus-freeze</module>
         <module>staffplusplus-staffmode</module>
         <module>staffplusplus-alerts</module>
+        <module>staffplusplus-protection</module>
+        <module>staffplusplus-punishments</module>
+        <module>staffplusplus-tracing</module>
     </modules>
 </project>

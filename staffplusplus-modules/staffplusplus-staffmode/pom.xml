@@ -23,5 +23,10 @@
             <artifactId>staffplusplus-examine-inventory</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-freeze</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

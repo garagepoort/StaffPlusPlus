@@ -1,0 +1,5 @@
+# The command to toggle protection of a player
+protect-player: ["protectPlayer"]
+
+# The command to create/delete a protected area
+protect-area: ["protectArea"]

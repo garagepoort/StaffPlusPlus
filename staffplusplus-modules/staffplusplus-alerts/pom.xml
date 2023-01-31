@@ -18,5 +18,10 @@
             <artifactId>staffplusplus-blacklist</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-punishments</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

@@ -1,0 +1,4 @@
+# The command for toggling freeze on players.
+freeze: ["freeze"]
+# The command sending messages on a freeze channel.
+freezechannel.chat: ["fc"]

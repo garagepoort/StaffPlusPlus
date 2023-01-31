@@ -1,0 +1,13 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                      Protection                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+protect-module:
+    # Whether or not the plugin will use "/protect-player" features.
+    player-enabled: true
+    # Whether or not the plugin will use "/protect-area" features.
+    area-enabled: true
+    # The max area size that can be protected.
+    area-max-size: 40

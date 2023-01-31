@@ -1,0 +1,9 @@
+########################
+# FREEZE
+# GROUP: staff.freeze
+########################
+# Permission for using freeze.
+freeze: "staff.freeze.freeze"
+# Permission for bypassing freeze.
+freeze-bypass: "staff.freeze.freeze-bypass"
+freeze-chat: "staff.freeze.chat"

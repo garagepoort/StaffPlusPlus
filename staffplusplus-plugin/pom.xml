@@ -45,6 +45,22 @@
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>staffplusplus-examine-inventory</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-teleport</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-freeze</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-punishments</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-tracing</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,0 +1,2 @@
+# The command to start/stop tracing a player
+trace: ["trace"]

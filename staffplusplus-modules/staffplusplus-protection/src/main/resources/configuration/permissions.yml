@@ -1,0 +1,8 @@
+########################
+# PROTECT
+# GROUP: staff.protect
+########################
+# Permission to toggle protection of a player
+protect-player: "staff.protect.protect-player"
+# Permission to toggle protection of an area
+protect-area: "staff.protect.protect-area"

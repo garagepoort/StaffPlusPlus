@@ -1,0 +1,61 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                      BANNING                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+ban-module:
+    # Whether the plugin will use "/ban-player" features.
+    enabled: true
+    permban-template: ''
+    tempban-template: ''
+    ranks: []
+    appeals:
+        enabled: true
+        unban-on-approve: true
+        resolve-reason-enabled: false
+        fixed-reason: false
+        reasons:
+            - ''
+    ipban:
+        enabled: true
+        confirmation: CHAT
+        permban-template: ''
+        tempban-template: ''
+############################################################
+# +------------------------------------------------------+ #
+# |                      KICKING                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+kick-module:
+    # Whether the plugin will use "/kick" features.
+    enabled: true
+    fixed-reason: false
+    reasons: [ ]
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      MUTING                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+mute-module:
+    # Whether the plugin will use "/mute player" features.
+    enabled: true
+    # Will the player know he is muted.
+    default-soft-mutes: false
+    # Commands that get blocked when a player is muted
+    blocked-commands:
+        - msg
+        - whisper
+        - tell
+    appeals:
+        enabled: true
+        unmute-on-approve: true
+        resolve-reason-enabled: false
+        fixed-reason: false
+        reasons:
+            - ''
+        on-approved-commands: [ ]
+        on-rejected-commands: [ ]

@@ -1,0 +1,18 @@
+package net.shortninja.staffplus.core.punishments.kick.database;
+
+import net.shortninja.staffplus.core.punishments.kick.Kick;
+
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+public interface KicksRepository {
+
+    int addKick(Kick kick);
+
+    List<Kick> getKicksForPlayer(UUID playerUUID);
+
+    Map<UUID, Integer> getCountByPlayer();
+
+    List<Kick> getKicksForPlayer(UUID playerKicked, int offset, int amount);
+}

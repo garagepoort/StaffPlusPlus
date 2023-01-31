@@ -1,0 +1,46 @@
+package net.shortninja.staffplus.core.freeze.gui;
+
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
+import net.shortninja.staffplus.core.freeze.FreezeGui;
+import net.shortninja.staffplus.core.freeze.config.FreezeConfiguration;
+import net.shortninja.staffplusplus.freeze.PlayerFrozenEvent;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+@IocBukkitListener
+public class FreezeListener implements Listener {
+
+    private final FreezeConfiguration freezeConfiguration;
+    private final Messages messages;
+
+    public FreezeListener(FreezeConfiguration freezeConfiguration, Messages messages) {
+        this.freezeConfiguration = freezeConfiguration;
+        this.messages = messages;
+    }
+
+    @EventHandler
+    public void onFreeze(PlayerFrozenEvent event) {
+        Player player = event.getTarget();
+        if (freezeConfiguration.prompt) {
+            new FreezeGui(freezeConfiguration.promptTitle).show(player);
+        } else if(freezeConfiguration.chatMessageEnabled) {
+            messages.send(player, messages.freeze, messages.prefixGeneral);
+        }
+
+        if(freezeConfiguration.blindness || freezeConfiguration.prompt) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
+        }
+
+        messages.send(event.getIssuer(), messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
+
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
+        if (freezeConfiguration.sound != null) {
+            freezeConfiguration.sound.play(player);
+        }
+    }
+}

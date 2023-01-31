@@ -1,0 +1,74 @@
+########################
+# BANS
+# GROUP: staff.bans
+########################
+# ban permissions
+ban: "staff.bans.ban"
+tempban: "staff.bans.tempban"
+extendban: "staff.bans.extendban"
+reduceban: "staff.bans.reduceban"
+ban-silent: "staff.bans.ban-silent"
+ban-view: "staff.bans.ban-view"
+ban-template-overwrite: "staff.bans.ban-template-overwrite"
+unban: "staff.bans.unban"
+ban-bypass: "staff.bans.ban-bypass"
+ban-notifications: "staff.bans.ban-notifications"
+bans:
+    migrate: "staff.bans.migrate"
+    appeals:
+        view: "staff.bans.appeals.view"
+        create: "staff.bans.appeals.create"
+        create-others: "staff.bans.appeals.create.others"
+        approve: "staff.bans.appeals.approve"
+        reject: "staff.bans.appeals.reject"
+        notifications: "staff.bans.appeals.notifications"
+
+########################
+# IP BANS
+# GROUP: staff.ipban
+########################
+ipban:
+    ban: "staff.ipban.ban"
+    tempban: "staff.ipban.tempban"
+    unban: "staff.ipban.unban"
+    ban-check: "staff.ipban.ban-check"
+    ban-view: "staff.ipban.ban-view"
+    ban-silent: "staff.ipban.ban-silent"
+    ban-template-overwrite: "staff.ipban.ban-template-overwrite"
+    ban-notifications: "staff.ipban.ban-notifications"
+    migrate: "staff.ipban.migrate"
+
+
+########################
+# KICKS
+# GROUP: staff.kicks
+########################
+# Permission to kick players
+kick: "staff.kicks.kick"
+kick-notifications: "staff.kicks.kick-notifications"
+# Permission to bypass being kicked
+kick-bypass: "staff.kicks.kick-bypass"
+
+########################
+# MUTES
+# GROUP: staff.mutes
+########################
+# Permission to mute players
+mute: "staff.mutes.mute"
+mute-view: "staff.mutes.mute-view"
+tempmute: "staff.mutes.tempmute"
+unmute: "staff.mutes.unmute"
+extendmute: "staff.mutes.extendmute"
+reducemute: "staff.mutes.reducemute"
+mute-bypass: "staff.mutes.mute-bypass"
+mute-override-softhard: "staff.mutes.mute-override-softhard"
+mute-notifications: "staff.mutes.mute-notifications"
+view-my-mutes: "staff.mutes.view-my-mutes"
+mutes:
+    appeals:
+        view: "staff.mutes.appeals.view"
+        create: "staff.mutes.appeals.create"
+        create-others: "staff.mutes.appeals.create.others"
+        approve: "staff.mutes.appeals.approve"
+        reject: "staff.mutes.appeals.reject"
+        notifications: "staff.mutes.appeals.notifications"
