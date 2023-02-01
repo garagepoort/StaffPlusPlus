@@ -12,6 +12,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>staffplusplus-appeals</module>
+        <module>staffplusplus-warnings</module>
         <module>staffplusplus-investigation</module>
         <module>staffplusplus-blacklist</module>
         <module>staffplusplus-reporting</module>
@@ -24,5 +26,9 @@
         <module>staffplusplus-protection</module>
         <module>staffplusplus-punishments</module>
         <module>staffplusplus-tracing</module>
+        <module>staffplusplus-staffchat</module>
+        <module>staffplusplus-altaccount-detect</module>
+        <module>staffplusplus-vanish</module>
+        <module>staffplusplus-infractions</module>
     </modules>
 </project>

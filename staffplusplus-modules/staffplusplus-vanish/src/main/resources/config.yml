@@ -1,0 +1,60 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                        Vanish                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Requires "permissions.vanish" permission.
+vanish-module:
+    # Whether or not the plugin will use "/v" features.
+    enabled: true
+
+    # Whether or not list vanish will hide the vanished users from tab list.
+    # Does not completely hide players in tab for 1.7 versions.
+    tab-list: true
+
+    # Whether or not list vanish users will be shown as "away" or "offline" in the staff list.
+    show-away: false
+
+    # Whether or not user should be shown in command tab-complete suggestions.
+    suggestions: false
+
+    # Whether or not chat can be used when vanished.
+    chat: false
+
+    # Whether or not to show a message on screen telling the staff member his vanish is enabled
+    vanish-message-enabled: true
+
+    # Whether or not to show a bossbar on screen telling the staff member his vanish is enabled
+    vanish-bossbar-enabled: false
+
+    # Default vanish mode. Gets used when using the vanish the command without arguments
+    default-mode: TOTAL
+    # Allow item drop while vanished
+    item-drop: true
+    # Allow item pickup while vanished
+    item-pickup: true
+    # When true, you can't take damage while vanished
+    invincible: false
+    # Allow giving damage while vanished
+    damage: true
+    # Allow placing blocks while vanished
+    block-place: true
+    # Allow breaking blocks while vanished
+    block-break: true
+    # Allow opening a chest normally
+    normal-chest-opening: true
+    # Allow interacting with a chest that has been normally opened
+    normal-chest-interaction: true
+    # Allow opening a chest silently
+    silent-chest-opening: false
+    # Allow interacting with a chest that has been silently opened
+    silent-chest-interaction: false
+    # Will give players night vision while vanished in TOTAL or PLAYER mode.
+    night-vision: false
+    # Enable to add join leave message in chat when a player gets vanished.
+    join-leave-message-enabled: true
+    # List all the items which the player should not be able to interact with
+    cancelled-interaction-types:
+        - '*PRESSURE_PLATE'
+        - '*TRIP*'

@@ -86,6 +86,36 @@
             </dependency>
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-staffchat</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-altaccount-detect</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-vanish</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-appeals</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-warnings</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-infractions</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-blacklist</artifactId>
                 <version>${project.version}</version>
             </dependency>

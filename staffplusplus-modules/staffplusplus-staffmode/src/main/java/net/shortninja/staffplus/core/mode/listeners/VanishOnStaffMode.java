@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.mode.ModeProvider;
 import net.shortninja.staffplus.core.mode.config.GeneralModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.vanish.VanishService;
+import net.shortninja.staffplus.core.vanish.VanishService;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;

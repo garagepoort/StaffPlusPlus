@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.reporting;
 
 import net.shortninja.staffplus.core.domain.location.SppLocation;
-import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
-import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.infractions.Infraction;
+import net.shortninja.staffplus.core.infractions.InfractionType;
 import net.shortninja.staffplusplus.ILocation;
 import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import net.shortninja.staffplusplus.reports.IReport;

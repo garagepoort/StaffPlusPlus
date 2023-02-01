@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.punishments.ban.playerbans;
 
+import net.shortninja.staffplus.core.appeals.Appeal;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
-import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
-import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.infractions.Infraction;
+import net.shortninja.staffplus.core.infractions.InfractionType;
 import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.appeals.IAppeal;

@@ -128,141 +128,6 @@ reports-module:
     reopen-commands: [ ]
     resolve-commands: [ ]
 
-
-############################################################
-# +------------------------------------------------------+ #
-# |                       Warnings                       | #
-# +------------------------------------------------------+ #
-############################################################
-
-# Requires "permissions.warn" permission.
-warnings-module:
-    # Whether or not the plugin will use "/warn" features.
-    enabled: true
-    # The sound that is played to the player when warned.
-    # Set to "NONE" to disable.
-    sound: ENTITY_EXPERIENCE_ORB_PICKUP
-    # Whether or not the player issued the warning will be visible in GUIs.
-    show-issuer: true
-
-    # Enables the ability to notify a user when he has warnings
-    # User will be notified the moment he comes online.
-    user-notifications:
-        enabled: true
-        # Enable this to show the message every time the user comes online.
-        # If Disabled the warnings will be marked as "read" and he will only be notified of new warnings
-        always-notify: false
-
-    actions: [ ]
-    severity-levels:
-        -   name: MINOR
-            score: 1
-            expiresAfter: 1 WEEK
-        -   name: MAJOR
-            score: 3
-            expiresAfter: 1 MONTH
-        -   name: CRITICAL
-            score: 5
-    # Define thresholds for the warning system. Whenever the player reaches a threshold the actions are triggered
-    thresholds:
-        -   score: 6
-            actions:
-                -   command: "ban %target% &4Warning threshold has been met"
-
-    appeals:
-        enabled: true
-        resolve-reason-enabled: false
-        fixed-reason: false
-        reasons:
-            - ''
-
-############################################################
-# +------------------------------------------------------+ #
-# |                    Staff Chat                        | #
-# +------------------------------------------------------+ #
-############################################################
-
-# Requires "permissions.staff-chat" permission.
-staff-chat-module:
-    # Whether or not the plugin will use "/sc" features.
-    enabled: true
-    # Whether or not the plugin synchronises staff chat across the bungee network
-    bungee: true
-
-    # The string that can be used at the beginning of a message to make it appear in staff chat.
-    # If you have "@" as your string, typing "@hey guys" would send "hey guys" to staff chat.
-    # Leave blank to disable.
-
-    channels:
-        -   command: sc
-            handle: "@"
-            name: staffchat
-            prefix: '&dStaffChat &8»'
-            message-format: '&b%player% &8» &7%message%'
-            permission: staff.staffchat
-            sound: "NONE"
-
-############################################################
-# +------------------------------------------------------+ #
-# |                        Vanish                        | #
-# +------------------------------------------------------+ #
-############################################################
-
-# Requires "permissions.vanish" permission.
-vanish-module:
-    # Whether or not the plugin will use "/v" features.
-    enabled: true
-
-    # Whether or not list vanish will hide the vanished users from tab list.
-    # Does not completely hide players in tab for 1.7 versions.
-    tab-list: true
-
-    # Whether or not list vanish users will be shown as "away" or "offline" in the staff list.
-    show-away: false
-
-    # Whether or not user should be shown in command tab-complete suggestions.
-    suggestions: false
-
-    # Whether or not chat can be used when vanished.
-    chat: false
-
-    # Whether or not to show a message on screen telling the staff member his vanish is enabled
-    vanish-message-enabled: true
-
-    # Whether or not to show a bossbar on screen telling the staff member his vanish is enabled
-    vanish-bossbar-enabled: false
-
-    # Default vanish mode. Gets used when using the vanish the command without arguments
-    default-mode: TOTAL
-    # Allow item drop while vanished
-    item-drop: true
-    # Allow item pickup while vanished
-    item-pickup: true
-    # When true, you can't take damage while vanished
-    invincible: false
-    # Allow giving damage while vanished
-    damage: true
-    # Allow placing blocks while vanished
-    block-place: true
-    # Allow breaking blocks while vanished
-    block-break: true
-    # Allow opening a chest normally
-    normal-chest-opening: true
-    # Allow interacting with a chest that has been normally opened
-    normal-chest-interaction: true
-    # Allow opening a chest silently
-    silent-chest-opening: false
-    # Allow interacting with a chest that has been silently opened
-    silent-chest-interaction: false
-    # Will give players night vision while vanished in TOTAL or PLAYER mode.
-    night-vision: false
-    # Enable to add join leave message in chat when a player gets vanished.
-    join-leave-message-enabled: true
-    # List all the items which the player should not be able to interact with
-    cancelled-interaction-types:
-        - '*PRESSURE_PLATE'
-        - '*TRIP*'
-
 ############################################################
 # +------------------------------------------------------+ #
 # |                         Chat                         | #
@@ -310,26 +175,6 @@ broadcast-module:
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                     INFRACTIONS                      | #
-# +------------------------------------------------------+ #
-############################################################
-
-infractions-module:
-    # Whether or not the plugin will enable the infractions gui.
-    enabled: true
-    show-bans: true
-    show-mutes: true
-    show-warnings: true
-    show-reporter.report-created: true
-    show-kicks: true
-    bans-gui-item: PAPER
-    mutes-gui-item: PAPER
-    warnings-gui-item: PAPER
-    reported-gui-item: PAPER
-    kicks-gui-item: PAPER
-
-############################################################
-# +------------------------------------------------------+ #
 # |                      MUTING                       | #
 # +------------------------------------------------------+ #
 ############################################################
@@ -342,16 +187,6 @@ joinmessages-module:
             message: '&6[Staff] &4%player% &7joined the server'
             weight: 1
 
-############################################################
-# +------------------------------------------------------+ #
-# |                  ALT ACCOUNT DETECTION               | #
-# +------------------------------------------------------+ #
-############################################################
-
-alt-detect-module:
-    enabled: false
-    same-ip-required: false
-
 command-detection:
     enabled: true
     command-groups:
@@ -360,23 +195,6 @@ command-detection:
                 - deop
                 - lp
             actions: [ ]
-############################################################
-# +------------------------------------------------------+ #
-# |                       TRACE                          | #
-# +------------------------------------------------------+ #
-############################################################
-
-# Requires the trace permission before staff members can use this
-trace-module:
-    enabled: true
-    # List all the events that should be traced separated by ";"
-    # Possible values: PICKUP_ITEM|DROP_ITEM|BLOCK_BREAK|BLOCK_PLACE|COMMANDS|CHAT|WORLD_CHANGE|INVENTORY|DAMAGE
-    # For a more detailed explanation of what each event traces please refer to the wiki
-    trace-events: PICKUP_ITEM;DROP_ITEM;BLOCK_BREAK;BLOCK_PLACE;COMMANDS;CHAT;WORLD_CHANGE;INVENTORY;DAMAGE
-    # The channels determines where the trace will be printed to separated by ";". Multiple channels are possible.
-    # If FILE is used, the trace files will be saved to a 'trace' directory underneath the StaffPlusPlus plugin folder.
-    # Possible values: CHAT|FILE
-    output-channels: CHAT;FILE
 
 ############################################################
 # +------------------------------------------------------+ #

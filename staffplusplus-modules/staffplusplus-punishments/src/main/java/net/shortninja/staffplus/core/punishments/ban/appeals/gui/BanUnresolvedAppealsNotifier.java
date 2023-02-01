@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
-import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
+import net.shortninja.staffplus.core.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.punishments.ban.appeals.BanAppealConfiguration;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplusplus.appeals.AppealableType;

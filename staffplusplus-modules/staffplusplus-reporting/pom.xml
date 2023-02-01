@@ -13,5 +13,10 @@
             <artifactId>staffplusplus-core</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-infractions</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

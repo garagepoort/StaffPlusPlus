@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.punishments.mute;
 
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
-import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.infractions.Infraction;
+import net.shortninja.staffplus.core.infractions.InfractionType;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.investigate.evidence.Evidence;

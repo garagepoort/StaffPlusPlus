@@ -1,0 +1,19 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                     INFRACTIONS                      | #
+# +------------------------------------------------------+ #
+############################################################
+
+infractions-module:
+    # Whether or not the plugin will enable the infractions gui.
+    enabled: true
+    show-bans: true
+    show-mutes: true
+    show-warnings: true
+    show-reporter.report-created: true
+    show-kicks: true
+    bans-gui-item: PAPER
+    mutes-gui-item: PAPER
+    warnings-gui-item: PAPER
+    reported-gui-item: PAPER
+    kicks-gui-item: PAPER

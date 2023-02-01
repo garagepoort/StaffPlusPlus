@@ -25,9 +25,6 @@ strip: "staff.strip"
 broadcast: "staff.broadcast"
 # Permission for initializing clicks per second tests
 cps: "staff.cps"
-# Permission to open the infractions gui
-infractions:
-    view: "staff.infractions.view"
 
 staff-list.view: "staff.personnel.view"
 staff-hub.view: "staff.hub.view"
@@ -69,50 +66,6 @@ report-update-notifications: "staff.reports.update.notifications"
 view-my-reports: "staff.reports.view-my-reports"
 
 ########################
-# WARNINGS
-# GROUP: staff.warnings
-########################
-
-# Permission to open to my warnings gui
-view-my-warnings: "staff.warnings.view-my-warnings"
-# Permission for using "/warn" and clearing/getting player warnings.
-warn: "staff.warnings.warn"
-# Permission for bypassing warnings.
-warn-bypass: "staff.warnings.warn-bypass"
-warnings:
-    notifications: "staff.warnings.notifications"
-    # All permission for managing warnings
-    manage:
-        view: "staff.warnings.manage.view"
-        delete: "staff.warnings.manage.delete"
-        expire: "staff.warnings.manage.expire"
-    appeals:
-        create: "staff.warnings.appeals.create"
-        create-others: "staff.warnings.appeals.create.others"
-        approve: "staff.warnings.appeals.approve"
-        reject: "staff.warnings.appeals.reject"
-        notifications: "staff.warnings.appeals.notifications"
-
-########################
-# VANISH
-# GROUP: staff.vanish
-########################
-# Permission for using the vanish command
-vanish: "staff.vanish.vanish"
-# Permission for using the vanish command
-vanish-others:
-    total: "staff.vanish.others.total"
-    list: "staff.vanish.others.list"
-    player: "staff.vanish.others.player"
-see-vanished: "staff.vanish.see-vanished"
-# Permission for using "/v total".
-vanish-total: "staff.vanish.total"
-# Permission for using "/v list".
-vanish-list: "staff.vanish.list"
-# Permission for using "/v player".
-vanish-player: "staff.vanish.player"
-
-########################
 # CHAT
 # GROUP: staff.chat
 ########################
@@ -139,16 +92,6 @@ nightvision: "staff.nightvision.nightvision"
 ips:
     clear-ips: "staff.ips.clear-ips"
     notifications: "staff.ips.notifications"
-########################
-# ALT DETECT
-# GROUP: staff.altdetects
-########################
-# Permission to add/remove players from the alt detection whitelist
-alt-detect-whitelist: "staff.altdetects.whitelist"
-# Permission to run an alt detection check
-alt-detect-check: "staff.altdetects.check"
-# Permission to bypass the alt detection
-alt-detect-bypass: "staff.altdetects.bypass"
 
 ########################
 # ENDERCHEST

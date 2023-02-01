@@ -4,22 +4,18 @@ import be.garagepoort.mcioc.AfterIocLoad;
 import be.garagepoort.mcioc.IocBeanProvider;
 import be.garagepoort.mcioc.TubingConfiguration;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import be.garagepoort.mcioc.load.InjectTubingPlugin;
+import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
 import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import be.garagepoort.mcioc.tubinggui.exceptions.GuiExceptionHandler;
 import be.garagepoort.mcsqlmigrations.DatabaseType;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
-import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
-import net.shortninja.staffplus.core.application.bootstrap.LuckPermsHook;
 import net.shortninja.staffplus.core.application.bootstrap.VaultHook;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.DefaultPermissionHandler;
 import net.shortninja.staffplus.core.common.permissions.GroupManagerPermissionHandler;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -56,15 +52,6 @@ public class StaffPlusPlusConfiguration {
 
         TubingBukkitPlugin.getPlugin().getLogger().info("Permissions handled by Bukkit");
         return new DefaultPermissionHandler();
-    }
-
-    @IocBeanProvider
-    public static LuckPermsHook instantiateLuckperms(OnlineSessionsManager sessionManager, @InjectTubingPlugin TubingBukkitPlugin tubingPlugin) {
-        if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
-            return new LuckPermsHook(sessionManager, tubingPlugin);
-        }
-        tubingPlugin.getLogger().info("Luckperms not found. Not Setting luckperms hook");
-        return null;
     }
 
     @IocBeanProvider

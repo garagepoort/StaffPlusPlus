@@ -61,6 +61,30 @@
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>staffplusplus-tracing</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-staffchat</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-altaccount-detect</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-vanish</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-appeals</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-warnings</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-infractions</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

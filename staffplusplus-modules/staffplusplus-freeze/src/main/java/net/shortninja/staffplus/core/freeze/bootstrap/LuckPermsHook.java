@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.freeze.bootstrap;
 
+import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
 import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+@IocBean
 @IocMultiProvider({PluginDisable.class, BeforeTubingReload.class})
 public class LuckPermsHook implements PluginDisable, BeforeTubingReload {
 

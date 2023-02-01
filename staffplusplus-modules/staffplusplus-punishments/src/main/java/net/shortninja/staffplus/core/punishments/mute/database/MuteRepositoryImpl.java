@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
+import net.shortninja.staffplus.core.appeals.Appeal;
 import net.shortninja.staffplus.core.punishments.mute.Mute;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplusplus.appeals.AppealStatus;

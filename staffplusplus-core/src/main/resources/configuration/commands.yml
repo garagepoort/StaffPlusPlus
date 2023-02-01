@@ -46,24 +46,6 @@ reports:
         cli: ["reports"]
         teleport-to-report: ["teleport-to-report"]
 
-# The command for warning players
-warn: ["warn"]
-
-# The command for warning and managing warnings.
-warns: ["warns"]
-
-warnings.manage:
-    #Command to open the manage warnings gui
-    gui: ["manage-warnings"]
-    #Command to open the manage warnings gui
-    appealed-gui: ["manage-appealed-warnings"]
-
-# The command for opening the my warnings gui
-my-warnings: ["my-warnings"]
-
-# The command for toggling vanish modes.
-vanish: ["vanish"]
-
 # The command for chat management.
 chat: ["chat"]
 
@@ -90,17 +72,6 @@ strip: ["strip"]
 
 # The command to broadcast a message over all servers
 broadcast: ["broadcast"]
-
-# The command to unban a player
-alt-detect-whitelist: ["altWhitelist"]
-# The command to unban a player
-alt-detect-check: ["altCheck"]
-
-# The command to view the infractions of a player
-infractions-view: ["infractions"]
-
-# The command to view the players with the most infractions
-infractions-top-view: ["infractions-top"]
 
 webui:
     register: ["register"]

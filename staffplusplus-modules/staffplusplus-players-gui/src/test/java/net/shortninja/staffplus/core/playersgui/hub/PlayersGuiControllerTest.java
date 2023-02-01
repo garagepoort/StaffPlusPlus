@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.playersgui.hub;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
-import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
+import net.shortninja.staffplus.core.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.playersgui.PlayersGuiController;
 import net.shortninja.staffplus.core.punishments.ban.ipbans.IpBanConfiguration;
 import net.shortninja.staffplus.core.punishments.ban.ipbans.IpBanService;

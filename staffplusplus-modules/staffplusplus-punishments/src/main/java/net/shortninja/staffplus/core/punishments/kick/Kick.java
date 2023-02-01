@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.punishments.kick;
 
-import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
-import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.infractions.Infraction;
+import net.shortninja.staffplus.core.infractions.InfractionType;
 import net.shortninja.staffplusplus.kick.IKick;
 
 import java.time.Instant;

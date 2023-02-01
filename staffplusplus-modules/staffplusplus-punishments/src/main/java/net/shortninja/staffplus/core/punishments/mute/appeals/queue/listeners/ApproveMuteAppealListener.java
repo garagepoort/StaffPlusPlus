@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.punishments.mute.appeals.queue.listeners;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.queue.QueueMessageListener;
-import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
+import net.shortninja.staffplus.core.appeals.AppealService;
 import net.shortninja.staffplus.core.punishments.mute.appeals.queue.dto.ApproveMuteAppealQueueMessage;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.session.SppPlayer;

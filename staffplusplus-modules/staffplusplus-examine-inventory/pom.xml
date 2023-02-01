@@ -18,5 +18,10 @@
             <artifactId>staffplusplus-reporting</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-warnings</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

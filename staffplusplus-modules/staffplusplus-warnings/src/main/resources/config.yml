@@ -1,0 +1,46 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                       Warnings                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Requires "permissions.warn" permission.
+warnings-module:
+    # Whether or not the plugin will use "/warn" features.
+    enabled: true
+    # The sound that is played to the player when warned.
+    # Set to "NONE" to disable.
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    # Whether or not the player issued the warning will be visible in GUIs.
+    show-issuer: true
+
+    # Enables the ability to notify a user when he has warnings
+    # User will be notified the moment he comes online.
+    user-notifications:
+        enabled: true
+        # Enable this to show the message every time the user comes online.
+        # If Disabled the warnings will be marked as "read" and he will only be notified of new warnings
+        always-notify: false
+
+    actions: [ ]
+    severity-levels:
+        -   name: MINOR
+            score: 1
+            expiresAfter: 1 WEEK
+        -   name: MAJOR
+            score: 3
+            expiresAfter: 1 MONTH
+        -   name: CRITICAL
+            score: 5
+    # Define thresholds for the warning system. Whenever the player reaches a threshold the actions are triggered
+    thresholds:
+        -   score: 6
+            actions:
+                -   command: "ban %target% &4Warning threshold has been met"
+
+    appeals:
+        enabled: true
+        resolve-reason-enabled: false
+        fixed-reason: false
+        reasons:
+            - ''

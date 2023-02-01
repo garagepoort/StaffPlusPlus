@@ -1,0 +1,25 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                    Staff Chat                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Requires "permissions.staff-chat" permission.
+staff-chat-module:
+    # Whether or not the plugin will use "/sc" features.
+    enabled: true
+    # Whether or not the plugin synchronises staff chat across the bungee network
+    bungee: true
+
+    # The string that can be used at the beginning of a message to make it appear in staff chat.
+    # If you have "@" as your string, typing "@hey guys" would send "hey guys" to staff chat.
+    # Leave blank to disable.
+
+    channels:
+        -   command: sc
+            handle: "@"
+            name: staffchat
+            prefix: '&dStaffChat &8»'
+            message-format: '&b%player% &8» &7%message%'
+            permission: staff.staffchat
+            sound: "NONE"

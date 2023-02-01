@@ -1,0 +1,24 @@
+########################
+# WARNINGS
+# GROUP: staff.warnings
+########################
+
+# Permission to open to my warnings gui
+view-my-warnings: "staff.warnings.view-my-warnings"
+# Permission for using "/warn" and clearing/getting player warnings.
+warn: "staff.warnings.warn"
+# Permission for bypassing warnings.
+warn-bypass: "staff.warnings.warn-bypass"
+warnings:
+    notifications: "staff.warnings.notifications"
+    # All permission for managing warnings
+    manage:
+        view: "staff.warnings.manage.view"
+        delete: "staff.warnings.manage.delete"
+        expire: "staff.warnings.manage.expire"
+    appeals:
+        create: "staff.warnings.appeals.create"
+        create-others: "staff.warnings.appeals.create.others"
+        approve: "staff.warnings.appeals.approve"
+        reject: "staff.warnings.appeals.reject"
+        notifications: "staff.warnings.appeals.notifications"

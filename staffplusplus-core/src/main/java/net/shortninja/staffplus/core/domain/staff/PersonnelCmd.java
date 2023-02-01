@@ -11,7 +11,6 @@ import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
@@ -33,16 +32,19 @@ public class PersonnelCmd extends AbstractCmd {
 
     @ConfigProperty("permissions:member")
     private String permissionMember;
+    @ConfigProperty("vanish-module.show-away")
+    public boolean vanishShowAway;
 
     private final PermissionHandler permissionHandler;
     private final OnlineSessionsManager sessionManager;
-    private final VanishConfiguration vanishConfiguration;
 
-    public PersonnelCmd(PermissionHandler permissionHandler, Messages messages, OnlineSessionsManager sessionManager, CommandService commandService, VanishConfiguration vanishConfiguration) {
+    public PersonnelCmd(PermissionHandler permissionHandler,
+                        Messages messages,
+                        OnlineSessionsManager sessionManager,
+                        CommandService commandService) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.sessionManager = sessionManager;
-        this.vanishConfiguration = vanishConfiguration;
     }
 
     @Override
@@ -96,9 +98,9 @@ public class PersonnelCmd extends AbstractCmd {
             case "online":
                 return vanishType == VanishType.NONE || vanishType == VanishType.PLAYER;
             case "offline":
-                return vanishType == VanishType.TOTAL || (vanishType == VanishType.LIST && !vanishConfiguration.vanishShowAway);
+                return vanishType == VanishType.TOTAL || (vanishType == VanishType.LIST && !vanishShowAway);
             case "away":
-                return vanishType == VanishType.NONE || (vanishType == VanishType.LIST && vanishConfiguration.vanishShowAway);
+                return vanishType == VanishType.NONE || (vanishType == VanishType.LIST && vanishShowAway);
         }
         return true;
     }

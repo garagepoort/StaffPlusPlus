@@ -1,0 +1,96 @@
+package net.shortninja.staffplus.core.warnings;
+
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
+import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.domain.actions.ActionService;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandMapper;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.warnings.threshold.ThresholdService;
+import net.shortninja.staffplus.core.warnings.config.WarningConfiguration;
+import net.shortninja.staffplusplus.session.SppPlayer;
+import net.shortninja.staffplusplus.warnings.IWarning;
+import net.shortninja.staffplusplus.warnings.WarningAppealApprovedEvent;
+import net.shortninja.staffplusplus.warnings.WarningCreatedEvent;
+import net.shortninja.staffplusplus.warnings.WarningRemovedEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
+@IocBukkitListener
+public class WarningListener implements Listener {
+
+    private static final String CREATION_CONTEXT = "creation";
+
+    private final ActionService actionService;
+    private final PlayerManager playerManager;
+    private final ThresholdService thresholdService;
+    private final ConfiguredCommandMapper configuredCommandMapper;
+    private final BukkitUtils bukkitUtils;
+    private final WarningConfiguration warningConfiguration;
+
+    public WarningListener(ActionService actionService,
+                           PlayerManager playerManager,
+                           ThresholdService thresholdService,
+                           ConfiguredCommandMapper configuredCommandMapper,
+                           BukkitUtils bukkitUtils,
+                           WarningConfiguration warningConfiguration) {
+        this.actionService = actionService;
+        this.playerManager = playerManager;
+        this.thresholdService = thresholdService;
+        this.configuredCommandMapper = configuredCommandMapper;
+        this.bukkitUtils = bukkitUtils;
+        this.warningConfiguration = warningConfiguration;
+    }
+
+
+    @EventHandler
+    public void executeCreateActions(WarningCreatedEvent warningCreatedEvent) {
+        IWarning warning = warningCreatedEvent.getWarning();
+        UUID targetUuid = warning.getTargetUuid();
+        Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
+        Optional<SppPlayer> issuer = playerManager.getOnOrOfflinePlayer(warning.getIssuerUuid());
+
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put("%issuer%", warning.getIssuerName());
+        placeholders.put("%target%", warning.getTargetName());
+        placeholders.put("%severity%", warning.getSeverity());
+        placeholders.put("%score%", String.valueOf(warning.getScore()));
+        placeholders.put("%reason%", String.valueOf(warning.getReason()));
+
+        Map<String, OfflinePlayer> targets = new HashMap<>();
+        target.ifPresent(sppPlayer -> targets.put("target", sppPlayer.getOfflinePlayer()));
+        issuer.ifPresent(sppPlayer -> targets.put("issuer", sppPlayer.getOfflinePlayer()));
+
+        bukkitUtils.runTaskAsync(() -> {
+            actionService.createCommands(configuredCommandMapper.toCreateRequests(warning, warningConfiguration.getActions(), placeholders, targets, Collections.singletonList(new WarningActionFilter(warning, CREATION_CONTEXT))));
+            target.ifPresent(sppPlayer -> thresholdService.handleThresholds(warning, sppPlayer));
+        });
+    }
+
+    @EventHandler
+    public void executeRemovalActions(WarningRemovedEvent warningRemovedEvent) {
+        Bukkit.getScheduler().runTaskAsynchronously(TubingBukkitPlugin.getPlugin(), () -> {
+            UUID targetUuid = warningRemovedEvent.getWarning().getTargetUuid();
+            Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
+            if (target.isPresent()) {
+                actionService.rollbackActionable(warningRemovedEvent.getWarning());
+            }
+        });
+    }
+
+    @EventHandler
+    public void executeAppealedActions(WarningAppealApprovedEvent warningAppealApprovedEvent) {
+        Bukkit.getScheduler().runTaskAsynchronously(TubingBukkitPlugin.getPlugin(), () -> {
+            actionService.rollbackActionable(warningAppealApprovedEvent.getWarning());
+        });
+    }
+
+}
