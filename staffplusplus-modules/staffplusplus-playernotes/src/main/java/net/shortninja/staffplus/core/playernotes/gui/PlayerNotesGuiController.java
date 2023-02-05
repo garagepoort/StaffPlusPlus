@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.playernotes.gui;
+package net.shortninja.staffplus.core.playernotes.gui;
 
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
@@ -15,9 +15,9 @@ import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNote;
-import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNoteService;
-import net.shortninja.staffplus.core.domain.staff.playernotes.gui.cmd.PlayerNoteFiltersMapper;
+import net.shortninja.staffplus.core.playernotes.PlayerNote;
+import net.shortninja.staffplus.core.playernotes.PlayerNoteService;
+import net.shortninja.staffplus.core.playernotes.gui.cmd.PlayerNoteFiltersMapper;
 import net.shortninja.staffplusplus.playernotes.PlayerNoteFilters;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;

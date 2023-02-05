@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.playernotes.gui.cmd;
+package net.shortninja.staffplus.core.playernotes.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
@@ -12,7 +12,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNoteService;
+import net.shortninja.staffplus.core.playernotes.PlayerNoteService;
 import net.shortninja.staffplusplus.session.SppInteractor;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;

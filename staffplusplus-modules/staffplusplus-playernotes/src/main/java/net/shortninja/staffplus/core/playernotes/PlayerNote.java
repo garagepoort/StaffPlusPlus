@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.playernotes;
+package net.shortninja.staffplus.core.playernotes;
 
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplusplus.playernotes.IPlayerNote;

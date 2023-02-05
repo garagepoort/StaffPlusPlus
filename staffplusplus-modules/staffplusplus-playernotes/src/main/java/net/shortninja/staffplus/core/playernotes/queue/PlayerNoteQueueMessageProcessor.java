@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.playernotes.queue;
+package net.shortninja.staffplus.core.playernotes.queue;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;

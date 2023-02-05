@@ -1,10 +1,10 @@
-package net.shortninja.staffplus.core.domain.staff.playernotes.queue.listeners;
+package net.shortninja.staffplus.core.playernotes.queue.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.queue.QueueMessageListener;
-import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNoteService;
-import net.shortninja.staffplus.core.domain.staff.playernotes.queue.dto.PlayerNoteCreateQueueMessage;
+import net.shortninja.staffplus.core.playernotes.PlayerNoteService;
+import net.shortninja.staffplus.core.playernotes.queue.dto.PlayerNoteCreateQueueMessage;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 

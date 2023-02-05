@@ -1,9 +1,9 @@
-package net.shortninja.staffplus.core.domain.staff.playernotes.database;
+package net.shortninja.staffplus.core.playernotes.database;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNote;
+import net.shortninja.staffplus.core.playernotes.PlayerNote;
 import net.shortninja.staffplusplus.playernotes.PlayerNoteFilters;
 
 import java.sql.ResultSet;

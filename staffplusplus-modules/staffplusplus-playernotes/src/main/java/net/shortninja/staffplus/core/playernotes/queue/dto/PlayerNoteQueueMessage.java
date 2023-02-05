@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.playernotes.queue.dto;
+package net.shortninja.staffplus.core.playernotes.queue.dto;
 
 import java.util.UUID;
 

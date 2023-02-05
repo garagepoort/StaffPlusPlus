@@ -1,0 +1,5 @@
+# The command for reading notes.
+notes: ["notes"]
+# The command for creating player notes
+note: ["note"]
+private-note: ["pnote"]

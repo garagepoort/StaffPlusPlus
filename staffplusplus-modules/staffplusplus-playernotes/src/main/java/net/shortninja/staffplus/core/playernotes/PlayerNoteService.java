@@ -1,10 +1,10 @@
-package net.shortninja.staffplus.core.domain.staff.playernotes;
+package net.shortninja.staffplus.core.playernotes;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.domain.staff.playernotes.database.PlayerNoteRepository;
+import net.shortninja.staffplus.core.playernotes.database.PlayerNoteRepository;
 import net.shortninja.staffplusplus.playernotes.PlayerNoteCreatedEvent;
 import net.shortninja.staffplusplus.playernotes.PlayerNoteDeletedEvent;
 import net.shortninja.staffplusplus.playernotes.PlayerNoteFilters;

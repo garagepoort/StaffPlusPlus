@@ -18,12 +18,6 @@ staff-hub: ["staffhub"]
 # The command for toggling nightvision.
 nightvision: ["nightvision"]
 
-# The command for reading notes.
-notes: ["notes"]
-# The command for creating player notes
-note: ["note"]
-private-note: ["pnote"]
-
 # The command for running a clicks per second test on a player
 cps: ["cps"]
 

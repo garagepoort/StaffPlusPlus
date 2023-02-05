@@ -31,5 +31,6 @@
         <module>staffplusplus-altaccount-detect</module>
         <module>staffplusplus-vanish</module>
         <module>staffplusplus-infractions</module>
+        <module>staffplusplus-playernotes</module>
     </modules>
 </project>

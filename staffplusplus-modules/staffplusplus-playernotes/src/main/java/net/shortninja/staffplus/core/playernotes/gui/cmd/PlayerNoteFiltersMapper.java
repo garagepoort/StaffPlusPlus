@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.playernotes.gui.cmd;
+package net.shortninja.staffplus.core.playernotes.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
