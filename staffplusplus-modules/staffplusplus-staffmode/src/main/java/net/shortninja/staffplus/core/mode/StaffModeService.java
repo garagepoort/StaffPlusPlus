@@ -66,7 +66,7 @@ public class StaffModeService {
         }
 
         playerSettings.setInStaffMode(true);
-        playerSettings.set(MODE_CONFIG, modeConfiguration);
+        playerSettings.setModeName(modeConfiguration.getName());
         playerSettingsRepository.save(playerSettings);
 
         sendEvent(new SwitchStaffModeEvent(player.getName(),
@@ -88,7 +88,7 @@ public class StaffModeService {
         }
 
         settings.setInStaffMode(true);
-        settings.set(MODE_CONFIG,modeConfiguration);
+        settings.setModeName(modeConfiguration.getName());
         playerSettingsRepository.save(settings);
 
         sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName, modeConfiguration.getName()));

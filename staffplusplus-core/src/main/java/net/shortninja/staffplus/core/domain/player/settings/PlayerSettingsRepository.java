@@ -25,6 +25,7 @@ public class PlayerSettingsRepository {
     private final PlayerSettingsSqlRepository playerSettingsSqlRepository;
     private final PlayerSettingsDataFile playerSettingsDataFile;
     private final FileConfiguration dataFileConfiguration;
+    private static final String MODE_CONFIG = "modeConfig";
 
     private final Map<UUID, PlayerSettings> settingsMap = new ConcurrentHashMap<>();
 

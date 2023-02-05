@@ -1,0 +1,2 @@
+# The command to broadcast a message over all servers
+broadcast: ["broadcast"]

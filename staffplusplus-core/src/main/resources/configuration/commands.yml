@@ -51,9 +51,6 @@ register: ["register"]
 # The command for stripping a player's armor.
 strip: ["strip"]
 
-# The command to broadcast a message over all servers
-broadcast: ["broadcast"]
-
 webui:
     register: ["register"]
 

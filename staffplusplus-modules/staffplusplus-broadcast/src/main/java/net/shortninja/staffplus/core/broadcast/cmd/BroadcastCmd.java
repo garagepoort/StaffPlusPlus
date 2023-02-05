@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.broadcast.cmd;
+package net.shortninja.staffplus.core.broadcast.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
@@ -9,9 +9,9 @@ import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.domain.staff.broadcast.BroadcastService;
-import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
-import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastSelector;
+import net.shortninja.staffplus.core.broadcast.BroadcastService;
+import net.shortninja.staffplus.core.broadcast.config.BroadcastConfiguration;
+import net.shortninja.staffplus.core.broadcast.config.BroadcastSelector;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 

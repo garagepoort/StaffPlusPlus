@@ -21,8 +21,6 @@ revive: "staff.revive"
 member: "staff.member"
 # Permission for using "/strip".
 strip: "staff.strip"
-# Permission for managing the alerts you will get
-broadcast: "staff.broadcast"
 # Permission for initializing clicks per second tests
 cps: "staff.cps"
 

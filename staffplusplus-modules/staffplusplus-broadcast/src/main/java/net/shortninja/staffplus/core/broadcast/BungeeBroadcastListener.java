@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.broadcast;
+package net.shortninja.staffplus.core.broadcast;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitMessageListener;
 import com.google.common.io.ByteArrayDataInput;

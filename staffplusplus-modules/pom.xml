@@ -14,6 +14,7 @@
     <modules>
         <module>staffplusplus-appeals</module>
         <module>staffplusplus-warnings</module>
+        <module>staffplusplus-broadcast</module>
         <module>staffplusplus-investigation</module>
         <module>staffplusplus-blacklist</module>
         <module>staffplusplus-reporting</module>

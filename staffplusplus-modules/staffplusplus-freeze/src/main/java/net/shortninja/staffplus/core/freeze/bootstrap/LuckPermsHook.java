@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.freeze.bootstrap;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.load.InjectTubingPlugin;
 import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
 import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
 import net.luckperms.api.LuckPerms;
@@ -27,7 +28,7 @@ public class LuckPermsHook implements PluginDisable, BeforeTubingReload {
     private final List<ContextCalculator<Player>> registeredCalculators = new ArrayList<>();
     private final boolean luckPermsEnabled;
 
-    public LuckPermsHook(OnlineSessionsManager sessionManager, TubingBukkitPlugin tubingPlugin) {
+    public LuckPermsHook(OnlineSessionsManager sessionManager, @InjectTubingPlugin TubingBukkitPlugin tubingPlugin) {
         this.sessionManager = sessionManager;
         this.tubingPlugin = tubingPlugin;
         luckPermsEnabled = Bukkit.getPluginManager().getPlugin("LuckPerms") != null;

@@ -85,6 +85,10 @@
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>staffplusplus-infractions</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-broadcast</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

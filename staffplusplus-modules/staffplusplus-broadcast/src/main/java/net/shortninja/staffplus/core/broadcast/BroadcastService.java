@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.broadcast;
+package net.shortninja.staffplus.core.broadcast;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.common.bungee.BungeeAction;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.common.bungee.BungeeContext;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
+import net.shortninja.staffplus.core.broadcast.config.BroadcastConfiguration;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;

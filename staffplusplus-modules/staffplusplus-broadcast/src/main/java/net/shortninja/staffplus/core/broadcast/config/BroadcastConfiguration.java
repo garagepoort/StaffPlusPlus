@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.broadcast.config;
+package net.shortninja.staffplus.core.broadcast.config;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
@@ -7,8 +7,8 @@ import net.shortninja.staffplus.core.application.config.SplitBySemicolon;
 
 import java.util.List;
 
-import static net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastSelector.ALL;
-import static net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastSelector.CURRENT;
+import static net.shortninja.staffplus.core.broadcast.config.BroadcastSelector.ALL;
+import static net.shortninja.staffplus.core.broadcast.config.BroadcastSelector.CURRENT;
 
 @IocBean
 public class BroadcastConfiguration {
