@@ -18,6 +18,14 @@ reduceban: ["ban-reduce"]
 # The command to unban a player
 unban: ["unban"]
 
+ipban:
+    ban: ["ipban"]
+    tempban: ["iptempban"]
+    unban: ["ipunban"]
+    bancheck: ["ipban-check"]
+    ipbans: ["ipbans"]
+    migrate: ["ipbans-migrate"]
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      KICKING                         | #

@@ -30,7 +30,7 @@ staff-list.view: "staff.personnel.view"
 staff-hub.view: "staff.hub.view"
 
 ########################
-# REPORTS
+# CHAT CHANNELS
 # GROUP: staff.chatchannels
 # permissions should be suffixed with the chatchannel type
 # Example: staff.chatchannels.leave.report
@@ -41,29 +41,6 @@ chatchannels:
     leave: "staff.chatchannels.leave"
     open: "staff.chatchannels.open"
     close: "staff.chatchannels.close"
-########################
-# REPORTS
-# GROUP: staff.reports
-########################
-# Permission for reporting players.
-report: "staff.reports.report"
-reports:
-    chat: "staff.reports.chat"
-    # All permission for managing reports
-    manage:
-        view: "staff.reports.manage.view"
-        delete: "staff.reports.manage.delete"
-        accept: "staff.reports.manage.accept"
-        resolve: "staff.reports.manage.resolve"
-        reject: "staff.reports.manage.reject"
-        teleport: "staff.reports.manage.teleport"
-        reopen-other: "staff.reports.manage.reopen-other"
-# Permission for bypassing reports.
-report-bypass: "staff.reports.report-bypass"
-# Permission for receiving notifications when a report is accepted/deleted/closed
-report-update-notifications: "staff.reports.update.notifications"
-# Permission to open to my reports gui
-view-my-reports: "staff.reports.view-my-reports"
 
 ########################
 # CHAT

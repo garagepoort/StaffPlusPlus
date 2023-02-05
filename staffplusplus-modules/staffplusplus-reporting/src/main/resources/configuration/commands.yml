@@ -1,0 +1,18 @@
+# The command for opening the my reports gui
+my-reports: ["my-reports"]
+
+# The command for reporting and managing reports.
+report: ["report"]
+
+# The command for reporting and managing reports specifically targeting a player.
+reportPlayer: ["reportPlayer"]
+
+reports:
+    chat: ["rc"]
+    manage:
+        #Command to open the manage reports gui
+        gui: ["manage-reports"]
+        gui-find-reports: ["find-reports"]
+        # The command for managing reports specifically targeting a player.
+        cli: ["reports"]
+        teleport-to-report: ["teleport-to-report"]
