@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.location;
+package net.shortninja.staffplus.core.stafflocations;
 
 import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplusplus.stafflocations.IStaffLocation;

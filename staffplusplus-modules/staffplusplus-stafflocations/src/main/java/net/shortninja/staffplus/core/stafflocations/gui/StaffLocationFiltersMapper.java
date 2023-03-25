@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.location.gui;
+package net.shortninja.staffplus.core.stafflocations.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationFilters.StaffLocationFiltersBuilder;

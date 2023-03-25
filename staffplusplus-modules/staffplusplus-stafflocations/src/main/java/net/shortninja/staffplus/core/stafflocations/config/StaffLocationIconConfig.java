@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.location.config;
+package net.shortninja.staffplus.core.stafflocations.config;
 
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 

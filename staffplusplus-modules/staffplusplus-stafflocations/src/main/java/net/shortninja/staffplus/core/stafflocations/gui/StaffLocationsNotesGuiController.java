@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.location.gui;
+package net.shortninja.staffplus.core.stafflocations.gui;
 
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
@@ -14,9 +14,9 @@ import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
-import net.shortninja.staffplus.core.domain.staff.location.StaffLocation;
-import net.shortninja.staffplus.core.domain.staff.location.StaffLocationNote;
-import net.shortninja.staffplus.core.domain.staff.location.StaffLocationService;
+import net.shortninja.staffplus.core.stafflocations.StaffLocation;
+import net.shortninja.staffplus.core.stafflocations.StaffLocationNote;
+import net.shortninja.staffplus.core.stafflocations.StaffLocationService;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.location.gui;
+package net.shortninja.staffplus.core.stafflocations.gui;
 
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;

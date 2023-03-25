@@ -93,6 +93,10 @@
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>staffplusplus-playernotes</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>staffplusplus-stafflocations</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

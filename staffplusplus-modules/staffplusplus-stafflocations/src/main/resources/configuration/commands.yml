@@ -1,0 +1,4 @@
+staff-locations:
+    create: ["create-stafflocation"]
+    view: ["stafflocations"]
+    teleport-to-stafflocation: [ "teleport-to-stafflocation" ]

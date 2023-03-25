@@ -1,16 +1,15 @@
-package net.shortninja.staffplus.core.domain.staff.location.gui;
+package net.shortninja.staffplus.core.stafflocations.gui;
 
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
-import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.location.StaffLocation;
-import net.shortninja.staffplus.core.domain.staff.location.StaffLocationNote;
-import net.shortninja.staffplus.core.domain.staff.location.StaffLocationRepository;
-import net.shortninja.staffplus.core.domain.staff.location.StaffLocationService;
+import net.shortninja.staffplus.core.stafflocations.StaffLocation;
+import net.shortninja.staffplus.core.stafflocations.StaffLocationNote;
+import net.shortninja.staffplus.core.stafflocations.StaffLocationRepository;
+import net.shortninja.staffplus.core.stafflocations.StaffLocationService;
 import org.bukkit.Material;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

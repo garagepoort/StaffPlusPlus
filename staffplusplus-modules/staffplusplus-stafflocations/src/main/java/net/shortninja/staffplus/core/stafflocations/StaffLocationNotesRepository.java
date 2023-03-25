@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.location;
+package net.shortninja.staffplus.core.stafflocations;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;

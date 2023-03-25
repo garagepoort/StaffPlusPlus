@@ -131,6 +131,11 @@
             </dependency>
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
+                <artifactId>staffplusplus-stafflocations</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-investigation</artifactId>
                 <version>${project.version}</version>
             </dependency>
