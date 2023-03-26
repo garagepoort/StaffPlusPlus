@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.19
 
+# V1.19.21
+
+### Features
+- 1.19.4 support
+
 # V1.19.14
 
 ### Bug fixes
