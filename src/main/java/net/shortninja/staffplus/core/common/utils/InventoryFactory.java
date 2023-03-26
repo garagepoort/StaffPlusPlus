@@ -1,11 +1,12 @@
 package net.shortninja.staffplus.core.common.utils;
 
 import be.garagepoort.mcioc.IocBean;
+import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTCompoundList;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTFile;
 import de.tr7zw.nbtapi.NBTItem;
-import de.tr7zw.nbtapi.NBTListCompound;
+import de.tr7zw.nbtapi.iface.ReadWriteNBT;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
@@ -32,8 +33,8 @@ public final class InventoryFactory {
             Inventory inventory = Bukkit.createInventory(player, InventoryType.ENDER_CHEST);
             NBTFile file = new NBTFile(new File(filename));
             NBTCompoundList enderItems = file.getCompoundList("EnderItems");
-            for (NBTListCompound enderItem : enderItems) {
-                ItemStack itemStack = NBTItem.convertNBTtoItem(enderItem);
+            for (ReadWriteNBT enderItem : enderItems) {
+                ItemStack itemStack = NBTItem.convertNBTtoItem((NBTCompound) enderItem);
                 inventory.setItem(Byte.toUnsignedInt(enderItem.getByte("Slot")), itemStack);
             }
             return inventory;
@@ -70,8 +71,8 @@ public final class InventoryFactory {
             Inventory inventory = Bukkit.createInventory(player, InventoryType.PLAYER);
             NBTFile file = new NBTFile(new File(filename));
             NBTCompoundList inventoryItems = file.getCompoundList("Inventory");
-            for (NBTListCompound item : inventoryItems) {
-                ItemStack itemStack = NBTItem.convertNBTtoItem(item);
+            for (ReadWriteNBT item : inventoryItems) {
+                ItemStack itemStack = NBTItem.convertNBTtoItem((NBTCompound) item);
                 int slot = Byte.toUnsignedInt(item.getByte("Slot"));
                 if (slot <= 35 && slot >= 0) {
                     inventory.setItem(slot, itemStack);
