@@ -24,7 +24,12 @@ public class StaffCustomModulesRemoveKeyMigrator implements StaffPlusPlusConfigM
                     map.put("name", k);
                     newModules.add(map);
                 });
-                customModulesConfig.set("custom-modules", newModules);
+            }
+            customModulesConfig.set("custom-modules", newModules);
+        } else {
+            Object o = customModulesConfig.get("custom-modules");
+            if(o == null || o instanceof String) {
+                customModulesConfig.set("custom-modules", new ArrayList<>());
             }
         }
     }
