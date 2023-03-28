@@ -60,8 +60,8 @@ public class StaffPlusPlusConfigurationProvider implements TubingConfigurationPr
             new SoundOrbPickupMigrator(),
             new BlacklistModuleMigrator(),
             new FlatFileStorageTypeMigrator(),
-            new StaffCustomModulesRemoveKeyMigrator(),
             new StaffCustomModulesItemMigrator(),
+            new StaffCustomModulesRemoveKeyMigrator(),
             new StaffModulesItemMigrator());
     }
 
