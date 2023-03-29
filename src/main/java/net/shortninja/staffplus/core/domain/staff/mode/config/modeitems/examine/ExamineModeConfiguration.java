@@ -13,35 +13,35 @@ public class ExamineModeConfiguration extends ModeItemConfiguration {
     @ConfigProperty("item.name")
     private String modeExamineTitle;
 
-    @ConfigProperty("item.info-line.food")
+    @ConfigProperty("info-line.food")
     @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
-
     private int modeExamineFood;
-    @ConfigProperty("item.info-line.food")
-    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
 
+    @ConfigProperty("info-line.food")
+    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
     private int modeExamineIp;
-    @ConfigProperty("item.info-line.gamemode")
-    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
 
+    @ConfigProperty("info-line.gamemode")
+    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
     private int modeExamineGamemode;
-    @ConfigProperty("item.info-line.infractions")
-    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
 
+    @ConfigProperty("info-line.infractions")
+    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
     private int modeExamineInfractions;
-    @ConfigProperty("item.info-line.location")
-    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
 
+    @ConfigProperty("info-line.location")
+    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
     private int modeExamineLocation;
-    @ConfigProperty("item.info-line.notes")
-    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
 
+    @ConfigProperty("info-line.notes")
+    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
     private int modeExamineNotes;
-    @ConfigProperty("item.info-line.freeze")
-    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
 
+    @ConfigProperty("info-line.freeze")
+    @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
     private int modeExamineFreeze;
-    @ConfigProperty("item.info-line.warn")
+
+    @ConfigProperty("info-line.warn")
     @ConfigTransformer(ExamineModeItemLocationConfigTransformer.class)
     private int modeExamineWarn;
 
