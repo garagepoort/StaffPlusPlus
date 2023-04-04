@@ -1,0 +1,387 @@
+---
+general-prefix: "&4Staff++ &8»"
+warnings-prefix: "&dĮspėjimai &8»"
+tickets-prefix: "&dBiletėliai &8»"
+trace-prefix: "&dTrace &8»"
+protect-prefix: "&dApsaugota &8»"
+investigations-prefix: "&dTyrimai &8»"
+separator-color: "&b"
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+staff-list-end: "&7%longline%"
+revived-staff: "&bJūs atstatėte &7%target%'o &binventorių į pradinę stadija!"
+revived-user: "&bJūsu inventorius buvo atstatytas į pradinę stadija!"
+command-blocked: "&bŠi komanda yra užblokuota administracijai."
+mode-command-blocked: "&bŠi komanda neveikia, staff režime."
+on-cooldown: "&bJūs negalite naudoti tai dar: &7%seconds% &bsekundžių."
+note-added: "&bUžrašas pridėtas ant &7%target%&b."
+note-cleared: "&bUžrašai buvo pašalinti žaidėjui: &7%target%&b."
+note-deleted: "&bJūs ištrynėte užraša žmogui: &7%target%&b kurio buvo id: &6%noteId%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+note-list-entry-private: "&b%count% &1[&CP&1] &7%note%"
+note-list-end: "&7%longline%"
+notes:
+    staff-notification-created: "&4%notedBy% &6sukurė užrašą žaidėjui &4%target%&6: [&7%note%&6]"
+    prefix: "&dUžrašai &8»"
+player-not-registered: Šis žaidėjas neegzsituoja.
+login-register: "&bKadangi esate administracijos narys, turite prisiregistuoti,
+  kad kažkas nepavogtų jūsų paskyros. Naudokite &7/register &bkad
+  prisiregistruotumete."
+login-registered: "&bSlaptažodis priimtas, kiekviena kartą prisijungęs turėsite
+  prisijungti su šiuo slaptažodžiu."
+login-waiting: "&bJūs buvote užšaldytas, prisijunkite su savo administracijos
+  slaptažodžių, kad toliau galėtumete žaisti."
+login-accepted: "&bPrisijungėte"
+passwords-dont-match: "&bJūsų slaptažodžiai nesutampa."
+no-permission: "&cJūs neturite leidimo naudoti tai."
+bypassed: "&cŽaidėjas apėjo šią komandą "
+player-offline: "&cŽaidėjas yra atsijunges."
+unknown-command: "&cNežinoma komanda."
+invalid-arguments: "&cNetinkami argumentai! (%usage%)"
+only-players: "&bTik žaidėjams leidžiama vykdyti šią komandą!"
+no-found: "&bNERASTA!"
+type-input: "&bĮveskite savo įvestį pokalbyje!"
+input-accepted: "&bĮvestis priimta ir pateikta."
+enabled: Įjungta
+disabled: Išjungta
+chatchannels:
+    joined: "&C%player% &6Prisijungė į kanalą"
+    closed: "&6Šis kanalas buvo uždarytas"
+    left: "&C%player% &6Išėjo iš kanalo"
+reports:
+    prefix: "&dPranešimai &8»"
+    chatchannel:
+        prefix: "&4&L[&C&LReport %channelId%&4&L]"
+        chatline: "&7%sender% &7> &f%message%"
+        openingmessage: |
+            &6Jūs dabar susirašinėjate su administracijos nariu.
+            &6Parašykite "/rc %channelId% <message>" kad siusti žinutes šitame kanale.
+    reporter:
+        report-created: "&bPranešta apie &7%culprit% &bdėl &7%reason%&b."
+        report-player-created: "&bPranešetė apie &7%culprit% &bdėl &7%reason%&b."
+        report-rejected: "&7Jūsų pranešimas buvo atmestas &6%staff%&7."
+        report-resolved: "&7Jūsų pranešimas buvo išsperstas ir uždarytas &6%staff%&7."
+        report-accepted: "&7Jūsų pranešimas buvo priimtas &6%staff%&7."
+        view-reports-button: "&9Peržiūrėti jūsų pranešimus!"
+        view-reports-button-tooltip: Paspauskite, kad peržiurėti jūsų pranešimus
+    report-created-notification: "&7%reporter% &bsukūrė pranešima dėl &7%reason%&b."
+    report-player-created-notification: "&7%reporter% &bpranešė apie %culprit% dėl &7%reason%&b."
+    report-reopened-notification: "&b%staff% &7pernaujo atidarė pranešima iš &6%reporter%"
+    report-deleted-notification: "&b%staff% &7ištrynė pranėšima iš &6%reporter%"
+    report-accepted-notification: "&b%staff% &7priemė pranešima iš &6%reporter%"
+    report-closed-notification: "&6%staff% &fpakeitė pranešimo statusa &6%status% &fReporter: &6%reporter%"
+    reports-cleared: "&7%culprit%&b'o &bpranešimai ištrinti!"
+    reports-list-start: "&7%longline%, &7%target% &bhas &7%reports% &breports."
+    reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+    reports-list-end: "&7%longline%"
+    resolve-confirmation-question: |
+        &1===================================================
+        &6       Jūs pasirinkote išspresti šį pranešimą
+        &6   įrašykite priežasti norėdami uždaryti pranešimą
+        &6     įrašykite "cancel" kad atšauktumėte uždarymą
+        &1===================================================
+    resolve-cancelled: "&CJūs atšaukėte išsprendimą šiam pranešimui"
+    reject-confirmation-question: |
+        &1==================================================
+        &6        Jūs pasirinkotė atšaukti šį pranėšimą
+        &6   įrašykite priežasti norėdami atšaukti pranešimą
+        &6        įrašykite "cancel" kad atšauktumėte uždarymą
+        &1==================================================
+    reject-cancelled: "&CJūs atšaukėte atmetima šio pranešimo"
+    status:
+        RESOLVED: IŠSPRESTAS
+        REJECTED: ATMESTAS
+        OPEN: ATIDARYTAS
+        IN_PROGRESS: VYKSTANTIS
+warned: "&bĮspėtas &7%target% &bdėl &7%reason%&b."
+warn: "&bJūs buvote įspėtas dėl &7%reason%&b."
+warnings-cleared: "&bIįpėjimai išvalyti &7%target%&b'ui!"
+warnings-list-start: "&7%longline%, &7%target% &bturi &7%warnings% &bwarnings."
+warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
+warnings-list-end: "&7%longline%"
+warnings-notify: Jūs turite %warningsCount% naujų įspėjimų!
+warned-announcement: "&7%issuer% &bišrašė įspėjimą &7%target% &bdėl &7%reason%&b."
+infraction-item: "&bĮspėjimai: &7%warnings%, &bPranešimai: &7%reports%,
+  &bPranešimo priežastis: &7%reason%"
+staff-chat-status: "&bAdministracijos susirašinėjimai &7%status%&b."
+staff-chat-muted: "&bAdministracijos susirašinėjimai buvo &7užtildyti&b."
+staff-chat-unmuted: "&bAdministracijos susirašinėjimai buvo &7atstatyti&b."
+staff-chat-sound-enabled: "&bAdministracijos susirašinėjimu pranešimu garsas &7ijungtas&b."
+staff-chat-sound-disabled: "&bAdministracijos susirašinėjimu pranešimu garsas &7išjungtas&b."
+chat-clear-line: ""
+chat-cleared: "&bSusirašinėjimo kanalas buvo išvalydas administracijos nario: &7%player%&b."
+chat-toggled: "&bSusirašinėjimo kanalas buvo &7%status% &badministracijos nario:
+  &7%player%&b."
+chat-prevented: "&bJūs negalite rašyti į susirašinėjimo kanalą dabar."
+chat-slowed: "&bSusirašinėjimo kanalas buvo sulėtintas iki &7%seconds% sekundžių
+  &badministracijos nario &7%player%&b."
+chatting-fast: "&bJūs rašote per nelyg greitai!"
+blacklist-hover: "&bŠi žinute buvo užcenzuruota dėl: &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+total-vanish: "&bJūsų totalus pradingimas buvo: &7%status%&b!"
+list-vanish: "&bJūsų sąrašo pradingimas buvo: &7%status%&b!"
+player-vanish: "&bJūsų žaidėjo pradingimas buvo: &7%status%&b!"
+vanish-enabled: "&2Pradingimas aktyvuotas."
+vanish-chat-prevented: "&bJūs negalite dabar rašyti"
+vanish-join-message: "&e%player% Prisijungė prie serverio"
+vanish-leave-message: "&e%player% Atsijungė nuo serverio"
+ticket-submitted: "&bJūsų bilietėlis buvo pristatytas &7(#%ticket%)"
+ticket-opened: "&bBilietėlis &7#%ticket% &bbuvo pažymėtas atidarytu."
+ticket-removed: "&bBilietėlis &7#%ticket% &bbuvo uždarytas priežastimi: (%reason%)"
+ticket-response-staff: "&b#%ticket% - Administracijos Komandos narys: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - Žaidėjas: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&bBilietėlis neegzistuoja arba jį kažkas uždarė"
+ticket-list-start: "&7%longline%, &7%tickets% &batidaryti bilietėliai"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+ticket-list-end: "&7%longline%"
+alert-changed: "&7%alerttype% &bAlert &7%status%&b."
+alerts-name: "&7%old% &bpasikeitė slapyvardi į: &7%new%&b!"
+alerts-chat-phrase-detected: "&7%target% &bparašė į susirašinėjimu kanalą frazę
+  kuri turėjo žodžius: (&7%detectedPhrases%&b)"
+alerts-command-detected: "&7%target% &bMėgino panaudoti komanda:(&7%command%&b)"
+alerts-mention: "&7%target% &bPaminėjo jus susirašinėjimų kanale}"
+alerts-xray: >-
+    &b%target% &7has mined &b%count% %itemtype%&7! With:
+    [tooltip|&b%tool-type%|&b%tool-type%
+    
+    &7%tool-enchantments%]
+alerts-blacklist: "&c[SWEAR | %blacklist-type%] &7[%server%] &6%player%&7: %uncensored-message%"
+mode-status: "&bAdministracijos rėžimas yra: &7%status%&b."
+mode-original-location: "&bJūs buvote atiteleportuotas į savo pradinę vietą."
+mode-random-teleport: "&bJūs nusiteleportavote į belekokią vietą"
+mode-not-enough-players: "&bNėra pakankamai žmonių, kad galėtume nusiteleportuoti į belekokią vietą"
+mode-fly-enabled: "&3Skraidymas dabar yra: &6Įjungtas"
+mode-fly-disabled: "&3Skraidymas dabar yra: &Išjungtas"
+gui-reports: "&bPranešimai"
+gui-mine: "&bKasėjai"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+freeze: "&4&lJūs buvote užšaldytas administracijos, prašome neatsijungti,
+  &4&lLaukite administracijos."
+unfrozen: "&bJūs buvote atšaldytas."
+staff-froze: "&bUžšaldėte &7%target%&b."
+staff-unfroze: "&bJūs atšaldėte &7%target%&b."
+freeze-logout: "&7%player% &batsijungė užšaldytas"
+freeze-title: "&6Jūs buvote užšaldytas"
+freeze-subtitle: Neatsijunkite
+freeze-chat-prevented: "&bJūs dabar negalite nieko rašyti."
+freeze-chatchannel:
+    prefix: "&4&L[&b&LUžšaldytu susirašinėjimas&4&L]"
+    chatline: "&7%sender% &7> &f%message%"
+    openingmessage: |
+        &6Jus dabar kalbates su administracijos nariu
+        &6Rašykite "/fc <message>", kad išsiūstumete žinute.
+cps-start: "&bPaleidote CPS matuokli ant žmogaus &7%target% &blaikotarpiui:
+  &7%seconds% &bseconds..."
+cps-finish-normal: "&7%player% &bsuspaudinėjo &7%cps% &bCPS. &7(Nėra pavojinga)"
+cps-finish-max: "&7%player% &bsuspaudinėjo &7%cps% &bCPS. &7(Galbūt naudoja Autoclicker)"
+examine-food: "&bGyvybės: &7%health%, &bHunger: &7%hunger%"
+examine-ip: "&bIP adresas: &7%ipaddress%"
+examine-gamemode: "&bGamemode: &7%gamemode%"
+examine-location: "&bLocation: &7%location%"
+examine-warn: "&bĮspėti žaidėja"
+examine-freeze: "&bUžšaldyti žaidėja"
+examine-notes: "&bŽaidėjo Užrašai:"
+examine-notes-note: "&b%player%: &7%note%"
+follow: "&bJus dabar: &7%status% %target%&b."
+strip: "&7%player%'s šarvai buvo nuimti."
+ban-permabanned: "&6%target% buvo visam laikui užbanintas Administracijos nario: %issuer%"
+ban-tempbanned: "&6%target% buvo užblokuotas žaisti serveryje administracijos
+  nario %issuer% Laikas: %duration%"
+ban-unbanned: "&6%target% buvo atblokuotas administracijos nario: %issuer%"
+ban-extended: "&7Jūs pratesėt &6%target%&7's baną laikui: %extensionDuration%"
+ban-reduced: "&7Jūs sumažinot &6%target%&7's baną laikui: %reductionDuration%"
+ban-tempbanned-kick: "[Užblokuotas] Jūs buvote laikinai užblokuotas
+  administracijos nario. Banas baigsis: %duration%"
+ban-permabanned-kick: "[Užblokuotas] Jūs buvote užblokuotas visam laikui iš serverio."
+ban-appeal-open-notify: Yra neišsprestų %appealsCount% apskundimų užblokavimui!
+ipbans:
+    prefix: "&dIP Banai &8»"
+    permabanned: "&6%issuer% užblokavo  %ip% iš šito serverio visam laikui."
+    tempbanned: "&6%issuer% užblokavo %ip% iš sito serverio laikui: %duration%"
+    unbanned: "&6%issuer% atblokavo ip adresą %ip% serveryje."
+    tempbanned-kick: "[Užblokuotas] Jūsų ip-addresas buvo laikinai užblokuotas iš serverio"
+    permabanned-kick: "[Užblokuotas] Jūsų ip-adresas buvo užblokuotas visam šitame serveryje"
+kick-notifyplayers: "&6%target% Buvo išmestas iš serverio, administracijos nario: %issuer%"
+kick-kickmessage: "&6Jūs buvote išmestas iš serverio administracijos nario:
+  %issuer%. Priežastis: %reason%"
+mute-expired: "&6Jūsų užtildymas baigėsi. Galite vėl rašyti."
+mute-permamuted: "&6%target% buvo užtildytas administracijos nario: %issuer%"
+mute-unmuted: "&6%target% buvo atitildytas administracijos nario: %issuer%"
+mute-tempmuted: "&6%target% Buvo užtildytas administracijos nario: %issuer% laikui: %duration%"
+mute-muted: "&6Jūs dabar esate užtildytas. Jūs dabar negalite rašyti."
+mute-extended: "&7Jūs pratesėte &6%target%&7's užtildymą laiku: %extensionDuration%"
+mute-reduced: "&7Jūs numažinote &6%target%&7's užtildymą laiku: %reductionDuration%"
+mute-appeal-open-notify: Yra %appealsCount% neišspręstų nutildymų, dėl kurių pateiktos apeliacija!
+mute-notify: Jūs dabar esate užtildytas!
+appeal-created: "&6Apeliacija pateikta."
+appeal-approved: "&6Jūsų apeliacija buvo &2patvirtinta&6."
+appeal-rejected: "&6Jūsų apeliacija buvo &4atmesta&6."
+appeal-approve: "&6Apeliacija patvirtinta"
+appeal-reject: "&6Apeliacija atmesta"
+appeal-open-notify: Yra %appealsCount% neišspręstų įspėjimų, dėl kurių pateikta apeliacija!
+investigated:
+    investigation-started: "&6Šiuo metu jūsų veikla yra tiriama"
+    investigation-paused: "&6Tyrimas buvo sustabdytas"
+    investigation-concluded: "&6Jūsų veikla buvo ištirta"
+    under-investigation-title: "&CJūsų veikla yra tiriama."
+    under-investigation-join: "&6Jūsų veikla šio metu vis dar yra tiriama."
+investigation:
+    staff-notification-started: "&4%investigator% &6Pradėjo tyrimą &4%investigated%"
+    staff-notification-concluded: "&4%investigator% &6Primėmė tyrimo nuosprendį ant: &4%investigated%"
+    staff-notification-paused: "&4%investigator% &6Sustabdė tyrimą &4%investigated%"
+    staff-notification-evidence-linked: "&4%investigator% &6Pridėjo įrodymus
+    %evidenceType% (ID=%evidenceId%) to investigation (ID=%investigationId%)"
+    staff-notification-evidence-unlinked: "&4%investigator% &6Nepridėjo įrodymų
+    %evidenceType% (ID=%evidenceId%) iš tyrimo (ID=%investigationId%)"
+    staff-notification-note-added: "&4%investigator% &6pridėjo užrašą tyrime (ID=%investigationId%)"
+    staff-notification-note-deleted: "&4%investigator% &6pašalino užraša iš tyrimo (ID=%investigationId%)"
+ips:
+    prefix: "&dIP Adresai &8»"
+    issuer:
+        history-cleared: "&7Ip įstorija buvo išvalyda žaidėjo: &6%player%"
+    staff-notifications:
+        history-cleared: "&4%issuer% &7Išvalė visas bausmės susijusias su šio &6%player% ip"
+staff-locations:
+    prefix: "&dVietovės &8»"
+    created: "&2Administracijos Vietovė buvo sukurta"
+    updated: "&2Administracijos Vietovė atsinaujino"
+    deleted: "&CAdministracijos Vietovė buvo ištrinta"
+    teleported: "&2Jūs buvote nuteleportuotas į vietovė: &6%name%"
+    add-chat-info: |
+        &1==================================
+        &6Parašykite vietovės pavadinimą
+        &6Parašykite "cancel", kad atšauktumete
+        &1==================================
+    note-created: "&2Užrašas buvo sukurtas"
+    note-deleted: "&CUžrašas buvo ištrintas"
+    add-note-chat-info: |
+        &1==================================
+        &6Parašykite užraša į susirašinėjimų kanalą
+        &6Parašykite "cancel", kad atšaukti
+        &1==================================
+gui_stafflocations_delete-confirmation-title: Ištrinti Administracijos Vietovė?
+gui_stafflocations_delete-confirmation-message: "&7Ar jūs esate tikras, kad
+  norite ištrinti šia visą vietovę, su užrašais?: &6%name%"
+gui:
+    id: Id
+    status: Status
+    server: Serveris
+    type: Tipas
+    reason: Priežastis
+    close-reason: Priežastis uždarymo
+    timestamp: Laiko pasižymėjimas
+    unknown: Nežinoma
+    location: Vietovė
+    back: Atgal
+    previous-page: Praitas puslapis
+    next-page: Sekantis puslapis
+    confirmation:
+        confirm: Patvirtinti
+        cancel: Atšaukti
+    bans:
+        appeal-detail:
+            approve:
+                title: Patvirtinti Prašyma
+                lore: Spauskite, kad patvirtumete prašymą
+            reject:
+                title: Atmesti Prašyma
+                lore: Spauskite, kad atmestumete prašyma
+    mutes:
+        appeal-detail:
+            approve:
+                title: Patvirtinti Prašyma
+                lore: Spauskite, kad patvirtumete prašymą
+            reject:
+                title: Atmesti Prašyma
+                lore: Spauskite, kad atmestumete prašyma
+    warnings:
+        appeal-detail:
+            approve:
+                title: Patvirtinti Prašyma
+                lore: Spauskite, kad patvirtumete prašymą
+            reject:
+                title: Atmesti Prašyma
+                lore: Spauskite, kad atmestumete prašyma
+    reports:
+        report: Pranešimas
+        assignee: Perėmėjas
+        culprit: Kaltininkas
+        reporter: Pranešėjas
+        manage-reports:
+            title: Valdykite Pranešimus
+            show-unresolved:
+                title: Atidarykite Pranešimus
+                lore: Parodyti visus neišsprestum pranešimus
+            assigned-to-me:
+                title: Pranešimai priskirti man
+                lore: Parodyti visus pranešimus priskirtus man
+            in-progress:
+                title: Pranešimai kurie vyksta
+                lore: Parodyti visus pranešimus
+            closed:
+                title: Uždaryti pranešimai
+                lore: Parodyti visus uždarytus pranešimus
+        assigned-reports:
+            title: Pranešimai kurie jau vyksta
+        my-assigned-reports:
+            title: Pranešimai priskirti tau
+            left-click-to-detail: "&7Left click,kad &6peržiurėtum detalės"
+            right-click-to-resolve: "&7Right click,kad &2išsprestum"
+            left-shift-click-to-reject: "&7Left shift click, kad &Catmestumete"
+        my-reports:
+            title: Mano pranešimai
+        open-reports:
+            title: Atidaryti pranešimus
+            left-click-to-accept: "&7Left click, kad &6sutiktumete"
+            right-click-to-resolve: "&7Right click, kad &2išsprestumete"
+            left-shift-click-to-reject: "&7Left shift click, kad &Catmestumete"
+        closed-reports:
+            title: Uždaryti pranešimai
+        find-reports:
+            title: Surasti pranešimus
+        detail:
+            title: "Pranešimas nuo: "
+            resolve:
+                title: Išspresti pranešima
+                lore: Spauskite, kad išprestumete pranešima
+            unassign:
+                title: Kad išeitumete iš pranešimo
+                lore: Spauskite, kad išeitumete iš pranešimo
+            reject:
+                title: Atmesti Pranešimą
+                lore: Spauskite ant pranešimo, kad pažymetumete jį atmestu
+            delete:
+                title: Ištrinti
+                lore: Spauskite, kad ištrintumete
+            teleport:
+                title: Teleport
+                lore: Spauskite, kad nusiteleportuotumet, ten kur buvo sukurtas pranešimas
+            join-chatchannel:
+                title: Prisijungti prie susirašinėjimo kanalo
+                lore: Prisijungti prie šio pranešimo susirašinėjimo kanalo
+            leave-chatchannel:
+                title: Palikti susirašinėjimo kanalą
+                lore: Palikti šio pranešimo susirašinėjimo kanalą
+            open-chatchannel:
+                title: Atidaryti susirašinėjimo kanalą
+                lore: Atidaryti šio pranešimo susirašinėjimo kanalą
+            close-chatchannel:
+                title: Uždaryti susirašinėjimo kanalą
+                lore: Uždaryti šio pranešimo susirašinėjimo kanalą
+gui_player-info_uuid-label: "UUID: "
+gui_player-info_ip-label: "Ip adresas: "
+gui_player-info_gamemode-label: "Gamemode: "
+gui_player-info_food-label: "Maistas: "
+gui_player-info_location-label: "Location: "
+gui_player-info_time-played-label: "Laiko pražaista: "
+gui_player-info_frozen-label: "Užšaldytas: "
+gui_player-info_protected-label: Apsaugotas
+gui_player-info_investigation-label: Tiriamas
+gui_player-info_muted-label: Užtildytas
+gui_player-info_vanished-label: Pradangintas(vanish)
+gui_player-info_online-label: Prisijunges
+gui_player-info_offline-label: Atsijunges
