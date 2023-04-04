@@ -29,6 +29,7 @@ public class LangFileTest {
             new ConfigurationFile("lang/lang_hr.yml"),
             new ConfigurationFile("lang/lang_hu.yml"),
             new ConfigurationFile("lang/lang_it.yml"),
+            new ConfigurationFile("lang/lang_lt.yml"),
             new ConfigurationFile("lang/lang_nl.yml"),
             new ConfigurationFile("lang/lang_no.yml"),
             new ConfigurationFile("lang/lang_pt.yml"),
