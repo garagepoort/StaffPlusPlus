@@ -1,5 +1,15 @@
 # Changelog Staff++ | v1.19
 
+# V1.19.26
+
+### Features
+- Add lithuanian language
+
+### Bug fixes
+- Appeals could not be approved.
+- Fix examine mode
+- Fix custom modules migrator
+
 # V1.19.21
 
 ### Features
