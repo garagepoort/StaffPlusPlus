@@ -56,7 +56,7 @@
             </LoreLine>
             <#list JavaUtils.formatLines(appeal.reason, 30) as reasonLine>
                 <LoreLine>
-                    <t color="&6" id="reason-value" class="detail-value">${appeal.reason}</t>
+                    <t color="&6" id="reason-value" class="detail-value">${reasonLine}</t>
                 </LoreLine>
             </#list>
             <#if appeal.status.name() != "OPEN">
