@@ -254,7 +254,7 @@ public class SqlWarnRepository implements WarnRepository {
 
 
             appeal = new Appeal(
-                id,
+                appealId,
                 appealableId,
                 appealerUuid,
                 appealerName,

@@ -264,7 +264,7 @@ public class BansRepositoryImpl implements BansRepository {
 
 
             appeal = new Appeal(
-                id,
+                appealId,
                 appealableId,
                 appealerUuid,
                 appealerName,
