@@ -287,7 +287,7 @@ public class MuteRepositoryImpl implements MuteRepository {
 
 
             appeal = new Appeal(
-                id,
+                appealId,
                 appealableId,
                 appealerUuid,
                 appealerName,
