@@ -2,6 +2,7 @@
 
 <#macro warninglorelines warning>
     <#assign appealApproved=$config.get("warnings-module.appeals.enabled") && warning.appeal.isPresent() && warning.appeal.get().status.name() == 'APPROVED'/>
+    <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
     <LoreLine>
         <t color="&b" id="id-label" class="detail-label">Id: </t>
         <t color="&6" id="id-value" class="detail-value">${warning.id}</t>
@@ -34,8 +35,12 @@
 
     <LoreLine>
         <t color="&b" id="reason-label" class="detail-label">Reason: </t>
-        <t color="&6" id="reason-value" class="detail-value">${warning.reason}</t>
     </LoreLine>
+    <#list JavaUtils.formatLines(warning.reason, 30) as reasonLine>
+        <LoreLine>
+            <t color="&6" id="reason-value" class="detail-value">${reasonLine}</t>
+        </LoreLine>
+    </#list>
 
     <LoreLine></LoreLine>
 
