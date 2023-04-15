@@ -36,6 +36,8 @@
 
             <LoreLine>
                 <t color="&amp;b" id="reason-label" class="detail-label">Reason: </t>
+            </LoreLine>
+            <LoreLine>
                 <t color="&amp;6" id="reason-value" class="detail-value">reason</t>
             </LoreLine>
 
