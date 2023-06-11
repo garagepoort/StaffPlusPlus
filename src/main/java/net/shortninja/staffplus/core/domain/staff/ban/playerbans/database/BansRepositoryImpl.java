@@ -172,7 +172,7 @@ public class BansRepositoryImpl implements BansRepository {
 
     @Override
     public List<Ban> getAppealedBans(int offset, int amount) {
-        return query.create().find("SELECT sp_banned_players.* FROM sp_banned_players INNER JOIN sp_appeals appeals on sp_banned_players.id = appeals.appealable_id AND appeals.status = 'OPEN' AND appeals.type = ? "
+        return query.create().find("SELECT * FROM sp_banned_players INNER JOIN sp_appeals appeals on sp_banned_players.id = appeals.appealable_id AND appeals.status = 'OPEN' AND appeals.type = ? "
                 + getServerNameFilterWithWhere(options.serverSyncConfiguration.banSyncServers) +
                 " ORDER BY sp_banned_players.creation_timestamp DESC LIMIT ?,?",
             ps -> {
