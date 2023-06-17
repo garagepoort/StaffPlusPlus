@@ -6,11 +6,11 @@
     <groupId>net.shortninja.staffplus</groupId>
     <name>Staff++</name>
     <description>The ultimate moderation plugin.</description>
-    <version>1.19.0-SNAPSHOT</version>
+    <version>1.20.0-SNAPSHOT</version>
     <artifactId>staffplusplus-core</artifactId>
 
     <properties>
-        <spigot.version>1.19-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.20.1-R0.1-SNAPSHOT</spigot.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
