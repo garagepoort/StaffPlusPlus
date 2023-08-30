@@ -48,10 +48,8 @@ public class CreateReportsGuiController {
     }
 
     @GuiAction("reports/view/type-select")
-    public GuiTemplate showTypeSelect(Player player,
-                                      @GuiParam("culprit") String culprit,
+    public GuiTemplate showTypeSelect(@GuiParam("culprit") String culprit,
                                       @GuiParam("reason") String reason) {
-        permissionHandler.validate(player, manageReportConfiguration.permissionView);
         Map<String, Object> params = new HashMap<>();
         params.put("types", reportConfiguration.getReportTypeConfigurations(new CulpritFilterPredicate(StringUtils.isNotEmpty(culprit))));
         params.put("skipReasonSelect", StringUtils.isNotEmpty(reason));
@@ -59,10 +57,8 @@ public class CreateReportsGuiController {
     }
 
     @GuiAction("reports/view/reason-select")
-    public GuiTemplate showReasonSelect(Player player,
-                                        @GuiParam("culprit") String culprit,
+    public GuiTemplate showReasonSelect(@GuiParam("culprit") String culprit,
                                         @GuiParam("type") String type) {
-        permissionHandler.validate(player, manageReportConfiguration.permissionView);
         Map<String, Object> params = new HashMap<>();
         params.put("reasons", reportConfiguration
             .getReportReasonConfigurations(new CulpritFilterPredicate(StringUtils.isNotEmpty(culprit)))
