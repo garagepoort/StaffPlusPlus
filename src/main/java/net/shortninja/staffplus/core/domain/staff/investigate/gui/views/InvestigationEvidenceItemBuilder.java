@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui.views;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.domain.staff.investigate.EvidenceEntity;
 import org.bukkit.Material;
@@ -19,11 +18,9 @@ import static net.shortninja.staffplus.core.common.JavaUtils.formatLines;
 
 @IocBean
 public class InvestigationEvidenceItemBuilder {
-    private final IProtocolService protocolService;
     private final Options options;
 
-    public InvestigationEvidenceItemBuilder(IProtocolService protocolService, Options options) {
-        this.protocolService = protocolService;
+    public InvestigationEvidenceItemBuilder(Options options) {
         this.options = options;
     }
 
@@ -45,12 +42,10 @@ public class InvestigationEvidenceItemBuilder {
 
         lore.add("");
         lore.add("&CRight click to unlink evidence");
-        ItemStack item = Items.builder()
+        return Items.builder()
             .setMaterial(Material.PAPER)
             .setName("&c" + evidence.getEvidenceType())
             .addLore(lore)
             .build();
-
-        return protocolService.getVersionProtocol().addNbtString(item, evidence.getId() + ";" + evidence.getEvidenceType() + ";" + evidence.getEvidenceId());
     }
 }

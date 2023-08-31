@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.mute.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
@@ -25,12 +24,10 @@ import java.util.List;
 @IocMultiProvider(InfractionGuiProvider.class)
 public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
 
-    private final IProtocolService protocolService;
     private final Options options;
     private final InfractionsConfiguration infractionsConfiguration;
 
-    public MutedPlayerItemBuilder(IProtocolService protocolService, Options options, InfractionsConfiguration infractionsConfiguration) {
-        this.protocolService = protocolService;
+    public MutedPlayerItemBuilder(Options options, InfractionsConfiguration infractionsConfiguration) {
         this.options = options;
         this.infractionsConfiguration = infractionsConfiguration;
     }
@@ -50,14 +47,13 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
             .addItem("Permanent mute", mute.getEndTimestamp() == null)
             .build();
 
-        ItemStack item = Items.builder()
+        return Items.builder()
             .setMaterial(Material.PLAYER_HEAD)
             .setName("&3Mute")
             .addLore(lore)
             .build();
-
-        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(mute.getId()));
     }
+
     @NotNull
     private String getTimeString(ZonedDateTime date) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC);

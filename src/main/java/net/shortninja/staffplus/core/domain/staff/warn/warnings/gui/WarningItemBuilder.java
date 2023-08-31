@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
@@ -32,16 +31,14 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
     private final Options options;
     private final WarningAppealConfiguration warningAppealConfiguration;
     private final WarningConfiguration warningConfiguration;
-    private final IProtocolService protocolService;
     private final InfractionsConfiguration infractionsConfiguration;
 
     public WarningItemBuilder(Options options,
-                              WarningAppealConfiguration warningAppealConfiguration, WarningConfiguration warningConfiguration,
-                              IProtocolService protocolService,
+                              WarningAppealConfiguration warningAppealConfiguration,
+                              WarningConfiguration warningConfiguration,
                               InfractionsConfiguration infractionsConfiguration) {
         this.options = options;
         this.warningAppealConfiguration = warningAppealConfiguration;
-        this.protocolService = protocolService;
         this.warningConfiguration = warningConfiguration;
         this.infractionsConfiguration = infractionsConfiguration;
     }
@@ -67,12 +64,10 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
             addExpiresAt(warning, loreBuilder);
         }
 
-        ItemStack item = Items.editor(Items.createSkull(warning.getTargetName())).setAmount(1)
+        return Items.editor(Items.createSkull(warning.getTargetName())).setAmount(1)
             .setName("&6Warning")
             .setLore(loreBuilder.build())
             .build();
-
-        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(warning.getId()));
     }
 
     private boolean appealApproved(Optional<IAppeal> appeal) {

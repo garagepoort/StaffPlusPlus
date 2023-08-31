@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.views;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
@@ -25,12 +24,10 @@ import java.util.List;
 @IocMultiProvider(InfractionGuiProvider.class)
 public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
 
-    private final IProtocolService protocolService;
     private final Options options;
     private final InfractionsConfiguration infractionsConfiguration;
 
-    public BannedPlayerItemBuilder(IProtocolService protocolService, Options options, InfractionsConfiguration infractionsConfiguration) {
-        this.protocolService = protocolService;
+    public BannedPlayerItemBuilder(Options options, InfractionsConfiguration infractionsConfiguration) {
         this.options = options;
         this.infractionsConfiguration = infractionsConfiguration;
     }
@@ -51,13 +48,11 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
             .addItem("Permanent ban", ban.getEndTimestamp() == null)
             .build();
 
-        ItemStack item = Items.builder()
+        return Items.builder()
             .setMaterial(Material.PLAYER_HEAD)
             .setName("&cBan")
             .addLore(lore)
             .build();
-
-        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(ban.getId()));
     }
 
     @NotNull

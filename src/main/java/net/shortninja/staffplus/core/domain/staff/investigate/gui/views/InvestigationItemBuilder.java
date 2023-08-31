@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui.views;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import org.bukkit.inventory.ItemStack;
@@ -15,11 +14,9 @@ import java.util.List;
 public class InvestigationItemBuilder {
 
     private final Options options;
-    private final IProtocolService protocolService;
 
-    public InvestigationItemBuilder(Options options, IProtocolService protocolService) {
+    public InvestigationItemBuilder(Options options) {
         this.options = options;
-        this.protocolService = protocolService;
     }
 
 
@@ -38,12 +35,10 @@ public class InvestigationItemBuilder {
 
         String title = investigation.getInvestigatedName().orElse("Investigation #" + investigation.getId());
 
-        ItemStack item = Items.editor(Items.createBook(title, "")).setAmount(1)
+        return Items.editor(Items.createBook(title, "")).setAmount(1)
             .setName("&7Investigation")
             .setLore(lore)
             .build();
-
-        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(investigation.getId()));
     }
 
 }

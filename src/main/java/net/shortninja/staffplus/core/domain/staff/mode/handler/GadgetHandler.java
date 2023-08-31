@@ -8,15 +8,14 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.nbt.NbtService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.mode.ModeProvider;
-import net.shortninja.staffplus.core.domain.staff.mode.StaffModeItemsService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.custommodules.CustomModuleConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishService;
@@ -27,12 +26,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,7 +37,7 @@ public class GadgetHandler {
     @ConfigProperty("permissions:random-teleport-bypass")
     private String randomTeleportBypass;
 
-    private final IProtocolService protocolService;
+    private final NbtService nbtService;
     private final PermissionHandler permission;
 
     private final Options options;
@@ -56,9 +50,8 @@ public class GadgetHandler {
     private final GuiActionService guiActionService;
     private final BukkitUtils bukkitUtils;
     private final ModeProvider modeProvider;
-    private final StaffModeItemsService staffModeItemsService;
 
-    public GadgetHandler(IProtocolService protocolService,
+    public GadgetHandler(NbtService nbtService,
                          PermissionHandler permission,
                          Options options,
                          Messages messages,
@@ -66,8 +59,10 @@ public class GadgetHandler {
                          PlayerSettingsRepository playerSettingsRepository, CpsHandler cpsHandler,
                          VanishService vanishService,
                          PlayerManager playerManager,
-                         GuiActionService guiActionService, BukkitUtils bukkitUtils, ModeProvider modeProvider, StaffModeItemsService staffModeItemsService) {
-        this.protocolService = protocolService;
+                         GuiActionService guiActionService,
+                         BukkitUtils bukkitUtils,
+                         ModeProvider modeProvider) {
+        this.nbtService = nbtService;
         this.permission = permission;
         this.options = options;
         this.messages = messages;
@@ -79,7 +74,6 @@ public class GadgetHandler {
         this.guiActionService = guiActionService;
         this.bukkitUtils = bukkitUtils;
         this.modeProvider = modeProvider;
-        this.staffModeItemsService = staffModeItemsService;
     }
 
     public GadgetType getGadgetType(String value) {
@@ -246,7 +240,7 @@ public class GadgetHandler {
                     continue;
                 }
 
-                if (getGadgetType(protocolService.getVersionProtocol().getNbtString(item)) == GadgetType.COUNTER) {
+                if (getGadgetType(nbtService.getNbtString(item)) == GadgetType.COUNTER) {
                     item.setAmount(options.staffItemsConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? modeUsers.size() : permission.getStaffCount());
                     break;
                 }

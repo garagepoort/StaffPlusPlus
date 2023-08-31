@@ -4,9 +4,9 @@ import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.CommandUtil;
+import net.shortninja.staffplus.core.common.nbt.NbtService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGuiBuilder;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
@@ -37,7 +37,7 @@ public class PlayerInteract implements Listener {
     private static final int COOLDOWN = 200;
     private static final Map<Player, Long> staffTimings = new HashMap<>();
 
-    private final IProtocolService protocolService;
+    private final NbtService nbtService;
     private final CpsHandler cpsHandler;
     private final GadgetHandler gadgetHandler;
     private final FreezeHandler freezeHandler;
@@ -49,14 +49,15 @@ public class PlayerInteract implements Listener {
     private final CustomModuleHandler customModuleHandler;
 
 
-    public PlayerInteract(IProtocolService protocolService, CpsHandler cpsHandler,
+    public PlayerInteract(NbtService nbtService,
+                          CpsHandler cpsHandler,
                           GadgetHandler gadgetHandler,
                           FreezeHandler freezeHandler,
                           PlayerManager playerManager,
                           OnlineSessionsManager sessionManager,
                           GuiActionService guiActionService, ChestGuiBuilder chestGuiBuilder,
                           CommandUtil commandUtil, CustomModuleHandler customModuleHandler) {
-        this.protocolService = protocolService;
+        this.nbtService = nbtService;
         this.cpsHandler = cpsHandler;
         this.gadgetHandler = gadgetHandler;
         this.freezeHandler = freezeHandler;
@@ -111,7 +112,7 @@ public class PlayerInteract implements Listener {
             return false;
         }
 
-        GadgetType gadgetType = gadgetHandler.getGadgetType(protocolService.getVersionProtocol().getNbtString(item));
+        GadgetType gadgetType = gadgetHandler.getGadgetType(nbtService.getNbtString(item));
         if (staffTimings.containsKey(player) && System.currentTimeMillis() - staffTimings.get(player) <= COOLDOWN) {
             //Still cooling down but cancel the event if it is a staff item
             return gadgetType != GadgetType.CUSTOM;

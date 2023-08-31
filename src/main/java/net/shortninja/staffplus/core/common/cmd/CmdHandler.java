@@ -10,11 +10,13 @@ import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
 import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.defaults.BukkitCommand;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -23,14 +25,12 @@ import java.util.stream.Collectors;
 @IocBean
 @IocMultiProvider({PluginDisable.class, BeforeTubingReload.class})
 public class CmdHandler implements PluginDisable, BeforeTubingReload {
-    private final IProtocolService versionProtocol;
     private final ConfigurationLoader configurationLoader;
     private final List<SppCommand> sppCommands;
     private final Messages messages;
     public List<BaseCmd> commands;
 
-    public CmdHandler(IProtocolService protocolService, ConfigurationLoader configurationLoader, @IocMulti(SppCommand.class) List<SppCommand> sppCommands, Messages messages) {
-        this.versionProtocol = protocolService;
+    public CmdHandler(ConfigurationLoader configurationLoader, @IocMulti(SppCommand.class) List<SppCommand> sppCommands, Messages messages) {
         this.configurationLoader = configurationLoader;
         this.sppCommands = sppCommands;
         this.messages = messages;
@@ -44,7 +44,20 @@ public class CmdHandler implements PluginDisable, BeforeTubingReload {
             .map(sppCommand -> new BaseCmd(messages, (org.bukkit.command.Command) sppCommand))
             .collect(Collectors.toList());
 
-        commands.forEach(baseCmd -> versionProtocol.getVersionProtocol().registerCommand(baseCmd.getMatch(), baseCmd.getCommand()));
+        CommandMap commandMap = getCommandMap();
+        commands.forEach(baseCmd -> commandMap.register(baseCmd.getMatch(), baseCmd.getCommand()));
+
+    }
+
+    private static CommandMap getCommandMap() {
+        try {
+            Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            bukkitCommandMap.setAccessible(true);
+            CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
+            return commandMap;
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void processCommandAnnotation(SppCommand s) {
@@ -75,11 +88,13 @@ public class CmdHandler implements PluginDisable, BeforeTubingReload {
 
     @Override
     public void disable(StaffPlusPlus staffPlusPlus) {
-        commands.forEach(baseCmd -> versionProtocol.getVersionProtocol().unregisterCommand(baseCmd.getMatch(), baseCmd.getCommand()));
+        CommandMap commandMap = getCommandMap();
+        commands.forEach(baseCmd -> baseCmd.getCommand().unregister(commandMap));
     }
 
     @Override
     public void execute(TubingBukkitPlugin tubingPlugin) {
-        commands.forEach(baseCmd -> versionProtocol.getVersionProtocol().unregisterCommand(baseCmd.getMatch(), baseCmd.getCommand()));
+        CommandMap commandMap = getCommandMap();
+        commands.forEach(baseCmd -> baseCmd.getCommand().unregister(commandMap));
     }
 }

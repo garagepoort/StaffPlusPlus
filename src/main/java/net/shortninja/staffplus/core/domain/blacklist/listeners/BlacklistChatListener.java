@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.blacklist.BlacklistService;
 import net.shortninja.staffplusplus.blacklist.BlacklistCensoredEvent;
@@ -32,14 +31,12 @@ public class BlacklistChatListener implements Listener {
 
     private final BlacklistService blacklistService;
     private final PermissionHandler permission;
-    private final IProtocolService protocolService;
     private final Options options;
     private final Messages messages;
 
-    public BlacklistChatListener(BlacklistService blacklistService, PermissionHandler permission, IProtocolService protocolService, Options options, Messages messages) {
+    public BlacklistChatListener(BlacklistService blacklistService, PermissionHandler permission, Options options, Messages messages) {
         this.blacklistService = blacklistService;
         this.permission = permission;
-        this.protocolService = protocolService;
         this.options = options;
         this.messages = messages;
     }

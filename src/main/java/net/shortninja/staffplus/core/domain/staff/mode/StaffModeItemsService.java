@@ -5,8 +5,8 @@ import be.garagepoort.mcioc.configuration.ConfigObjectList;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.nbt.NbtService;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
@@ -18,12 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,18 +32,20 @@ public class StaffModeItemsService {
     private final PlayerSettingsRepository playerSettingsRepository;
     private final List<CustomModuleConfiguration> customModuleConfigurations;
     private final CustomModuleStateMachine customModuleStateMachine;
-    private final IProtocolService protocolService;
     private final ModeProvider modeProvider;
+    private final NbtService nbtService;
 
     public StaffModeItemsService(Options options, PlayerSettingsRepository playerSettingsRepository,
                                  CustomModuleStateMachine customModuleStateMachine,
-                                 IProtocolService protocolService,
                                  @ConfigProperty("staffmode-custom-modules:custom-modules")
                                  @ConfigObjectList(CustomModuleConfiguration.class)
-                                 List<CustomModuleConfiguration> customModuleConfigurations, ModeProvider modeProvider) {
+                                 List<CustomModuleConfiguration> customModuleConfigurations,
+                                 ModeProvider modeProvider,
+                                 NbtService nbtService) {
         this.playerSettingsRepository = playerSettingsRepository;
         this.customModuleConfigurations = customModuleConfigurations;
         this.modeProvider = modeProvider;
+        this.nbtService = nbtService;
 
         MODE_ITEMS = Stream.of(Arrays.asList(
                     options.staffItemsConfiguration.getCompassModeConfiguration(),
@@ -67,7 +64,6 @@ public class StaffModeItemsService {
             .collect(Collectors.toList());
 
         this.customModuleStateMachine = customModuleStateMachine;
-        this.protocolService = protocolService;
     }
 
     public void setModuleItem(Player player, StaffModule staffModule, int slot) {
@@ -88,6 +84,7 @@ public class StaffModeItemsService {
      * This methods assumes you are already in staff mode.
      * It will refresh the entire inventory based on the mode configuration and current mode states
      * Useful after a state change has occurred.
+     *
      * @param player
      * @param modeConfiguration
      */
@@ -123,10 +120,10 @@ public class StaffModeItemsService {
 
         if (modeItem instanceof VanishModeConfiguration) {
             ItemStack modeVanishItem = ((VanishModeConfiguration) modeItem).getModeVanishItem(session, modeConfiguration.getModeVanish());
-            ItemStack item = protocolService.getVersionProtocol().addNbtString(modeVanishItem, modeItem.getIdentifier());
+            ItemStack item = nbtService.addNbtString(modeItem.getIdentifier(), modeVanishItem);
             player.getInventory().setItem(locationOfItem, item);
         } else {
-            ItemStack item = protocolService.getVersionProtocol().addNbtString(modeItem.getItem(), modeItem.getIdentifier());
+            ItemStack item = nbtService.addNbtString(modeItem.getIdentifier(), modeItem.getItem());
             player.getInventory().setItem(locationOfItem, item);
         }
     }
@@ -144,13 +141,11 @@ public class StaffModeItemsService {
     }
 
     public Optional<? extends ModeItemConfiguration> getModule(ItemStack item) {
-        String identifier = protocolService.getVersionProtocol().getNbtString(item);
-        return getModule(identifier);
+        return getModule(nbtService.getNbtString(item));
     }
 
     public Optional<CustomModuleConfiguration> getCustomModule(ItemStack item) {
-        String identifier = protocolService.getVersionProtocol().getNbtString(item);
-        return getCustomModule(identifier);
+        return getCustomModule(nbtService.getNbtString(item));
     }
 
     private int getNewLocationOfModuleItem(String moduleToSet, GeneralModeConfiguration modeConfiguration, Map<String, Integer> currentLocationsOfModules) {
@@ -173,7 +168,7 @@ public class StaffModeItemsService {
         for (int i = 0; i < contents.length; i++) {
             ItemStack item = contents[i];
             if (item != null) {
-                String moduleName = protocolService.getVersionProtocol().getNbtString(item);
+                String moduleName = nbtService.getNbtString(item);
                 if (StringUtils.isNotEmpty(moduleName)) {
                     result.put(moduleName, i);
                 }

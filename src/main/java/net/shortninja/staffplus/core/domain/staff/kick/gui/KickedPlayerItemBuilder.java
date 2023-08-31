@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.kick.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
@@ -22,12 +21,10 @@ import java.util.List;
 @IocBean
 @IocMultiProvider(InfractionGuiProvider.class)
 public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
-    private final IProtocolService protocolService;
     private final Options options;
     private final InfractionsConfiguration infractionsConfiguration;
 
-    public KickedPlayerItemBuilder(IProtocolService protocolService, Options options, InfractionsConfiguration infractionsConfiguration) {
-        this.protocolService = protocolService;
+    public KickedPlayerItemBuilder(Options options, InfractionsConfiguration infractionsConfiguration) {
         this.options = options;
         this.infractionsConfiguration = infractionsConfiguration;
     }
@@ -45,13 +42,11 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
             .addIndented("Reason", kick.getReason())
             .build();
 
-        ItemStack item = Items.builder()
+        return Items.builder()
             .setMaterial(Material.PLAYER_HEAD)
             .setName("&6Kick")
             .addLore(lore)
             .build();
-
-        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(kick.getId()));
     }
 
     @Override

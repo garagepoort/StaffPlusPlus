@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.mode.item;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.IProtocolService;
+import net.shortninja.staffplus.core.common.nbt.NbtService;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.mode.ModeProvider;
@@ -23,18 +23,18 @@ import static net.shortninja.staffplus.core.domain.staff.mode.StaffModule.VANISH
 public class VanishItemUpdater implements Listener {
 
     private final PlayerSettingsRepository playerSettingsRepository;
-    private final IProtocolService protocolService;
+    private final NbtService nbtService;
     private final VanishModeConfiguration vanishModeConfiguration;
     private final ModeProvider modeProvider;
     private final StaffModeItemsService staffModeItemsService;
 
     public VanishItemUpdater(PlayerSettingsRepository playerSettingsRepository,
-                             IProtocolService protocolService,
+                             NbtService nbtService,
                              Options options,
                              ModeProvider modeProvider,
                              StaffModeItemsService staffModeItemsService) {
         this.playerSettingsRepository = playerSettingsRepository;
-        this.protocolService = protocolService;
+        this.nbtService = nbtService;
         this.vanishModeConfiguration = options.staffItemsConfiguration.getVanishModeConfiguration();
         this.modeProvider = modeProvider;
         this.staffModeItemsService = staffModeItemsService;
@@ -63,7 +63,7 @@ public class VanishItemUpdater implements Listener {
         ItemStack[] contents = player.getInventory().getContents();
         for (int i = 0, contentsLength = contents.length; i < contentsLength; i++) {
             ItemStack item = contents[i];
-            String nbtString = protocolService.getVersionProtocol().getNbtString(item);
+            String nbtString = nbtService.getNbtString(item);
             if (vanishModeConfiguration.getIdentifier().equalsIgnoreCase(nbtString)) {
                 return Optional.of(i);
             }
