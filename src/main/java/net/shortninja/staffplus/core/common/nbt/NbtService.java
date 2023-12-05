@@ -12,8 +12,7 @@ public class NbtService {
     public ItemStack addNbtString(String value, ItemStack modeVanishItem) {
         NBTItem nbtItem = new NBTItem(modeVanishItem);
         nbtItem.setString(NBT_IDENTIFIER, value);
-        ItemStack item = nbtItem.getItem();
-        return item;
+        return nbtItem.getItem();
     }
 
     public String getNbtString(ItemStack item) {

@@ -31,4 +31,6 @@ public interface OnlinePlayerSession extends IPlayerSession {
     void setName(String name);
 
     boolean isCanViewStyleIds();
+
+    void setSetting(String key, Object value);
 }

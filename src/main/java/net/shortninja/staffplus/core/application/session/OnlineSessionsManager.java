@@ -66,6 +66,7 @@ public class OnlineSessionsManager implements SessionManager {
         return playerSessions.get(player.getUniqueId());
     }
 
+    @Override
     public boolean has(UUID uuid) {
         return playerSessions.containsKey(uuid);
     }

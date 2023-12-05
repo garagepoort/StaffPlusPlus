@@ -5,6 +5,8 @@ import net.shortninja.staffplus.core.domain.chat.ChatAction;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplusplus.vanish.VanishType;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +26,7 @@ public class PlayerSession implements OnlinePlayerSession {
     private boolean canViewStyleIds = false;
     private GeneralModeConfiguration modeConfig;
     private VanishType vanishType = VanishType.NONE;
+    private Map<String, Object> settings = new HashMap<>();
 
     public PlayerSession(UUID uuid, String name) {
         this.uuid = uuid;
@@ -156,5 +159,20 @@ public class PlayerSession implements OnlinePlayerSession {
     @Override
     public void setCanViewStyleIds(boolean canViewStyleIds) {
         this.canViewStyleIds = canViewStyleIds;
+    }
+
+    @Override
+    public Map<String, Object> getSettings() {
+        return settings;
+    }
+
+    @Override
+    public <T> T getSetting(String key) {
+        return (T) settings.get(key);
+    }
+
+    @Override
+    public void setSetting(String key, Object value) {
+         settings.put(key, value);
     }
 }

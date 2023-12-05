@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
-public class NightVisionService {
+public class NightVisionService implements net.shortninja.staffplusplus.nightvision.NightVisionService {
 
     private final PlayerSettingsRepository playerSettingsRepository;
 
