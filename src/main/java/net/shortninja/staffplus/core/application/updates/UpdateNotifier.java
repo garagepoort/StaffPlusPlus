@@ -73,6 +73,7 @@ public class UpdateNotifier extends BukkitRunnable {
     }
 
     private int getMinecraftVersion(String name) {
+        System.err.println(name);
         return Integer.parseInt(name.substring(name.lastIndexOf(DOT) + 1));
     }
 }
