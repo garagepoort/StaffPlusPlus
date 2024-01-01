@@ -32,8 +32,8 @@ public class UpdateNotifier extends BukkitRunnable {
     @Override
     public void run() {
 	// TODO Fix update checking
-	return;
 	
+        /*
         try {
             spigetClient.getVersions().enqueue(new Callback<JsonObject>() {
                 @Override
@@ -73,6 +73,7 @@ public class UpdateNotifier extends BukkitRunnable {
         } catch (Exception e) {
             Bukkit.getLogger().info("Could not check latest version: " + e.getMessage());
         }
+        */
     }
 
     private int getMinecraftVersion(String name) {
