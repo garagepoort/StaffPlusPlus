@@ -1,0 +1,503 @@
+# Language: Polish/Polski
+# Status: COMPLETE
+# Contributor(s): Kaerix
+
+# Leave ANY of these messages blank to disable them!
+# Placeholders are only available on messages that have them by default.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Prefixes                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# The prefix for all messages that are not related to any specific module.
+general-prefix: "&dStaff++ &8»"
+
+# The prefix for all messages related to warnings.
+warnings-prefix: "&dOstrzeżenia &8»"
+
+# The prefix for all ticket messages
+tickets-prefix: "&dSprawy &8»"
+trace-prefix: "&dNadzór &8»"
+protect-prefix: "&dChronione &8»"
+investigations-prefix: "&dŚledztwa &8»"
+############################################################
+# +------------------------------------------------------+ #
+# |                       General                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# This is the color that will be used for things like commas in message lists.
+separator-color: "&b"
+
+# Lines are separated by commas
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# Lines are separated by commas
+staff-list-end: "&7%longline%"
+
+revived-staff: "&bPrzywrócono ekwipunek &7%target% &bdo poprzedniego stanu!"
+revived-user: "&bTwój ekwipunek został przywrócony do poprzedniego stanu!"
+
+command-blocked: "&bTa komenda jest zablokowana dla administracji!"
+mode-command-blocked: "&bTa komenda jest zablokowana w trybie staff!"
+on-cooldown: "&bMusisz odczekać jeszcze &7%seconds% &bsek."
+
+note-added: "&bNotatka dodana dla &7%target%&b."
+note-cleared: "&bNotatki wyczyszczone dla &7%target%&b."
+note-deleted: "&bUsunięto notatkę dla &7%target%&b z identyfikatorem &6%noteId%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+note-list-entry-private: "&b%count% &1[&CP&1] &7%note%"
+# Lines are separated by commas
+note-list-end: "&7%longline%"
+notes.staff-notification-created: "&4%notedBy% &6utworzył notatkę dla gracza &4%target%&6: [&7%note%&6]"
+notes.prefix: "&dNotatki &8»"
+
+player-not-registered: "Gracz o takim nicku nie istnieje"
+
+login-register: "&bPonieważ jesteś w administracji, musisz się zarejestrować, by uchronić konto przed włamaniem. Użyj komendy '&7/register&b'&b,aby to uczynić."
+login-registered: "&bHasło zaakceptowane! Hasło to będzie od ciebie wymagane przy każdym logowaniu."
+login-waiting: "&bZamrożono cię! Proszę o wpisanie swojego hasła administracyjnego, aby kontynuować."
+login-accepted: "&bZalogowano."
+passwords-dont-match: "&bHasła nie są jednakowe."
+
+no-permission: "&cNie posiadasz do tego permisji!"
+bypassed: "&cTen gracz ominął tę komendę!"
+player-offline: "&cTen gracz jest offline!"
+unknown-command: "&cNieznana komenda."
+invalid-arguments: "&cNieprawidłowe argumenty! (%usage%)"
+only-players: "&bTylko gracze są zezwoleni używać tę komendę!"
+no-found: "&bNIE ZNALENZIONO!"
+type-input: "&bWpisz dane na czacie!"
+input-accepted: "&bDane zostały zaakceptowane i przesłane."
+enabled: "włączony"
+disabled: "wyłączony"
+
+chatchannels:
+    joined: "&C%player% &6dołączył do kanału"
+    closed: "&6Ten kanał został zamknięty"
+    left: "&C%player% &6opuścił kanał"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Infractions                     | #
+# +------------------------------------------------------+ #
+############################################################
+reports:
+    # The prefix for all messages related to reports.
+    prefix: "&dZgłoszenia &8»"
+    chatchannel.prefix: "&4&L[&C&LZgłoszenie %channelId%&4&L]"
+    chatchannel.chatline: "&7%sender% &7> &f%message%"
+    chatchannel.openingmessage: |
+        &6Jesteś w bezpośrednim kontakcie z członkiem administracji
+        &6Użyj "&7/rc %channelId% <wiadomość>&6", aby wysłać wiadomość na tym kanale
+    reporter.report-created: "&bZgłoszono &7%culprit% &bza &7%reason%&b."
+    reporter.report-player-created: "&bZgłoszono &7%culprit% &bza &7%reason%&b."
+    reporter.report-rejected: "&7Twoje zgłoszenie zostało odrzucone przez &6%staff%&7."
+    reporter.report-resolved: "&7Twoje zgłoszenie zostało rozwiązane przez &6%staff%&7."
+    reporter.report-accepted: "&7Twoje zgłoszenie zostało zaakceptowane przez &6%staff%&7."
+    reporter.view-reports-button: "&9Wyświetl swoje zgłoszenia!"
+    reporter.view-reports-button-tooltip: "Kliknij, aby wyświetlić swoje zgłoszenia"
+
+    report-created-notification: "&7%reporter% &butworzył zgłoszenie z powodem: &7%reason%&b."
+    report-player-created-notification: "&7%reporter% &bzgłosił %culprit% za &7%reason%&b."
+    report-reopened-notification: "&b%staff% &7otworzył ponownie zgłoszenie od &6%reporter%"
+    report-deleted-notification: "&b%staff% &7usunął zgłoszenie od &6%reporter%"
+    report-accepted-notification: "&b%staff% &7zaakceptował zgłoszenie od &6%reporter%"
+    report-closed-notification: "&6%staff% &fzmienił status zgłoszenia na &6%status% &fZgłaszający: &6%reporter%"
+    reports-cleared: "&bZgłoszenia wyczyszczone dla &7%culprit%&b!"
+
+    # Lines are separated by commas.
+    reports-list-start: "&7%longline%, &7%target% &bposiada &7%reports% &bzgłoszeń."
+    reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+    # Lines are separated by commas.
+    reports-list-end: "&7%longline%"
+
+    resolve-confirmation-question: |
+        &1=====================================================
+        &6      Wybrano opcję rozwiązania tego zgłoszenia
+        &6Wpisz na czacie powód zamknięcia zgłoszenia, by kontynuować
+        &6      Lub wpisz "cancel", aby anulować zamykanie
+        &1=====================================================
+    resolve-cancelled: "&CAnulowano rozwiązywanie zgłoszenia"
+    reject-confirmation-question: |
+        &1==================================================
+        &6        Wybrano opcję anulowania tego zgłoszenia
+        &6Wpisz na czacie powód zamknięcia zgłoszenia, by kontynuować
+        &6        Lub wpisz "cancel", aby anulować zamykanie
+        &1==================================================
+    reject-cancelled: "&CAnulowano odrzucanie zgłoszenia"
+
+    status:
+        RESOLVED: "ROZWIĄZANE"
+        REJECTED: "ODRZUCONE"
+        OPEN: "OTWARTE"
+        IN_PROGRESS: "W_TOKU"
+
+warned: "&bOstrzeżono &7%target% &bza &7%reason%&b."
+warn: "&bOstrzeżono cię za &7%reason%&b."
+warnings-cleared: "&bOstrzeżenia wyczyszczone dla &7%target%&b!"
+# Lines are separated by commas.
+warnings-list-start: "&7%longline%, &7%target% &bposiada &7%warnings% &bostrzeżeń."
+warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
+# Lines are separated by commas.
+warnings-list-end: "&7%longline%"
+warnings-notify: "Posiadasz nowe zgłoszenia! (%warningsCount%)"
+warned-announcement: '&7%issuer% &bostrzegł &7%target% &bza &7%reason%&b.'
+
+# Lines are separated by commas.
+infraction-item: "&bOstrzeżenia: &7%warnings%, &bZgłoszenia: &7%reports%, &bPowód zgłoszenia: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Chat                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat-status: "&bCzat staff &7%status%&b."
+staff-chat-muted: "&bCzat staff został &7wyciszony&b."
+staff-chat-unmuted: "&bCzat staff został &7odciszony&b."
+staff-chat-sound-enabled: "&bDźwięk powiadomienia czatu staff &7włączony&b."
+staff-chat-sound-disabled: "&bDźwięk powiadomienia czatu staff &7wyłączony&b."
+
+chat-clear-line: ""
+chat-cleared: "&bCzat został wyczyszczony przez &7%player%&b."
+chat-toggled: "&bCzat został &7%status% &bprzez &7%player%&b."
+chat-prevented: "&bNie możesz narazie wysyłać wiadomości!"
+chat-slowed: "&bCzat został spowolniony na &7%seconds% sek. &bprzez &7%player%&b."
+chatting-fast: "&bZbyt często wysyłasz wiadomości!"
+
+blacklist-hover: "&bTa wiadomość została ocenzurowana za &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Vanish                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&bTwój totalny vanish został &7%status%&b!"
+list-vanish: "&bTwój vanish z listy graczy został &7%status%&b!"
+player-vanish: "&bTwój vanish gracza został &7%status%&b!"
+vanish-enabled: "&2Vanish włączony"
+vanish-chat-prevented: "&bNie możesz wysyłać wiadomości w trybie vanish!"
+vanish-join-message: "&e%player% dołączył do gry"
+vanish-leave-message: "&e%player% opuścił grę"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Tickets                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&bTwoja sprawa została przesłana! &7(#%ticket%)"
+ticket-opened: "&bSprawa &7#%ticket% &bzostała oznaczona jako otwarta!"
+ticket-removed: "&bSprawa &7#%ticket% &bzostała oznaczona jako rozwiązana! (%reason%)"
+ticket-response-staff: "&b#%ticket% - Administracja: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - Gracz: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&bTa sprawa nie istnieje lub jest zamknięta!"
+# Lines are separated by commas.
+ticket-list-start: "&7%longline%, &7%tickets% &botwarte sprawy"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# Lines are separated by commas.
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Alerts                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: "&bAlerty &7%alerttype% &7%status%&b."
+alerts-name: "&7%old% &bzmienił nazwę na &7%new%&b!"
+alerts-chat-phrase-detected: "&7%target% &bumieścił w czacie wiadomość zawierającą (&7%detectedPhrases%&b)"
+alerts-command-detected: "&7%target% &bpróbował wykonać komendę (&7%command%&b)"
+alerts-mention: "&7%target% &bwzmienił twój nick na czacie!"
+alerts-xray: "&b%target% &7wykopał &b%count% %itemtype%&7! Przy użyciu: [tooltip|&b%tool-type%|&b%tool-type%\n&7%tool-enchantments%]"
+alerts-blacklist: "&c[PRZEKLEŃSTWO | %blacklist-type%] &7[%server%] &6%player%&7: %uncensored-message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Staff Mode                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bTryb staff został &7%status%&b."
+mode-original-location: "&bPrzeteleportowano cię do twojego poprzedniego miejsca!"
+mode-random-teleport: "&bPrzeteleportowano cię losowo!"
+mode-not-enough-players: "&bNiewystarczająca liczba graczy do losowego teleportu!"
+mode-fly-enabled: "&3Latanie zostało &6włączone"
+mode-fly-disabled: "&3Latanie zostało &6wyłączone"
+
+gui-reports: "&bZgłoszenia"
+gui-mine: "&bGracze obecnie kopiący"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# Lines are separated by commas.
+freeze: "&4&lZamrożono cię przez administrację, NIE WYCHODŹ Z GRY!, &4&lDołącz na TeamSpeak @ shortninja.net"
+# Lines are separated by commas.
+unfrozen: "&bOdmrożono cię."
+staff-froze: "&bZamroziłeś &7%target%&b."
+staff-unfroze: "&bOdmroziłeś &7%target%&b."
+freeze-logout: "&7%player% &bwyszedł z gry będąc zamrożonym!"
+freeze-title: "&6Zostałeś zamrożony."
+freeze-subtitle: "Nie wychodź z gry!"
+freeze-chat-prevented: "&bNie możesz narazie wysyłać wiadomości!"
+freeze-chatchannel:
+    prefix: "&4&L[&b&LCzat w zamrożeniu&4&L]"
+    chatline: "&7%sender% &7> &f%message%"
+    openingmessage: |
+        &6Jesteś w bezpośrednim kontakcie z członkiem administracji
+        &6Użyj "&7/fc <wiadomość>&6", aby wysłać wiadomość na tym kanale
+
+
+cps-start: "&bWykonywanie testu CPS na &7%target% &bprzez &7%seconds% &bsek."
+cps-finish-normal: "&7%player% &bma około &7%cps% &bCPS. &7(raczej nie oszukuje)"
+cps-finish-max: "&7%player% &bma około &7%cps% &bCPS. &7(potencjalnie używa autoclickera)"
+
+# Lines are separated by commas
+examine-food: "&bZdrowie: &7%health%, &bGłód: &7%hunger%"
+examine-ip: "&bAdres IP: &7%ipaddress%"
+examine-gamemode: "&bGamemode: &7%gamemode%"
+examine-location: "&bPołożenie: &7%location%"
+examine-warn: "&bOstrzeż tego gracza"
+examine-freeze: "&bZamróź tego gracza"
+examine-notes: "&bNotatki gracza:"
+# All notes are separated on new lines.
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&bJesteś teraz &7%status% %target%&b."
+strip: "Zbroja &7%player% została zdjęta!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Banning                          | #
+# +------------------------------------------------------+ #
+############################################################
+ban-permabanned: "&6%target% został permanentnie zbanowany przez %issuer%"
+ban-tempbanned: "&6%target% został zbanowany przez %issuer% na czas %duration%"
+ban-unbanned: "&6%target% został odbanowany przez %issuer%"
+ban-extended: "&7Przedłużono bana &6%target%&7 o %extensionDuration%"
+ban-reduced: "&7Skrócono bana &6%target%&7 o %reductionDuration%"
+
+ban-tempbanned-kick: "[Ban] Zostałeś tymczasowo zbanowany na tym serwerze. Ban kończy się za: %duration%"
+ban-permabanned-kick: "[Ban] Zostałeś permanentnie zbanowany na tym serwerze."
+ban-appeal-open-notify: "Są nierozwiązane apelacje o odbanowanie! (%appealsCount%)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Ip-banning                          | #
+# +------------------------------------------------------+ #
+############################################################
+ipbans:
+    prefix: "&dBany &8»"
+    permabanned: "&6%issuer% zbanował na serwerze adres IP %ip%"
+    tempbanned: "&6%issuer% zbanował na serwerze adres IP %ip% na czas %duration%"
+    unbanned: "&6%issuer% odbanował na serwerze adres IP %ip%"
+    tempbanned-kick: "[Ban] Twój adres IP został tymczasowo zbanowany na tym serwerze"
+    permabanned-kick: "[Ban] Twój adres IP został permanentnie zbanowany na tym serwerze"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     KICKING                          | #
+# +------------------------------------------------------+ #
+############################################################
+kick-notifyplayers: "&6%target% został wyrzucony z serwera przez %issuer%"
+kick-kickmessage: "&6Zostałeś wyrzucony z serwera przez %issuer%. Powód: %reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Muting                          | #
+# +------------------------------------------------------+ #
+############################################################
+mute-expired: "&6Twoje wyciszenie wygasło. Możesz już wysyłać wiadomości."
+mute-permamuted: "&6%target% został wyciszony przez %issuer%"
+mute-unmuted: "&6%target% został odciszony przez %issuer%"
+mute-tempmuted: "&6%target% został wyciszony przez %issuer% na czas %duration%"
+mute-muted: "&6Jesteś obecnie wyciszony. Nie możesz narazie wysyłać wiadomości."
+mute-extended: "&7Przedłużono wyciszenie &6%target%&7 o %extensionDuration%"
+mute-reduced: "&7Skrócono wyciszenie &6%target%&7 o %reductionDuration%"
+mute-appeal-open-notify: "Są nierozwiązane apelacje o odciszenie! (%appealsCount%)"
+mute-notify: "Jesteś obecnie wyciszony!"
+############################################################
+# +------------------------------------------------------+ #
+# |                     APPEALS                          | #
+# +------------------------------------------------------+ #
+############################################################
+appeal-created: "&6Apelacja została przesłana."
+appeal-approved: "&6Twoja apelacja została &2zatwierdzona&6."
+appeal-rejected: "&6Twoja apelacja została &4odrzucona&6."
+appeal-approve: "&6Apelacja zatwierdzona"
+appeal-reject: "&6Apelacja odrzucona"
+appeal-open-notify: "Są nierozwiązane apelacje ostrzeżeń! (%appealsCount%)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                   INVESTIGATIONS                     | #
+# +------------------------------------------------------+ #
+############################################################
+investigated.investigation-started: "&6Jesteś obecnie obejmowany śledztwem"
+investigated.investigation-paused: "&6Śledztwo w twojej sprawie zostało wstrzymane"
+investigated.investigation-concluded: "&6Śledztwo w twojej sprawie zostało zakończone"
+investigated.under-investigation-title: "&CJesteś obejmowany śledztwem"
+investigated.under-investigation-join: "&6Jesteś obecnie obejmowany śledztwem"
+investigation.staff-notification-started: "&4%investigator% &6objął śledztwem &4%investigated%"
+investigation.staff-notification-concluded: "&4%investigator% &6zakończył śledztwo w sprawie &4%investigated%"
+investigation.staff-notification-paused: "&4%investigator% &6wstrzymał śledtwo w sprawie &4%investigated%"
+investigation.staff-notification-evidence-linked: "&4%investigator% &6załączył dowody %evidenceType% (ID=%evidenceId%) do śledztwa (ID=%investigationId%)"
+investigation.staff-notification-evidence-unlinked: "&4%investigator% &6odłączył dowody %evidenceType% (ID=%evidenceId%) ze śledztwa (ID=%investigationId%)"
+investigation.staff-notification-note-added: "&4%investigator% &6dodał notatkę do śledztwa (ID=%investigationId%)"
+investigation.staff-notification-note-deleted: "&4%investigator% &6usunął notatkę ze śledztwa (ID=%investigationId%)"
+
+ips:
+    prefix: "&dAdresy IP &8»"
+    issuer:
+        history-cleared: "&7Historia adresów IP wyczyszczona dla &6%player%"
+    staff-notifications:
+        history-cleared: "&4%issuer% &7wyczyścił historię adresów IP dla &6%player%"
+
+staff-locations:
+    prefix: "&dPołożenia &8»"
+    created: "&2Położenie administracji utworzone!"
+    updated: "&2Położenie administracji zaktualizowane!"
+    deleted: "&CPołożenie administracji usunięte!"
+    teleported: "&2Przeteleportowano cię do położenia: &6%name%"
+    add-chat-info: |
+        &1==================================
+        &6Wpisz na czacie nazwę położenia, lub
+        &6wpisz "cancel", aby anulować jego tworzenie
+        &1==================================
+    note-created: "&2Notatka została utworzona"
+    note-deleted: "&CNotatka została usunięta"
+    add-note-chat-info: |
+        &1==================================
+        &6Wpisz swoją notatkę na czacie, lub
+        &6wpisz "cancel", aby anulować jej tworzenie
+        &1==================================
+gui_stafflocations_delete-confirmation-title: "Usunąć położenie administracji?"
+gui_stafflocations_delete-confirmation-message: "&7Czy na pewno chcesz usunąć to położenie i wszystkie jego notatki: &6%name%"
+gui:
+    id: "ID"
+    status: "Status"
+    server: "Serwer"
+    type: "Typ"
+    reason: "Powód"
+    close-reason: "Powód zamknięcia"
+    timestamp: "Godzina"
+    unknown: "Nieznane"
+    location: "Położenie"
+    back: "Wstecz"
+    previous-page: "Poprzednia Strona"
+    next-page: "Następna Strona"
+    confirmation:
+        confirm: Potwierdź
+        cancel: Anuluj
+    bans:
+        appeal-detail:
+            approve:
+                title: "Zatwierdź apelację"
+                lore: "Kliknij, aby zatwierdzić apelację"
+            reject:
+                title: "Odrzuć apelację"
+                lore: "Kliknij, aby odrzucić apelację"
+    mutes:
+        appeal-detail:
+            approve:
+                title: "Zatwierdź apelację"
+                lore: "Kliknij, aby zatwierdzić apelację"
+            reject:
+                title: "Reject Appeal"
+                lore: "Kliknij, aby odrzucić apelację"
+    warnings:
+        appeal-detail:
+            approve:
+                title: "Zatwierdź apelację"
+                lore: "Kliknij, aby zatwierdzić apelację"
+            reject:
+                title: "Reject Appeal"
+                lore: "Kliknij, aby odrzucić apelację"
+    reports:
+        report: "Zgłoszenie"
+        assignee: "Osoba przydzielona"
+        culprit: "Winowajca"
+        reporter: "Zgłaszający"
+        manage-reports:
+            title: "Zarządzaj zgłoszeniami"
+            show-unresolved:
+                title: "Otwarte zgłoszenia"
+                lore: "Otwórz wszystkie nierozwiązane zgłoszenia"
+            assigned-to-me:
+                title: "Zgłoszenia przydzielone do mnie"
+                lore: "Wyświetl wszystkie zgłoszenia przydzielone do mnie"
+            in-progress:
+                title: "Zgłoszenia w toku"
+                lore: "Wyświetl wszystkie przydzielone zgłoszenia"
+            closed:
+                title: "Zamknięte zgłoszenia"
+                lore: "Wyświetl wszystkie zamknięte zgłoszenia"
+        assigned-reports:
+            title: "Zgłoszenia w toku"
+        my-assigned-reports:
+            title: "Zgłoszenia przydzielone do ciebie"
+            left-click-to-detail: "&7Lewy klik, aby &6wyświetlić szczegóły"
+            right-click-to-resolve: "&7Prawy klik, aby &2rozwiązać"
+            left-shift-click-to-reject: "&7Lewy shift klik, aby &Codrzucić"
+        my-reports:
+            title: "Moje zgłoszenia"
+        open-reports:
+            title: "Otwarte zgłoszenia"
+            left-click-to-accept: "&7Lewy klik, aby &6zaakceptować"
+            right-click-to-resolve: "&7Prawy klik, aby &2rozwiązać"
+            left-shift-click-to-reject: "&7Lewy shift klik, aby &Codrzucić"
+        closed-reports:
+            title: "Zamknięte zgłoszenia"
+        find-reports:
+            title: "Wyszukaj zgłoszenia"
+        detail:
+            title: "Zgłoszone przez: "
+            resolve:
+                title: "Rozwiąż zgłoszenie"
+                lore: "Kliknij, aby rozwiązać to zgłoszenie"
+            unassign:
+                title: "Anuluj przydzielenie"
+                lore: "Kliknij, aby anulować przydzielenie tobie tego zgłoszenia"
+            reject:
+                title: "Odrzuć zgłoszenie"
+                lore: "Kliknij, aby odrzucić to zgłoszenie"
+            delete:
+                title: "Usuń"
+                lore: "Kliknij, aby usunąć to zgłoszenie"
+            teleport:
+                title: "Teleportuj"
+                lore: "Kliknij, aby przeteleportować cię do miejsca złożenia tego zgłoszenia"
+            join-chatchannel:
+                title: "Dołącz do kanału"
+                lore: "Dołącz do kanału czatu tego zgłoszenia"
+            leave-chatchannel:
+                title: "Opuść kanał"
+                lore: "Opuść kanał czatu tego zgłoszenia"
+            open-chatchannel:
+                title: "Otwórz kanał"
+                lore: "Otwórz kanał czatu dla tego zgłoszenia"
+            close-chatchannel:
+                title: "Zamknij kanał"
+                lore: "Zamknij kanał czatu tego zgłoszenia"
+
+gui_player-info_uuid-label: "UUID: "
+gui_player-info_ip-label: "Adres IP: "
+gui_player-info_gamemode-label: "Gamemode: "
+gui_player-info_food-label: "Głód: "
+gui_player-info_location-label: "Położenie: "
+gui_player-info_time-played-label: "Czas gry: "
+gui_player-info_frozen-label: "Zamrożony: "
+gui_player-info_protected-label: "Chroniony"
+gui_player-info_investigation-label: "Objęty śledztwem"
+gui_player-info_muted-label: "Wyciszony"
+gui_player-info_vanished-label: "W trybie vanish"
+gui_player-info_online-label: "ONLINE"
+gui_player-info_offline-label: "OFFLINE"
