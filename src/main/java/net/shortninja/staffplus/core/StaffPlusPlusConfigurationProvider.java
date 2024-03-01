@@ -105,6 +105,7 @@ public class StaffPlusPlusConfigurationProvider implements TubingConfigurationPr
             new ConfigurationFile("lang/lang_sv.yml", "lang_sv"),
             new ConfigurationFile("lang/lang_zh.yml", "lang_zh"),
             new ConfigurationFile("lang/lang_id.yml", "lang_id"),
+            new ConfigurationFile("lang/lang_pl.yml", "lang_pl"),
             new ConfigurationFile("lang/lang_ru.yml", "lang_ru")
         ));
         configurationFiles.addAll(loadLangFiles());
