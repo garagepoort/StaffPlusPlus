@@ -33,6 +33,7 @@ public class Messages {
         "lang_hu",
         "lang_it",
         "lang_lt",
+        "lang_pl",
         "lang_nl",
         "lang_no",
         "lang_pt",
