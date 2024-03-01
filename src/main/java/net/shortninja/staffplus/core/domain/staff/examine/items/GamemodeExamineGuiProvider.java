@@ -48,7 +48,7 @@ public class GamemodeExamineGuiProvider implements ExamineGuiItemProvider {
     private ItemStack gameModeItem(Player player) {
 
         return Items.builder()
-            .setMaterial(Material.GRASS).setAmount(1)
+            .setMaterial(Material.SHORT_GRASS).setAmount(1)
             .setName("&bGamemode")
             .addLore(messages.examineGamemode.replace("%gamemode%", player.getGameMode().toString()))
             .build();
