@@ -2,8 +2,10 @@ package net.shortninja.staffplus.core;
 
 import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.IStaffPlus;
 import net.shortninja.staffplusplus.ban.BanService;
+import net.shortninja.staffplusplus.common.IPlayerManager;
 import net.shortninja.staffplusplus.joinmessages.JoinMessageService;
 import net.shortninja.staffplusplus.mute.MuteService;
 import net.shortninja.staffplusplus.nightvision.NightVisionService;
@@ -124,5 +126,10 @@ public class StaffPlusPlus extends TubingBukkitPlugin implements IStaffPlus {
     @Override
     public JoinMessageService getJoinMessageService() {
         return StaffPlusPlus.get().getIocContainer().get(JoinMessageService.class);
+    }
+
+    @Override
+    public IPlayerManager getPlayerManager() {
+        return StaffPlusPlus.get().getIocContainer().get(PlayerManager.class);
     }
 }

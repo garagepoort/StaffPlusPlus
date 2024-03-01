@@ -5,7 +5,6 @@ import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
@@ -30,7 +29,6 @@ public class PlayerQuit implements Listener {
     private final StaffModeService staffModeService;
     private final TraceService traceService;
     private final XrayService xrayService;
-    private final IProtocolService protocolService;
     private final FreezeConfiguration freezeConfiguration;
     private final PlayerSettingsRepository playerSettingsRepository;
     private final FreezeHandler freezeHandler;
@@ -40,13 +38,12 @@ public class PlayerQuit implements Listener {
                       StaffModeService staffModeService,
                       TraceService traceService,
                       XrayService xrayService,
-                      IProtocolService protocolService, FreezeConfiguration freezeConfiguration, PlayerSettingsRepository playerSettingsRepository, FreezeHandler freezeHandler) {
+                      FreezeConfiguration freezeConfiguration, PlayerSettingsRepository playerSettingsRepository, FreezeHandler freezeHandler) {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.staffModeService = staffModeService;
         this.traceService = traceService;
         this.xrayService = xrayService;
-        this.protocolService = protocolService;
         this.freezeConfiguration = freezeConfiguration;
         this.playerSettingsRepository = playerSettingsRepository;
         this.freezeHandler = freezeHandler;
@@ -54,8 +51,6 @@ public class PlayerQuit implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onQuit(PlayerQuitEvent event) {
-
-        protocolService.getVersionProtocol().uninject(event.getPlayer());
         Player player = event.getPlayer();
         OnlinePlayerSession session = sessionManager.get(player);
 

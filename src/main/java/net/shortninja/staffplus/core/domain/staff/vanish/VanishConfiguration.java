@@ -2,9 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.vanish;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import net.shortninja.staffplusplus.vanish.IVanishConfiguration;
 
 @IocBean
-public class VanishConfiguration {
+public class VanishConfiguration implements IVanishConfiguration {
 
     @ConfigProperty("vanish-module.enabled")
     public boolean enabled;
@@ -30,4 +31,47 @@ public class VanishConfiguration {
     @ConfigProperty("permissions:vanish-player")
     public String permissionVanishPlayer;
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public boolean isVanishTabList() {
+        return vanishTabList;
+    }
+
+    public boolean isVanishShowAway() {
+        return vanishShowAway;
+    }
+
+    public boolean isVanishChatEnabled() {
+        return vanishChatEnabled;
+    }
+
+    public boolean isVanishMessageEnabled() {
+        return vanishMessageEnabled;
+    }
+
+    public boolean isNightVisionEnabled() {
+        return nightVisionEnabled;
+    }
+
+    public String getPermissionVanishCommand() {
+        return permissionVanishCommand;
+    }
+
+    public String getPermissionSeeVanished() {
+        return permissionSeeVanished;
+    }
+
+    public String getPermissionVanishTotal() {
+        return permissionVanishTotal;
+    }
+
+    public String getPermissionVanishList() {
+        return permissionVanishList;
+    }
+
+    public String getPermissionVanishPlayer() {
+        return permissionVanishPlayer;
+    }
 }

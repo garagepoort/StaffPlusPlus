@@ -1,31 +1,41 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 
-import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
-import net.shortninja.staffplus.core.domain.staff.vanish.VanishStrategy;
 import net.shortninja.staffplusplus.vanish.VanishOffEvent;
 import net.shortninja.staffplusplus.vanish.VanishOnEvent;
+import net.shortninja.staffplusplus.vanish.VanishStrategy;
+import net.shortninja.staffplusplus.vanish.VanishStrategyProvider;
 import net.shortninja.staffplusplus.vanish.VanishType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
+import java.util.Collections;
 import java.util.List;
 
 @IocBukkitListener
 public class VanishPlayersBukkitService implements Listener {
 
-    private final List<VanishStrategy> vanishStrategies;
     private final VanishConfiguration vanishConfiguration;
     private final PlayerManager playerManager;
 
-    public VanishPlayersBukkitService(@IocMulti(VanishStrategy.class) List<VanishStrategy> vanishStrategies, VanishConfiguration vanishConfiguration, PlayerManager playerManager) {
-        this.vanishStrategies = vanishStrategies;
+    public VanishPlayersBukkitService(VanishConfiguration vanishConfiguration, PlayerManager playerManager) {
         this.vanishConfiguration = vanishConfiguration;
         this.playerManager = playerManager;
+    }
+
+    private List<VanishStrategy> getVanishStrategies() {
+        RegisteredServiceProvider<VanishStrategyProvider> provider = Bukkit.getServicesManager().getRegistration(VanishStrategyProvider.class);
+        if (provider != null) {
+            VanishStrategyProvider vanishStrategyProvider = provider.getProvider();
+            return vanishStrategyProvider.getStrategies();
+        }
+        return Collections.emptyList();
     }
 
     @EventHandler
@@ -38,20 +48,20 @@ public class VanishPlayersBukkitService implements Listener {
     public void onUnvanish(VanishOffEvent event) {
         playerManager.getOnlinePlayer(event.getPlayer().getUniqueId())
             .ifPresent(sppPlayer -> {
-                vanishStrategies.stream()
+                getVanishStrategies().stream()
                     .filter(s -> s.getVanishType() == event.getType())
-                    .forEach(v -> v.unvanish(sppPlayer));
+                    .forEach(v -> v.unvanish(sppPlayer, vanishConfiguration));
             });
     }
 
     private void vanishPlayers(Player player, VanishType vanishType) {
         playerManager.getOnlinePlayer(player.getUniqueId())
             .ifPresent(sppPlayer -> {
-                vanishStrategies.stream()
+                getVanishStrategies().stream()
                     .filter(v -> v.getVanishType() == vanishType)
                     .findFirst()
                     .orElseThrow(() -> new BusinessException("&CNo Suitable vanish strategy found for type [" + vanishType + "]"))
-                    .vanish(sppPlayer);
+                    .vanish(sppPlayer, vanishConfiguration);
             });
     }
 
@@ -61,7 +71,7 @@ public class VanishPlayersBukkitService implements Listener {
                 if (!vanishConfiguration.enabled) {
                     return;
                 }
-                vanishStrategies.forEach(v -> v.updateVanish(sppPlayer));
+                getVanishStrategies().forEach(v -> v.updateVanish(sppPlayer, vanishConfiguration));
             });
     }
 }

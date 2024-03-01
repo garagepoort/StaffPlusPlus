@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import net.shortninja.staffplus.core.domain.player.database.PlayerRepository;
 import net.shortninja.staffplus.core.domain.player.database.StoredPlayer;
 import net.shortninja.staffplus.core.domain.player.providers.OfflinePlayerProvider;
+import net.shortninja.staffplusplus.common.IPlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -22,7 +23,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @IocBean
-public class PlayerManager {
+public class PlayerManager implements IPlayerManager {
 
     @ConfigProperty("server-name")
     private String serverName;
@@ -52,6 +53,7 @@ public class PlayerManager {
         cachedSppPlayers = sppPlayers;
     }
 
+    @Override
     public Optional<SppPlayer> getOnOrOfflinePlayer(String playerName) {
         Player player = Bukkit.getPlayerExact(playerName);
         if (player == null) {
@@ -60,16 +62,19 @@ public class PlayerManager {
         return Optional.of(new SppPlayer(player.getUniqueId(), playerName, player));
     }
 
+    @Override
     public Set<SppPlayer> getOnAndOfflinePlayers() {
         return new HashSet<>(cachedSppPlayers);
     }
 
+    @Override
     public List<SppPlayer> getOfflinePlayers() {
         return cachedSppPlayers.stream()
             .filter(p -> !p.isOnline())
             .collect(Collectors.toList());
     }
 
+    @Override
     public Optional<SppPlayer> getOnOrOfflinePlayer(UUID playerUuid) {
         Player player = Bukkit.getPlayer(playerUuid);
         if (player == null) {
@@ -78,6 +83,7 @@ public class PlayerManager {
         return Optional.of(new SppPlayer(player.getUniqueId(), player.getName(), player));
     }
 
+    @Override
     public Optional<SppPlayer> getOnlinePlayer(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) {
@@ -86,6 +92,7 @@ public class PlayerManager {
         return Optional.of(new SppPlayer(player.getUniqueId(), player.getName(), player));
     }
 
+    @Override
     public Optional<SppPlayer> getOnlinePlayer(String playerName) {
         Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
@@ -94,10 +101,12 @@ public class PlayerManager {
         return Optional.of(new SppPlayer(player.getUniqueId(), player.getName(), player));
     }
 
+    @Override
     public Set<String> getAllPlayerNames() {
         return new HashSet<>(cachedPlayerNames);
     }
 
+    @Override
     public void syncPlayer(Player player) {
         cachedPlayerNames.add(player.getName());
 
@@ -106,6 +115,7 @@ public class PlayerManager {
         cachedSppPlayers.add(new SppPlayer(player.getUniqueId(), player.getName(), player));
     }
 
+    @Override
     public void storePlayer(OfflinePlayer player) {
         Optional<StoredPlayer> storedPlayer = playerRepository.findPlayer(player.getUniqueId());
         if (storedPlayer.isPresent()) {
@@ -118,14 +128,17 @@ public class PlayerManager {
         }
     }
 
+    @Override
     public Collection<? extends Player> getOnlinePlayers() {
         return Bukkit.getOnlinePlayers();
     }
 
+    @Override
     public List<String> getOnlinePlayerNames() {
         return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
     }
 
+    @Override
     public List<SppPlayer> getOnlineSppPlayers() {
         return Bukkit.getOnlinePlayers().stream().map(p -> new SppPlayer(p.getUniqueId(), p.getName(), p)).collect(Collectors.toList());
     }
