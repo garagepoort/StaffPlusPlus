@@ -36,7 +36,8 @@ import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType.
     description = "Temporary ban a player",
     usage = "[player] [amount] [unit] [reason]",
     playerRetrievalStrategy = BOTH,
-    permissions = "permissions:tempban"
+    permissions = "permissions:tempban",
+    async = true
 )
 @IocBean(conditionalOnProperty = "ban-module.enabled=true")
 @IocMultiProvider(SppCommand.class)

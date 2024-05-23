@@ -30,7 +30,8 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
     permissions = "permissions:unban",
     description = "Unban a player",
     usage = "[player] [reason]",
-    playerRetrievalStrategy = BOTH
+    playerRetrievalStrategy = BOTH,
+    async = true
 )
 @IocBean(conditionalOnProperty = "ban-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
