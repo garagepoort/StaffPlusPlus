@@ -34,7 +34,8 @@ import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType.
     permissions = "permissions:ban",
     description = "Permanent ban a player",
     usage = "[player] [-template=?] [reason]",
-    playerRetrievalStrategy = BOTH
+    playerRetrievalStrategy = BOTH,
+    async = true
 )
 @IocBean(conditionalOnProperty = "ban-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
