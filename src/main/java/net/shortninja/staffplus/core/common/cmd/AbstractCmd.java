@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.common.cmd;
 
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -26,6 +27,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.bukkit.Bukkit.getScheduler;
 
 public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
@@ -38,6 +40,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     private PlayerRetrievalStrategy playerRetrievalStrategy = PlayerRetrievalStrategy.NONE;
     private Set<String> permissions = new HashSet<>();
     private final Map<UUID, Long> lastUse = new HashMap<>();
+    private boolean async;
 
     protected AbstractCmd(String name, Messages messages, PermissionHandler permissionHandler, CommandService commandService) {
         super(name);
@@ -63,7 +66,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
         try {
-            if(args.length > 0 && replaceDoubleQoutesEnabled) {
+            if (args.length > 0 && replaceDoubleQoutesEnabled) {
                 args = replaceDoubleQoutes(args);
             }
 
@@ -95,7 +98,19 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
             validateExecution(player.orElse(null));
 
             commandService.processArguments(sender, sppArgs, playerName, getPreExecutionSppArguments());
-            boolean result = executeCmd(sender, alias, filteredArgs, player.orElse(null), mapOptionalParameters(optionalParamaters));
+            boolean result = true;
+            if (!async) {
+                result = executeCmd(sender, alias, filteredArgs, player.orElse(null), mapOptionalParameters(optionalParamaters));
+            } else {
+                String[] finalFilteredArgs = filteredArgs;
+                getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
+                    try {
+                        executeCmd(sender, alias, finalFilteredArgs, player.orElse(null), mapOptionalParameters(optionalParamaters));
+                    } catch (BusinessException e) {
+                        messages.send(sender, e.getMessage(), e.getPrefix());
+                    }
+                });
+            }
             commandService.processArguments(sender, sppArgs, playerName, getPostExecutionSppArguments());
             if (sender instanceof Player) {
                 lastUse.put(((Player) sender).getUniqueId(), System.currentTimeMillis());
@@ -284,9 +299,13 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     private List<String> getAllMatches(String text, String regex) {
         List<String> matches = new ArrayList<>();
         Matcher m = Pattern.compile("(?=(" + regex + "))").matcher(text);
-        while(m.find()) {
+        while (m.find()) {
             matches.add(m.group(1));
         }
         return matches;
+    }
+
+    public void setAsync(boolean async) {
+        this.async = async;
     }
 }

@@ -35,7 +35,8 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
     permissions = "permissions:alerts.manage-alerts",
     description = "Enables or disables the alert type.",
     usage = "[namechange | mention | xray | blacklist | alt_detect | command_detection] {player} {enable | disable}",
-    playerRetrievalStrategy = ONLINE
+    playerRetrievalStrategy = ONLINE,
+    async = true
 )
 @IocBean
 @IocMultiProvider(SppCommand.class)
