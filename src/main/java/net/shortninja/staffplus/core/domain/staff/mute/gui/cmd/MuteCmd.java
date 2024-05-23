@@ -28,7 +28,8 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
     permissions = "permissions:mute",
     description = "Permanent mute a player",
     usage = "[player] [reason]",
-    playerRetrievalStrategy = BOTH
+    playerRetrievalStrategy = BOTH,
+    async = true
 )
 @IocBean(conditionalOnProperty = "mute-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
