@@ -184,8 +184,12 @@ public class BansRepositoryImpl implements BansRepository {
 
     @Override
     public long getBanCount(BanFilters banFilters) {
-        String filterQuery = mapFilters(banFilters, false);
-        String query = "SELECT count(*) as count FROM sp_banned_players WHERE " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers);
+        String query = "SELECT count(*) as count FROM sp_banned_players " + getServerNameFilterWithWhere(options.serverSyncConfiguration.banSyncServers);
+
+        if(!banFilters.getSqlFilters().isEmpty()) {
+            String filterQuery = mapFilters(banFilters, false);
+            query = "SELECT count(*) as count FROM sp_banned_players WHERE " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers);
+        }
 
         return this.query.create()
             .getOne(query, (ps) -> insertFilterValues(banFilters, ps, 1), (rs) -> rs.getLong("count"));
