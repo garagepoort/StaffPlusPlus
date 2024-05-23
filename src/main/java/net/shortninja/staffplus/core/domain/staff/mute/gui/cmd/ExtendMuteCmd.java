@@ -32,7 +32,8 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
     description = "Extend mute of a player",
     usage = "[player] [amount] [unit]",
     playerRetrievalStrategy = BOTH,
-    permissions = "permissions:extendmute"
+    permissions = "permissions:extendmute",
+    async = true
 )
 @IocBean(conditionalOnProperty = "mute-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
