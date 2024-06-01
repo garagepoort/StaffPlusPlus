@@ -47,13 +47,18 @@ jobs:
                         echo "Branch already contains commit"
                         continue
                       fi
-                      if [ ${#arr[@]} -gt 1 ]
-                      then
-                        git cherry-pick -m 1 $COMMIT_HASH
-                        echo "Merge commit"
+                      if git merge-base --is-ancestor $COMMIT_HASH $BRANCH_NAME; then
+                        echo "Branch $BRANCH_NAME contains commit $COMMIT_HASH"
                       else
-                        echo "Normal commit"
-                        git cherry-pick $COMMIT_HASH
+                        echo "Branch $BRANCH_NAME does not contain commit $COMMIT_HASH"
+                        if [ ${#arr[@]} -gt 1 ]
+                        then
+                          git cherry-pick -m 1 $COMMIT_HASH
+                          echo "Merge commit"
+                        else
+                          echo "Normal commit"
+                          git cherry-pick $COMMIT_HASH
+                        fi
+                        git push
                       fi
-                      git push
                     done
