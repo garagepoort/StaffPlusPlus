@@ -37,8 +37,8 @@ public class FreezeListener implements Listener {
 
         messages.send(event.getIssuer(), messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, Integer.MAX_VALUE, 128));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, Integer.MAX_VALUE, 128));
         if (freezeConfiguration.sound != null) {
             freezeConfiguration.sound.play(player);
         }
