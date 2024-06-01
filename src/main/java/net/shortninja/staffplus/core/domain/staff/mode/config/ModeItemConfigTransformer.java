@@ -37,7 +37,7 @@ public class ModeItemConfigTransformer implements IConfigTransformer<ItemStack, 
                 String[] enchantInfoParts = enchantInfo.split(":");
                 Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantInfoParts[0]));
                 if (enchantment == null) {
-                    enchantment = Enchantment.DURABILITY;
+                    enchantment = Enchantment.UNBREAKING;
                 }
                 int level = Integer.parseInt(enchantInfoParts[1]);
                 itemStackBuilder.addEnchantment(enchantment, level).build();
@@ -59,7 +59,7 @@ public class ModeItemConfigTransformer implements IConfigTransformer<ItemStack, 
                 String[] enchantInfoParts = enchantInfo.split(":");
                 Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantInfoParts[0]));
                 if (enchantment == null) {
-                    enchantment = Enchantment.DURABILITY;
+                    enchantment = Enchantment.UNBREAKING;
                 }
                 int level = Integer.parseInt(enchantInfoParts[1]);
                 itemStackBuilder.addEnchantment(enchantment, level).build();
