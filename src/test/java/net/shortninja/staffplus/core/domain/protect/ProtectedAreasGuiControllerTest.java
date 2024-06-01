@@ -28,9 +28,7 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -46,17 +44,24 @@ class ProtectedAreasGuiControllerTest extends AbstractTubingGuiTemplateTest {
     private TeleportService teleportService;
     @Mock
     private BukkitUtils bukkitUtils;
-    @Mock
-    private World world;
+    private static World world;
 
     private static MockedStatic<GuiUtils> guiUtilsMockedStatic;
+    private static Location cornerPoint1;
+    private static Location cornerPoint2;
+    ;
 
     @BeforeAll
     public static void beforeAll() {
+        world = mock(World.class);
+        cornerPoint1 = new Location(world, 1, 2, 3);
+        cornerPoint2 = new Location(world, 4, 5, 6);
         guiUtilsMockedStatic = mockStatic(GuiUtils.class);
         guiUtilsMockedStatic.when(() -> GuiUtils.parseTimestamp(CREATION_DATE, TIMESTAMP_FORMAT)).thenReturn("01/09/2021-01:11:15");
         guiUtilsMockedStatic.when(() -> GuiUtils.getNextPage(anyString(), anyInt())).thenReturn("goNext");
         guiUtilsMockedStatic.when(() -> GuiUtils.getPreviousPage(anyString(), anyInt())).thenReturn("goPrevious");
+        guiUtilsMockedStatic.when(() -> GuiUtils.parseLocation(cornerPoint1)).thenReturn("X: 1 Y: 2 Z: 3");
+        guiUtilsMockedStatic.when(() -> GuiUtils.parseLocation(cornerPoint2)).thenReturn("X: 4 Y: 5 Z: 6");
     }
 
     @AfterAll
@@ -98,8 +103,8 @@ class ProtectedAreasGuiControllerTest extends AbstractTubingGuiTemplateTest {
     private ProtectedArea buildArea() {
         return new ProtectedArea(12,
             "area",
-            new Location(world, 1, 2, 3),
-            new Location(world, 4, 5, 6),
+            cornerPoint1,
+            cornerPoint2,
             UUID.fromString("8fc39a71-63ba-4a4b-99e8-66f5791dd377")
         );
     }
