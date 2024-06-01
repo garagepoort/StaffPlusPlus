@@ -64,8 +64,8 @@
         </dependency>
         <dependency>
             <groupId>de.tr7zw</groupId>
-            <artifactId>item-nbt-api-plugin</artifactId>
-            <version>2.11.3</version>
+                <artifactId>item-nbt-api</artifactId>
+            <version>2.12.4</version>
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
@@ -351,8 +351,8 @@
                                     <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcioc.</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>de.tr7zw</pattern>
-                                    <shadedPattern>net.shortninja.staffplus.libs.de.tr7zw</shadedPattern>
+                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.nbtapi</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.zaxxer</pattern>
