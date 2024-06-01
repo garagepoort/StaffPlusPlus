@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 
 @IocBukkitListener(conditionalOnProperty = "vanish-module.enabled=true")
 public class MobsAttackingVanishedListener implements Listener {
@@ -19,7 +19,7 @@ public class MobsAttackingVanishedListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onTarget(EntityTargetLivingEntityEvent event) {
+    public void onTarget(EntityTargetEvent event) {
         if (event.getTarget() instanceof Player && sessionManager.has(event.getTarget().getUniqueId())) {
             OnlinePlayerSession session = sessionManager.get((Player) event.getTarget());
             if (session.getVanishType() == VanishType.TOTAL || session.getVanishType() == VanishType.PLAYER) {
