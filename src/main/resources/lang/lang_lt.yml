@@ -223,22 +223,20 @@ appeal-rejected: "&6Jūsų apeliacija buvo &4atmesta&6."
 appeal-approve: "&6Apeliacija patvirtinta"
 appeal-reject: "&6Apeliacija atmesta"
 appeal-open-notify: Yra %appealsCount% neišspręstų įspėjimų, dėl kurių pateikta apeliacija!
-investigated:
-    investigation-started: "&6Šiuo metu jūsų veikla yra tiriama"
-    investigation-paused: "&6Tyrimas buvo sustabdytas"
-    investigation-concluded: "&6Jūsų veikla buvo ištirta"
-    under-investigation-title: "&CJūsų veikla yra tiriama."
-    under-investigation-join: "&6Jūsų veikla šio metu vis dar yra tiriama."
-investigation:
-    staff-notification-started: "&4%investigator% &6Pradėjo tyrimą &4%investigated%"
-    staff-notification-concluded: "&4%investigator% &6Primėmė tyrimo nuosprendį ant: &4%investigated%"
-    staff-notification-paused: "&4%investigator% &6Sustabdė tyrimą &4%investigated%"
-    staff-notification-evidence-linked: "&4%investigator% &6Pridėjo įrodymus
-    %evidenceType% (ID=%evidenceId%) to investigation (ID=%investigationId%)"
-    staff-notification-evidence-unlinked: "&4%investigator% &6Nepridėjo įrodymų
-    %evidenceType% (ID=%evidenceId%) iš tyrimo (ID=%investigationId%)"
-    staff-notification-note-added: "&4%investigator% &6pridėjo užrašą tyrime (ID=%investigationId%)"
-    staff-notification-note-deleted: "&4%investigator% &6pašalino užraša iš tyrimo (ID=%investigationId%)"
+investigated.investigation-started: "&6Šiuo metu jūsų veikla yra tiriama"
+investigated.investigation-paused: "&6Tyrimas buvo sustabdytas"
+investigated.investigation-concluded: "&6Jūsų veikla buvo ištirta"
+investigated.under-investigation-title: "&CJūsų veikla yra tiriama."
+investigated.under-investigation-join: "&6Jūsų veikla šio metu vis dar yra tiriama."
+investigation.staff-notification-started: "&4%investigator% &6Pradėjo tyrimą &4%investigated%"
+investigation.staff-notification-concluded: "&4%investigator% &6Primėmė tyrimo nuosprendį ant: &4%investigated%"
+investigation.staff-notification-paused: "&4%investigator% &6Sustabdė tyrimą &4%investigated%"
+investigation.staff-notification-evidence-linked: "&4%investigator% &6Pridėjo įrodymus
+  %evidenceType% (ID=%evidenceId%) to investigation (ID=%investigationId%)"
+investigation.staff-notification-evidence-unlinked: "&4%investigator% &6Nepridėjo įrodymų
+  %evidenceType% (ID=%evidenceId%) iš tyrimo (ID=%investigationId%)"
+investigation.staff-notification-note-added: "&4%investigator% &6pridėjo užrašą tyrime (ID=%investigationId%)"
+investigation.staff-notification-note-deleted: "&4%investigator% &6pašalino užraša iš tyrimo (ID=%investigationId%)"
 ips:
     prefix: "&dIP Adresai &8»"
     issuer:

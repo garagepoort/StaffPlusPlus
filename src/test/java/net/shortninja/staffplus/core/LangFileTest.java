@@ -36,7 +36,8 @@ public class LangFileTest {
             new ConfigurationFile("lang/lang_sv.yml"),
             new ConfigurationFile("lang/lang_zh.yml"),
             new ConfigurationFile("lang/lang_id.yml"),
-            new ConfigurationFile("lang/lang_ru.yml")
+            new ConfigurationFile("lang/lang_ru.yml"),
+            new ConfigurationFile("lang/lang_pl.yml")
         );
         Map<String, FileConfiguration> collect = configurationFiles.stream()
             .collect(Collectors.toMap(ConfigurationFile::getIdentifier, c -> loadConfig(c.getPath()), (a, b) -> a));
@@ -47,6 +48,8 @@ public class LangFileTest {
 
             collect.keySet()
                 .forEach(checkKey -> {
+                    if (checkKey.equals(key)) return;
+                    
                     System.out.println("Validating language file ["+key+"] with ["+checkKey+"]");
                     assertThat(keys).containsExactlyInAnyOrderElementsOf(collect.get(checkKey).getKeys(true));
                 });
