@@ -6,7 +6,7 @@
     <groupId>net.shortninja.staffplus</groupId>
     <name>Staff++</name>
     <description>The ultimate moderation plugin.</description>
-    <version>1.16.128</version>
+    <version>1.16.130</version>
     <artifactId>staffplusplus-core</artifactId>
 
     <properties>
@@ -35,7 +35,7 @@
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
-                <version>8.2.0</version>
+                <version>8.2.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

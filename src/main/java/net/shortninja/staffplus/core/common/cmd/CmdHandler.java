@@ -57,6 +57,7 @@ public class CmdHandler implements PluginDisable, BeforeTubingReload {
 
             AbstractCmd abstractCmd = (AbstractCmd) s;
             abstractCmd.setPermissions(permissions);
+            abstractCmd.setAsync(command.async());
             abstractCmd.setDescription(command.description());
             abstractCmd.setUsage(command.usage());
             abstractCmd.setDelayable(command.delayable());

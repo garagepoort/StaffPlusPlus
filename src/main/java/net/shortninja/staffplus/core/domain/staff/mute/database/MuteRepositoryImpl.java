@@ -217,8 +217,12 @@ public class MuteRepositoryImpl implements MuteRepository {
 
     @Override
     public long getMuteCount(MuteFilters muteFilters) {
-        String filterQuery = mapFilters(muteFilters, false);
-        String query = "SELECT count(*) as count FROM sp_muted_players WHERE " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.muteSyncServers);
+        String query = "SELECT count(*) as count FROM sp_muted_players " + getServerNameFilterWithWhere(options.serverSyncConfiguration.muteSyncServers);
+
+        if(!muteFilters.getSqlFilters().isEmpty()) {
+            String filterQuery = mapFilters(muteFilters, false);
+            query = "SELECT count(*) as count FROM sp_muted_players WHERE " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.muteSyncServers);
+        }
 
         return this.query.create()
             .getOne(query, (ps) -> insertFilterValues(muteFilters, ps, 1), (rs) -> rs.getLong("count"));
