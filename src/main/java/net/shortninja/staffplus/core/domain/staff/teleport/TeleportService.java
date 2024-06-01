@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.teleport;
 
 import be.garagepoort.mcioc.IocBean;
-import de.tr7zw.nbtapi.NBTFile;
-import de.tr7zw.nbtapi.NBTList;
+import de.tr7zw.changeme.nbtapi.NBTFile;
+import de.tr7zw.changeme.nbtapi.NBTList;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;

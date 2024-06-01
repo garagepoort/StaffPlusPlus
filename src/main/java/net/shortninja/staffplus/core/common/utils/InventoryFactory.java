@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.core.common.utils;
 
 import be.garagepoort.mcioc.IocBean;
-import de.tr7zw.nbtapi.NBTCompound;
-import de.tr7zw.nbtapi.NBTCompoundList;
-import de.tr7zw.nbtapi.NBTContainer;
-import de.tr7zw.nbtapi.NBTFile;
-import de.tr7zw.nbtapi.NBTItem;
-import de.tr7zw.nbtapi.iface.ReadWriteNBT;
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTCompoundList;
+import de.tr7zw.changeme.nbtapi.NBTContainer;
+import de.tr7zw.changeme.nbtapi.NBTFile;
+import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
