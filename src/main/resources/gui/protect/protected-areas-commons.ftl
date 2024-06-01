@@ -26,11 +26,11 @@
             </LoreLine>
             <LoreLine>
                 <t color="&b" id="cornerpoint1-label" class="detail-label">Corner point 1: </t>
-                <t color="&6" id="cornerpoint1-value" class="detail-value">X: ${area.cornerPoint1.blockX} Y: ${area.cornerPoint1.blockY} Z: ${area.cornerPoint1.blockZ}</t>
+                <t color="&6" id="cornerpoint1-value" class="detail-value">${GuiUtils.parseLocation(area.cornerPoint1)}</t>
             </LoreLine>
             <LoreLine>
                 <t color="&b" id="cornerpoint2-label" class="detail-label">Corner point 2: </t>
-                <t color="&6" id="cornerpoint2-value" class="detail-value">X: ${area.cornerPoint2.blockX} Y: ${area.cornerPoint2.blockY} Z: ${area.cornerPoint2.blockZ}</t>
+                <t color="&6" id="cornerpoint2-value" class="detail-value">${GuiUtils.parseLocation(area.cornerPoint2)}</t>
             </LoreLine>
         </Lore>
     </GuiItem>
