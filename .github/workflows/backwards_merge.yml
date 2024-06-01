@@ -49,11 +49,11 @@ jobs:
                         echo "Branch $BRANCH_NAME does not contain commit $COMMIT_HASH"
                         if [ ${#arr[@]} -gt 1 ]
                         then
-                          git cherry-pick -m 1 $COMMIT_HASH
+                          git cherry-pick --allow-empty -m 1 $COMMIT_HASH
                           echo "Merge commit"
                         else
                           echo "Normal commit"
-                          git cherry-pick $COMMIT_HASH
+                          git cherry-pick --allow-empty $COMMIT_HASH
                         fi
                         git push
                       fi
