@@ -96,7 +96,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.37</version>
+            <version>8.0.28</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -180,7 +180,7 @@
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.8.0</version>
+            <version>3.9.0</version>
         </dependency>
         <dependency>
             <groupId>commons-validator</groupId>
@@ -230,7 +230,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.14.3</version>
+            <version>1.15.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
