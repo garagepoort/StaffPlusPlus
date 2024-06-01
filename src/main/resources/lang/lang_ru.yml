@@ -229,29 +229,27 @@ appeal-rejected: '&6Ваше обращение было &4отклонено&6.
 appeal-approve: '&6Обращение одобрено'
 appeal-reject: '&6Обращение отклонено'
 appeal-open-notify: Имеется %appealsCount% нерассмотренных обжалованных предупреждений!
-investigated:
   
   # ###########################################################
   # +------------------------------------------------------+ #
   # |                   РАССЛЕДОВАНИЯ                     | #
   # +------------------------------------------------------+ #
   # ###########################################################
-  investigation-started: '&6В настоящее время вы находитесь под следствием'
-  investigation-paused: '&6Расследование приостановлено'
-  investigation-concluded: '&6Расследование в отношении вас завершено'
-  under-investigation-title: '&CВы находитесь под следствием'
-  under-investigation-join: '&6Вы находитесь под следствием'
-investigation:
-  staff-notification-started: '&4%investigator% &6начал расследование на &4%investigated%'
-  staff-notification-concluded: '&4%investigator% &6завершила расследование на &4%investigated%'
-  staff-notification-paused: '&4%investigator% &6приостановил расследование на &4%investigated%'
-  staff-notification-evidence-linked: '&4%investigator% &6прикрепил доказательство
+investigated.investigation-started: '&6В настоящее время вы находитесь под следствием'
+investigated.investigation-paused: '&6Расследование приостановлено'
+investigated.investigation-concluded: '&6Расследование в отношении вас завершено'
+investigated.under-investigation-title: '&CВы находитесь под следствием'
+investigated.under-investigation-join: '&6Вы находитесь под следствием'
+investigation.staff-notification-started: '&4%investigator% &6начал расследование на &4%investigated%'
+investigation.staff-notification-concluded: '&4%investigator% &6завершила расследование на &4%investigated%'
+investigation.staff-notification-paused: '&4%investigator% &6приостановил расследование на &4%investigated%'
+investigation.staff-notification-evidence-linked: '&4%investigator% &6прикрепил доказательство
     %evidenceType% (ID=%evidenceId%) к расследованию (ID=%investigationId%)'
-  staff-notification-evidence-unlinked: '&4%investigator% &6открепил доказательство
+investigation.staff-notification-evidence-unlinked: '&4%investigator% &6открепил доказательство
     %evidenceType% (ID=%evidenceId%) от расследования (ID=%investigationId%)'
-  staff-notification-note-added: '&4%investigator% &6добавил примечание к расследованию
+investigation.staff-notification-note-added: '&4%investigator% &6добавил примечание к расследованию
     (ID=%investigationId%)'
-  staff-notification-note-deleted: '&4%investigator% &6удалил примечание из расследования
+investigation.staff-notification-note-deleted: '&4%investigator% &6удалил примечание из расследования
     (ID=%investigationId%)'
 ips:
   prefix: '&dIP-адреса &8»'
