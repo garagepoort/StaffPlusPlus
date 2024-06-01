@@ -345,19 +345,25 @@ appeal-open-notify: "¡Existen %appealsCount% alertas de apelaciones inconclusas
 # +------------------------------------------------------+ #
 # |                   INVESTIGATIONS                     | #
 # +------------------------------------------------------+ #
-############################################################
-investigated.investigation-started: "&6Estás siendo investigado"
-investigated.investigation-paused: "&6La investigación ha sido pausada"
-investigated.investigation-concluded: "&6La investigación en tí ha terminado"
-investigated.under-investigation-title: "&cEstás bajo investigación"
-investigated.under-investigation-join: "&6Actuamente estás bajo investigación"
-investigation.staff-notification-started: "&4%investigator% &6ha iniciado una investigación contra &4%investigated%"
-investigation.staff-notification-concluded: "&4%investigator% &6terminó la investigación en &4%investigated%"
-investigation.staff-notification-paused: "&4%investigator% &6ha pausado &4%investigated%"
-investigation.staff-notification-evidence-linked: "&4%investigator% &6ha adjuntado una evidencia %evidenceType% (ID=%evidenceId%) para la investigación (ID=%investigationId%)"
-investigation.staff-notification-evidence-unlinked: "&4%investigator% &6ha retirado la evidencia %evidenceType% (ID=%evidenceId%) de la investigación (ID=%investigationId%)"
-investigation.staff-notification-note-added: "&4%investigator% &6agregó una nota a la investigación (ID=%investigationId%)"
-investigation.staff-notification-note-deleted: "&4%investigator% &6has removido la nota de la investigación (ID=%investigationId%)"
+# ###########################################################
+
+investigated.investigation-started: '&6Estás siendo investigado'
+investigated.investigation-paused: '&6La investigación ha sido pausada'
+investigated.investigation-concluded: '&6La investigación en tí ha terminado'
+investigated.under-investigation-title: '&cEstás bajo investigación'
+investigated.under-investigation-join: '&6Actualmente estás bajo investigación'
+investigation.staff-notification-started: '&4%investigator% &6ha iniciado una investigación contra
+    &4%investigated%'
+investigation.staff-notification-concluded: '&4%investigator% &6terminó la investigación en &4%investigated%'
+investigation.staff-notification-paused: '&4%investigator% &6ha pausado &4%investigated%'
+investigation.staff-notification-evidence-linked: '&4%investigator% &6ha adjuntado una evidencia
+  %evidenceType% (ID=%evidenceId%) para la investigación (ID=%investigationId%)'
+investigation.staff-notification-evidence-unlinked: '&4%investigator% &6ha retirado la evidencia
+  %evidenceType% (ID=%evidenceId%) de la investigación (ID=%investigationId%)'
+investigation.staff-notification-note-added: '&4%investigator% &6agregó una nota a la investigación
+  (ID=%investigationId%)'
+investigation.staff-notification-note-deleted: '&4%investigator% &6has removido la nota de la
+  investigación (ID=%investigationId%)'
 
 ips:
     prefix: "&dIPs &8»"
