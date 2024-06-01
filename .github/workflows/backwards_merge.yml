@@ -43,6 +43,10 @@ jobs:
                       RELEASE_BRANCH="release/$i"
                       git checkout $RELEASE_BRANCH
                       git pull
+                      if git merge-base --is-ancestor $COMMIT_HASH HEAD; then
+                        echo "Branch already contains commit"
+                        continue
+                      fi
                       if [ ${#arr[@]} -gt 1 ]
                       then
                         git cherry-pick -m 1 $COMMIT_HASH
