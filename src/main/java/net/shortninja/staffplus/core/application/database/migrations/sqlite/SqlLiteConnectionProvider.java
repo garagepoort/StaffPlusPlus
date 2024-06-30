@@ -25,6 +25,7 @@ public class SqlLiteConnectionProvider implements SqlConnectionProvider {
 
     @Override
     public Connection getConnection() {
+        Class.forName("org.sqlite.JDBC");
         synchronized (LOCK) {
             String url = "jdbc:sqlite:plugins/StaffPlusPlus/staff.db";
             try {
