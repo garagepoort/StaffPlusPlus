@@ -25,11 +25,11 @@ public class SqlLiteConnectionProvider implements SqlConnectionProvider {
 
     @Override
     public Connection getConnection() {
-        Class.forName("org.sqlite.JDBC");
+    
         synchronized (LOCK) {
             String url = "jdbc:sqlite:plugins/StaffPlusPlus/staff.db";
             try {
-
+                Class.forName("org.sqlite.JDBC")
                 long totalWaitTime = 0;
                 while (connection != null && !connection.isClosed()) {
                     Thread.sleep(1);
@@ -42,7 +42,7 @@ public class SqlLiteConnectionProvider implements SqlConnectionProvider {
 
                 connection = DriverManager.getConnection(url);
                 return connection;
-            } catch (SQLException | InterruptedException e) {
+            } catch (SQLException | InterruptedException | ClassNotFoundException e) {
                 throw new DatabaseException("Failed to connect to the database", e);
             }
         }
