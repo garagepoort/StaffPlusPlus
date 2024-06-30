@@ -29,7 +29,7 @@ public class SqlLiteConnectionProvider implements SqlConnectionProvider {
         synchronized (LOCK) {
             String url = "jdbc:sqlite:plugins/StaffPlusPlus/staff.db";
             try {
-                Class.forName("org.sqlite.JDBC")
+                Class.forName("org.sqlite.JDBC");
                 long totalWaitTime = 0;
                 while (connection != null && !connection.isClosed()) {
                     Thread.sleep(1);
