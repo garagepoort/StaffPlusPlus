@@ -109,17 +109,18 @@ public class StaffModeService {
     }
 
     public void turnStaffModeOffAndTeleport(Player player, Location location) {
-        PlayerSettings settings = playerSettingsRepository.get(player);
-        settings.setInStaffMode(false);
-        settings.setModeName(null);
-        playerSettingsRepository.save(settings);
-
         Optional<ModeData> existingModeData = modeDataRepository.retrieveModeData(player.getUniqueId());
         if (!existingModeData.isPresent()) {
             return;
         }
+
+        PlayerSettings settings = playerSettingsRepository.get(player);
         Optional<GeneralModeConfiguration> modeConfiguration = modeProvider.getConfiguration(settings.getModeName().orElse(null));
 
+        settings.setInStaffMode(false);
+        settings.setModeName(null);
+        playerSettingsRepository.save(settings);
+        
         modeDataRepository.deleteModeData(player);
         sendEvent(new ExitStaffModeEvent(
             player.getName(),
