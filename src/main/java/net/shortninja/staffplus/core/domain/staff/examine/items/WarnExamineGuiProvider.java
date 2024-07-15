@@ -2,10 +2,12 @@ package net.shortninja.staffplus.core.domain.staff.examine.items;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.Items;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -13,15 +15,19 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-@IocBean
+@IocBean(conditionalOnProperty = "warnings-module.enabled=true")
 @IocMultiProvider(ExamineGuiItemProvider.class)
 public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Messages messages;
     private final ExamineModeConfiguration examineModeConfiguration;
+    private final PermissionHandler permissionHandler;
+    @ConfigProperty("permissions:warn")
+    private String warnPermission;
 
-    public WarnExamineGuiProvider(Messages messages, Options options) {
+    public WarnExamineGuiProvider(Messages messages, Options options, PermissionHandler permissionHandler) {
         this.messages = messages;
+        this.permissionHandler = permissionHandler;
         examineModeConfiguration = options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
@@ -40,7 +46,7 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
 
     @Override
     public boolean enabled(Player staff, SppPlayer player) {
-        return examineModeConfiguration.getModeExamineWarn() >= 0;
+        return examineModeConfiguration.getModeExamineWarn() >= 0 && permissionHandler.has(staff, warnPermission);
     }
 
     @Override
