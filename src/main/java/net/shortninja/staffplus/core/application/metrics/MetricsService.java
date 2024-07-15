@@ -20,7 +20,7 @@ public class MetricsService {
 
     private static final int PLUGIN_ID = 9351;
 
-    public MetricsService(@ConfigProperty("storage.type") String storageType,
+        public MetricsService(@ConfigProperty("storage.type") String storageType,
                           @ConfigProperty("chat-module.enabled") boolean chatModuleEnabled,
                           @ConfigProperty("blacklist-module.enabled") boolean blacklistModuleEnabled,
                           @ConfigProperty("broadcast-module.enabled") boolean broadcastModuleEnabled,
