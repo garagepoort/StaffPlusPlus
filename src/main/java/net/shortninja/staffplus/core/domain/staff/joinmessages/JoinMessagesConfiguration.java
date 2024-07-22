@@ -27,9 +27,9 @@ public class JoinMessagesConfiguration {
     }
 
     public Optional<JoinMessageGroup> getJoinMessageGroup(Player player) {
-        return joinMessageGroups.stream()
+        return enabled ? joinMessageGroups.stream()
             .sorted(Comparator.comparingInt(JoinMessageGroup::getWeight).reversed())
             .filter(g -> permissionHandler.has(player, g.getPermission()))
-            .findFirst();
+            .findFirst() : Optional.empty();
     }
 }
