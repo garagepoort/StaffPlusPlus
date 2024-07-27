@@ -148,19 +148,21 @@
         </Lore>
     </GuiItem>
 
-    <GuiItem id="stafflocations"
-             slot="11"
-             permission="config|permissions:staff-locations.view"
-             material="MAP"
-             onLeftClick="staff-locations/view">
-        <name class="item-name"
-              color="&b">Staff locations</name>
-        <Lore>
-            <LoreLine>
-                <t id="stafflocations-lore"
-                   color="&7">Open overview</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
+    <#if $config.get("staff-locations-module.enabled")>
+        <GuiItem id="stafflocations"
+                 slot="11"
+                 permission="config|permissions:staff-locations.view"
+                 material="MAP"
+                 onLeftClick="staff-locations/view">
+            <name class="item-name"
+                  color="&b">Staff locations</name>
+            <Lore>
+                <LoreLine>
+                    <t id="stafflocations-lore"
+                       color="&7">Open overview</t>
+                </LoreLine>
+            </Lore>
+        </GuiItem>
+    </#if>
 
 </TubingGui>
