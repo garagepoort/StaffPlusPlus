@@ -68,6 +68,9 @@ public class ReportActionsHook implements Listener {
     }
 
     private void executeActions(IReport report, List<ConfiguredCommand> commands) {
+        if(commands.isEmpty()) {
+            return;
+        }
         bukkitUtils.runTaskAsync(() -> {
             Optional<SppPlayer> reporter = playerManager.getOnOrOfflinePlayer(report.getReporterUuid());
             Optional<SppPlayer> assigned = playerManager.getOnOrOfflinePlayer(report.getStaffUuid());
