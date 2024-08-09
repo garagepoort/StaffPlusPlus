@@ -68,9 +68,11 @@ public class InvestigationActionsHook implements Listener {
     }
 
     private void executeActions(IInvestigation investigation, List<ConfiguredCommand> concludeInvestigationCommands) {
+        if(concludeInvestigationCommands.isEmpty()) {
+            return;
+        }
         Optional<SppPlayer> investigator = playerManager.getOnlinePlayer(investigation.getInvestigatorUuid());
         Optional<SppPlayer> investigated = investigation.getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer);
-
         bukkitUtils.runTaskAsync(() -> {
             if (investigator.isPresent()) {
                 Map<String, String> placeholders = new HashMap<>();
