@@ -49,6 +49,9 @@ public class FreezeActionHook implements Listener {
     }
 
     private void executeActions(CommandSender issuer, Player target, List<ConfiguredCommand> commands) {
+        if(commands.isEmpty()) {
+            return;
+        }
         bukkitUtils.runTaskAsync(() -> {
             Map<String, String> placeholders = new HashMap<>();
             placeholders.put("%issuer%", issuer.getName());

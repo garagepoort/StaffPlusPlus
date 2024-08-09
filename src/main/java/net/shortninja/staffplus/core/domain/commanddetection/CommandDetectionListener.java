@@ -63,6 +63,9 @@ public class CommandDetectionListener implements Listener {
     }
 
     private void executeActions(Player player, List<ConfiguredCommand> commands, String detectedCommand) {
+        if(commands.isEmpty()) {
+            return;
+        }
         bukkitUtils.runTaskAsync(() -> {
             Map<String, String> placeholders = new HashMap<>();
             placeholders.put("%player%", player.getName());

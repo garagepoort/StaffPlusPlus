@@ -80,6 +80,9 @@ public class PhraseDetectionChatInterceptor implements ChatInterceptor {
     }
 
     private void executeActions(Player player, List<ConfiguredCommand> commands, List<String> detectedPhrases, String message) {
+        if(commands.isEmpty()) {
+            return;
+        }
         bukkitUtils.runTaskAsync(() -> {
             Map<String, String> placeholders = new HashMap<>();
             placeholders.put("%player%", player.getName());
