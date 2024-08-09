@@ -77,6 +77,9 @@ public class MuteAppealActionHook implements Listener {
     }
 
     private void executeActions(Mute mute, List<ConfiguredCommand> concludeInvestigationCommands) {
+        if(concludeInvestigationCommands.isEmpty()) {
+            return;
+        }
         Optional<SppPlayer> issuer = playerManager.getOnlinePlayer(mute.getIssuerUuid());
         Optional<SppPlayer> culprit = playerManager.getOnlinePlayer(mute.getTargetUuid());
 
