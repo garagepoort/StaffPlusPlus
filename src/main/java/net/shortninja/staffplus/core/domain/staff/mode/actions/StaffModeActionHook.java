@@ -75,6 +75,9 @@ public class StaffModeActionHook implements Listener {
     }
 
     private void executeCommands(SppPlayer staff, List<ConfiguredCommand> modeCommands) {
+        if(modeCommands.isEmpty()) {
+            return;
+        }
         bukkitUtils.runTaskAsync(() -> {
             Map<String, String> placeholders = new HashMap<>();
             placeholders.put("%staff%", staff.getUsername());
