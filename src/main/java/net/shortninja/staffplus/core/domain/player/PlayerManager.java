@@ -71,6 +71,10 @@ public class PlayerManager {
     }
 
     public Optional<SppPlayer> getOnOrOfflinePlayer(UUID playerUuid) {
+        if (playerUuid == null) {
+            return Optional.empty();
+        }
+
         Player player = Bukkit.getPlayer(playerUuid);
         if (player == null) {
             return offlinePlayerProvider.findUser(playerUuid);
@@ -79,6 +83,10 @@ public class PlayerManager {
     }
 
     public Optional<SppPlayer> getOnlinePlayer(UUID uuid) {
+        if (uuid == null) {
+            return Optional.empty();
+        }
+
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) {
             return Optional.empty();
