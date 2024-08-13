@@ -26,6 +26,10 @@ public class StaffModeWorldChangeListener implements Listener {
     public void onWorldChange(PlayerTeleportEvent event) {
         OnlinePlayerSession session = sessionManager.get(event.getPlayer());
         World currentWorld = event.getPlayer().getWorld();
+        if(event.getTo() == null) {
+            return;
+        }
+
         World toWorld = event.getTo().getWorld();
         boolean worldChanged = !currentWorld.equals(toWorld);
 
