@@ -10,7 +10,7 @@
     <artifactId>staffplusplus-core</artifactId>
 
     <properties>
-        <spigot.version>1.21-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.21.1-R0.1-SNAPSHOT</spigot.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitCommon</artifactId>
-            <version>1.21.0</version>
+            <version>1.21.1</version>
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
