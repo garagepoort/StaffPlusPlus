@@ -32,7 +32,7 @@ public class CancelWhisperToVanished implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void interceptCommands(PlayerCommandPreprocessEvent event) {
         String command = event.getMessage().toLowerCase();
-        if(!command.startsWith("/msg ") && !command.startsWith("/tell ")) {
+        if(!command.startsWith("/msg ") && !command.startsWith("/tell ") && !command.startsWith("/w ")) {
             return;
         }
 
