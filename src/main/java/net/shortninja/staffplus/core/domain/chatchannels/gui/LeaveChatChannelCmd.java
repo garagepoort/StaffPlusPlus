@@ -10,6 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.chatchannels.ChatChannelService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
@@ -56,7 +57,17 @@ public class LeaveChatChannelCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         String[] split = args[0].split("_");
-        ChatChannelType chatChannelType = ChatChannelType.valueOf(split[0]);
+        
+        if (split.length != 2) {
+            throw new BusinessException("&CChat channel not found");
+        }
+        
+        ChatChannelType chatChannelType;
+        try {
+            chatChannelType = ChatChannelType.valueOf(split[0]);
+        } catch (IllegalArgumentException ignored) {
+            throw new BusinessException("&CChat channel not found");
+        }
         String chatChannelId = split[1];
 
         permissionHandler.validate(sender, leavePermission + "." + chatChannelType.name().toLowerCase());

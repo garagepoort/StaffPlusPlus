@@ -58,7 +58,7 @@ public class JoinChatChannelCmd extends AbstractCmd {
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         String[] split = args[0].split("_");
         
-        if (split.length < 2) {
+        if (split.length != 2) {
             throw new BusinessException("&CChat channel not found");
         }
         
