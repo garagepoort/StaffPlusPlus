@@ -40,15 +40,15 @@ public class ChatChannelService {
     }
 
     public void sendOnChannel(SppInteractor sender, String channelId, String message, ChatChannelType type) {
-        ChatChannel channel = chatChannelRepository.findChatChannel(channelId, type, getSyncConfig(type)).orElseThrow(() -> new BusinessException("Chat channel not found"));
+        ChatChannel channel = chatChannelRepository.findChatChannel(channelId, type, getSyncConfig(type)).orElseThrow(() -> new BusinessException("&cChat channel not found"));
         if (!channel.hasMember(sender)) {
-            throw new BusinessException("You are not a member of this channel");
+            throw new BusinessException("&cYou are not a member of this channel");
         }
         sendEvent(new ChatChannelMessageSendEvent(sender, message, channel));
     }
 
     public void closeChannel(String channelId, ChatChannelType type) {
-        ChatChannel chatChannel = chatChannelRepository.findChatChannel(channelId, type, getSyncConfig(type)).orElseThrow(() -> new BusinessException("Chat channel not found"));
+        ChatChannel chatChannel = chatChannelRepository.findChatChannel(channelId, type, getSyncConfig(type)).orElseThrow(() -> new BusinessException("&cChat channel not found"));
         chatChannelRepository.delete(chatChannel.getId());
         CHAT_CHANNELS_CACHE.removeIf(c -> c.getId() == chatChannel.getId());
         sendEvent(new ChatChannelClosedEvent(chatChannel));
@@ -57,7 +57,7 @@ public class ChatChannelService {
     public void create(String channelId, String chatChannelPrefix, String chatChannelLine, String openingMessage, Set<UUID> members, ChatChannelType type) {
         Optional<ChatChannel> existingChannel = chatChannelRepository.findChatChannel(channelId, type, getSyncConfig(type));
         if (existingChannel.isPresent()) {
-            throw new BusinessException("Cannot open chat channel. This channel has already been opened");
+            throw new BusinessException("&cCannot open chat channel. This channel has already been opened");
         }
 
         ChatChannel channel = new ChatChannel(chatChannelPrefix, chatChannelLine, channelId, members, type, options.serverName);
@@ -73,9 +73,9 @@ public class ChatChannelService {
     }
 
     public void joinChannel(SppPlayer player, String channelId, ChatChannelType type) {
-        ChatChannel chatChannel = chatChannelRepository.findChatChannel(channelId, type, getSyncConfig(type)).orElseThrow(() -> new BusinessException("&CChat channel not found"));
+        ChatChannel chatChannel = chatChannelRepository.findChatChannel(channelId, type, getSyncConfig(type)).orElseThrow(() -> new BusinessException("&cChat channel not found"));
         if (chatChannel.hasMember(player)) {
-            throw new BusinessException("&CYou are already a member of this channel");
+            throw new BusinessException("&cYou are already a member of this channel");
         }
         chatChannel.addMember(player.getId());
         chatChannelRepository.addMember(chatChannel, player);
@@ -84,9 +84,9 @@ public class ChatChannelService {
     }
 
     public void leaveChannel(SppPlayer player, String channelId, ChatChannelType type) {
-        ChatChannel chatChannel = chatChannelRepository.findChatChannel(channelId, type, getSyncConfig(type)).orElseThrow(() -> new BusinessException("&CChat channel not found"));
+        ChatChannel chatChannel = chatChannelRepository.findChatChannel(channelId, type, getSyncConfig(type)).orElseThrow(() -> new BusinessException("&cChat channel not found"));
         if (!chatChannel.hasMember(player)) {
-            throw new BusinessException("&CYou are not a member of this channel");
+            throw new BusinessException("&cYou are not a member of this channel");
         }
         chatChannel.removeMember(player.getId());
         chatChannelRepository.removeMember(chatChannel, player);
