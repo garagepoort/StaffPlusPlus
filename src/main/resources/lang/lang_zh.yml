@@ -411,7 +411,7 @@ gui:
             reject:
                 title: "Reject Appeal"
                 lore: "Click to reject this appeal"
-         my-mutes:
+        my-mutes:
             title: "&b我的静音"
     warnings:
         appeal-detail:
