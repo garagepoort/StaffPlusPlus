@@ -1,5 +1,5 @@
 <TubingGui size="54" id="my-warnings-overview">
-    <title class="gui-title">&bMy Warnings</title>
+    <title class="gui-title">&amp;bMy warnings</title>
 
     <GuiItem id="warning-info-0" class="warning-info" slot="0" onLeftClick="manage-warnings/view/detail?warningId=12" material="PLAYER_HEAD">
         <name class="item-name" color="&amp;3">Warning</name>
