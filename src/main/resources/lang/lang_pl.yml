@@ -413,6 +413,8 @@ gui:
             reject:
                 title: "Reject Appeal"
                 lore: "Kliknij, aby odrzucić apelację"
+        my-mutes:
+            title: "&bMoje wyciszenia"
     warnings:
         appeal-detail:
             approve:
@@ -421,6 +423,8 @@ gui:
             reject:
                 title: "Reject Appeal"
                 lore: "Kliknij, aby odrzucić apelację"
+        my-warnings:
+            title: "&bMoje ostrzeżenia"
     reports:
         report: "Zgłoszenie"
         assignee: "Osoba przydzielona"

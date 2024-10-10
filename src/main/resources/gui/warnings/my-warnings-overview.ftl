@@ -1,8 +1,9 @@
 <#import "warning-commons.ftl" as warningCommons/>
 <#import "/gui/commons/commons.ftl" as commons/>
+<#include "/gui/commons/translate.ftl"/>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 <TubingGui size="54" id="my-warnings-overview">
-    <title class="gui-title">My Warnings</title>
+    <title class="gui-title"><@translate key="gui.warnings.my-warnings.title"/></title>
 
     <#list warnings as warning>
         <GuiItem id="warning-info-${warning?index}"

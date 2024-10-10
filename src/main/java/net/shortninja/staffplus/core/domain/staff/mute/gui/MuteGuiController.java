@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiController;
@@ -37,6 +38,9 @@ public class MuteGuiController {
     private final BukkitUtils bukkitUtils;
     private final PlayerManager playerManager;
     private final MuteRepository muteRepository;
+    
+    @ConfigProperty("%lang%:gui.mutes.my-mutes.title")
+    private String myMytesGuiTitle;
 
     public MuteGuiController(Messages messages,
                              MuteService muteService,
@@ -77,7 +81,7 @@ public class MuteGuiController {
         return async(() -> {
             List<Mute> allPaged = muteRepository.getMyMutes(player.getUniqueId(), page * PAGE_SIZE, PAGE_SIZE);
             Map<String, Object> params = new HashMap<>();
-            params.put("title", "&bMy mutes");
+            params.put("title", myMytesGuiTitle);
             params.put("mutes", allPaged);
             params.put("guiId", "my-mutes-overview");
             return template("gui/mutes/mute-overview.ftl", params);

@@ -412,6 +412,8 @@ gui:
             reject:
                 title: "Reject Appeal"
                 lore: "Click to reject this appeal"
+        my-mutes:
+            title: "&bPembisuan saya"
     warnings:
         appeal-detail:
             approve:
@@ -420,6 +422,8 @@ gui:
             reject:
                 title: "Reject Appeal"
                 lore: "Click to reject this appeal"
+        my-warnings:
+            title: "&bPeringatan saya"
     reports:
         report: "Report"
         assignee: "Assignee"

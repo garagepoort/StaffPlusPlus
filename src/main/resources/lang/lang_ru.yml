@@ -311,6 +311,8 @@ gui:
       reject:
         title: Отклонить обращение
         lore: Нажмите, чтобы отклонить это обращение
+    my-mutes:
+      title: "&bМои отключения звука"
   warnings:
     appeal-detail:
       approve:
@@ -319,6 +321,8 @@ gui:
       reject:
         title: Отклонить обращение
         lore: Нажмите, чтобы отклонить это обращение
+    my-warnings:
+            title: "&bМои предупреждения"
   reports:
     report: Жалоба
     assignee: Получатель

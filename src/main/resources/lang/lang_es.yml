@@ -425,6 +425,8 @@ gui:
             reject:
                 title: "Rechazar apelación"
                 lore: "Clic para rechazar esta apelación"
+        my-mutes:
+            title: "&bMis silencios"
     warnings:
         appeal-detail:
             approve:
@@ -433,6 +435,8 @@ gui:
             reject:
                 title: "Rechazar apelación"
                 lore: "Clic para rechazar esta apelación"
+        my-warnings:
+            title: "&bMis advertencias"
     reports:
         report: "Reporte"
         assignee: "Asignado"

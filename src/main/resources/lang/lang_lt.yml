@@ -296,6 +296,8 @@ gui:
             reject:
                 title: Atmesti Prašyma
                 lore: Spauskite, kad atmestumete prašyma
+        my-mutes:
+            title: "&bMano nutildymai"
     warnings:
         appeal-detail:
             approve:
@@ -304,6 +306,8 @@ gui:
             reject:
                 title: Atmesti Prašyma
                 lore: Spauskite, kad atmestumete prašyma
+        my-warnings:
+            title: "&bMano įspėjimai"
     reports:
         report: Pranešimas
         assignee: Perėmėjas
