@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PhraseDetectionGroupConfiguration {
 
-    @ConfigProperty("phrases")
+    @ConfigProperty(value = "phrases", required = true)
     public List<String> phrases;
     @ConfigProperty("actions")
     @ConfigObjectList(ConfiguredCommand.class)

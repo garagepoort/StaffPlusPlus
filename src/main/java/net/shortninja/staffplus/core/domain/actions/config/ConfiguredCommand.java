@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class ConfiguredCommand {
 
-    @ConfigProperty("command")
+    @ConfigProperty(value = "command", required = true)
     private String command;
 
     @ConfigProperty("executor")
