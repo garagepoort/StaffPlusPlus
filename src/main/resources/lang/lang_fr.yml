@@ -413,6 +413,8 @@ gui:
             reject:
                 title: "Reject Appeal"
                 lore: "Click to reject this appeal"
+        my-mutes:
+            title: "&bMes mutes"
     warnings:
         appeal-detail:
             approve:
@@ -421,6 +423,8 @@ gui:
             reject:
                 title: "Reject Appeal"
                 lore: "Click to reject this appeal"
+        my-warnings:
+            title: "&bMes avertissements"
     reports:
         report: "Report"
         assignee: "Assignee"
