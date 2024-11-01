@@ -80,7 +80,7 @@ public class MuteAppealGuiController {
 
     @GuiAction("manage-mute-appeals/view/create/reason-chat")
     public void getCreateAppealReasonChatView(Player player, @GuiParam("muteId") int muteId) {
-        Mute mute = muteService.getById(muteId);
+        Mute mute = muteService.getActiveById(muteId);
         messages.send(player, "&1=====================================================", messages.prefixGeneral);
         messages.send(player, "&6         You have chosen to appeal this mute", messages.prefixGeneral);
         messages.send(player, "&6            Type your appeal reason in chat", messages.prefixGeneral);
@@ -115,7 +115,7 @@ public class MuteAppealGuiController {
             .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
 
         bukkitUtils.runTaskAsync(player, () -> {
-            Mute mute = muteService.getById(muteId);
+            Mute mute = muteService.getActiveById(muteId);
             appealService.addAppeal(sppPlayer, mute, reason);
         });
     }
