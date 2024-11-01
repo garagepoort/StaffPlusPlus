@@ -16,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
+import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEventAsync;
 
 @IocBukkitListener
 public class NameChangeJoinListener implements Listener {
@@ -45,7 +46,7 @@ public class NameChangeJoinListener implements Listener {
                 playerSettings.setName(player.getName());
                 playerSettingsRepository.save(playerSettings);
                 if(!permissionHandler.has(player, permissionNameChangeBypass)) {
-                    sendEvent(new NameChangeEvent(options.serverName, player, session.getName(), player.getName()));
+                    sendEventAsync(new NameChangeEvent(options.serverName, player, session.getName(), player.getName()));
                 }
             });
         }
