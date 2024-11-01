@@ -25,7 +25,7 @@ public class MuteAppealListener implements QueueMessageListener<MuteAppealQueueM
     @Override
     public String handleMessage(MuteAppealQueueMessage message) {
         SppPlayer sppPlayer = new SppPlayer(message.getPlayerUuid(), message.getPlayerName(), Bukkit.getOfflinePlayer(message.getPlayerUuid()));
-        Mute mute = muteService.getById(message.getMuteId());
+        Mute mute = muteService.getActiveById(message.getMuteId());
         appealService.addAppeal(sppPlayer, mute, message.getReason());
         return "Mute Appeal has been request";
     }
