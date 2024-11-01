@@ -65,6 +65,10 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     }
 
     public Mute getById(int muteId) {
+        return muteRepository.getMute(muteId).orElseThrow(() -> new BusinessException("No mute found with this id"));
+    }
+
+    public Mute getActiveById(int muteId) {
         return muteRepository.findActiveMute(muteId).orElseThrow(() -> new BusinessException("No mute found with this id"));
     }
 
@@ -95,7 +99,7 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
         permission.validateDuration(sender, muteConfiguration.permissionExtendMutePlayer + LIMIT, duration);
 
         muteRepository.setMuteDuration(mute.getId(), mute.getEndTimestamp() + duration);
-        Mute updatedMute = getById(mute.getId());
+        Mute updatedMute = getActiveById(mute.getId());
         sendEvent(new MuteExtensionEvent(updatedMute, duration, sender));
     }
 
@@ -108,7 +112,7 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
         permission.validateDuration(sender, muteConfiguration.permissionReduceMutePlayer + LIMIT, duration);
 
         muteRepository.setMuteDuration(mute.getId(), mute.getEndTimestamp() - duration);
-        Mute updatedMute = getById(mute.getId());
+        Mute updatedMute = getActiveById(mute.getId());
         sendEvent(new MuteReductionEvent(updatedMute, duration, sender));
     }
 
