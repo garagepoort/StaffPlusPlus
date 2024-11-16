@@ -11,6 +11,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.NullPointerException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -83,7 +84,12 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
             String playerName = getPlayerName(sender, filteredArgs).orElse(null);
 
-            Optional<SppPlayer> player = commandService.retrievePlayer(sppArgs, playerName, getPlayerRetrievalStrategy(), delayable);
+            Optional<SppPlayer> player;
+            try {
+                player = commandService.retrievePlayer(sppArgs, playerName, getPlayerRetrievalStrategy(), delayable);
+            } catch (NullPointerException ignored) {
+                throw new BusinessException(messages.invalidArguments.replace("%usage%", " &7" + getUsage()));
+            }
 
             if (player.isPresent()) {
                 if (player.get().isOnline() && canBypass(player.get().getPlayer())) {
