@@ -6,7 +6,7 @@
     <groupId>net.shortninja.staffplus</groupId>
     <name>Staff++</name>
     <description>The ultimate moderation plugin.</description>
-    <version>1.21.8-SNAPSHOT</version>
+    <version>1.21.10-SNAPSHOT</version>
     <artifactId>staffplusplus-core</artifactId>
 
     <properties>
