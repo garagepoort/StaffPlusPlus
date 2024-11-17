@@ -75,9 +75,15 @@ public class JavaUtils {
         try {
             Enum.valueOf(enumClass, enumName);
             return true;
-        } catch (IllegalArgumentException ex) {
-            return false;
-        }
+        } catch (IllegalArgumentException ignored) {}
+        
+        // Bukkit started migrating some enums to interfaces breaking our implementation, so we check for class values too
+        try {
+            enumClass.getDeclaredField(enumName);
+            return true;
+        } catch (NoSuchFieldException ignored) {}
+        
+        return false;
     }
 
     public static long getDuration(long timestamp) {
