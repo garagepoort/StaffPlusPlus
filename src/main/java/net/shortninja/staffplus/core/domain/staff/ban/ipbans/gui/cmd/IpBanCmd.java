@@ -33,7 +33,7 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPl
     command = "commands:ipban.ban",
     permissions = "permissions:ipban.ban",
     description = "Permanent ban an ip-address",
-    usage = "[player/ip-address]"
+    usage = "[player/ip-address] [-template=?] [reason]"
 )
 @IocBean(conditionalOnProperty = "ban-module.enabled=true && ban-module.ipban.enabled=true")
 @IocMultiProvider(SppCommand.class)
