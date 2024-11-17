@@ -28,7 +28,7 @@ public class PlayerPickupArrow implements Listener {
         
         OnlinePlayerSession session = sessionManager.get(player);
         if (!session.isInStaffMode() || session.getModeConfig().get().isModeItemPickup()) {
-                traceService.sendTraceMessage(PICKUP_ITEM, player.getUniqueId(), String.format("Picked up projectile [%s]", event.getArrow().getItem().getType()));
+                traceService.sendTraceMessage(PICKUP_ITEM, player.getUniqueId(), "Picked up arrow");
                 return;
         }
         event.setCancelled(true);
