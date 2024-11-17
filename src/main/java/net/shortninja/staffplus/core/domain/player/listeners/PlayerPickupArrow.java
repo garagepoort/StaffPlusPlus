@@ -24,7 +24,6 @@ public class PlayerPickupArrow implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onArrowPickup(PlayerPickupArrowEvent event) {
-        System.out.println("### YES ###");
         Player player = event.getPlayer();
         
         OnlinePlayerSession session = sessionManager.get(player);
