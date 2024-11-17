@@ -11,7 +11,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.NullPointerException;
+import java.lang.IllegalArgumentException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -83,10 +83,11 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
             validateMinimumArguments(sender, filteredArgs);
 
             String playerName = getPlayerName(sender, filteredArgs).orElse(null);
-
-            Optional<SppPlayer> player = commandService.retrievePlayer(sppArgs, playerName, getPlayerRetrievalStrategy(), delayable);
             
-            if (player == null) {
+            Optional<SppPlayer> player;
+            try {
+                player = commandService.retrievePlayer(sppArgs, playerName, getPlayerRetrievalStrategy(), delayable);
+            } catch (IllegalArgumentException ignored) {
                 throw new BusinessException(messages.invalidArguments.replace("%usage%", " &7" + getUsage()));
             }
 

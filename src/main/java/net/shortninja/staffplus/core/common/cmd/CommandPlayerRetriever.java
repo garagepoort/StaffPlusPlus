@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.exceptions.PlayerOfflineException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
 
+import java.lang.IllegalArgumentException;
 import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
@@ -34,8 +35,7 @@ public class CommandPlayerRetriever {
                 return Optional.empty();
             }
             
-            // User of this method inputed null
-            return null;
+            throw new IllegalArgumentException("playerName cannot be null with non-optional strategy");
         }
 
         SppPlayer player = playerManager.getOnOrOfflinePlayer(playerName).orElseThrow(() -> new BusinessException(messages.playerNotRegistered));

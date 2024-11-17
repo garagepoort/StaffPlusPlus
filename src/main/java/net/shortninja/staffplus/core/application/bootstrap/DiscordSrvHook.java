@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.application.bootstrap;
 
 import be.garagepoort.mcioc.IocBean;
+import github.scarsz.discordsrv.DiscordSRV;
 import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeDiscordSrvListener;
@@ -17,6 +18,7 @@ public class DiscordSrvHook {
         
         if (discordSrvPlugin != null && discordSrvPlugin.isEnabled()) {
             staffListener = new StaffModeDiscordSrvListener(sessionManager);
+            DiscordSRV.api.subscribe(staffListener);
         }
     }
 }
