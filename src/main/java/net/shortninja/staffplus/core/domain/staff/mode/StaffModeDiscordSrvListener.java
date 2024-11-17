@@ -25,7 +25,7 @@ public class StaffModeDiscordSrvListener {
     }
     
     @Subscribe(priority = ListenerPriority.HIGH)
-    private void onAchievementPreProcess(AchievementMessagePreProcessEvent event) {
+    public void onAchievementPreProcess(AchievementMessagePreProcessEvent event) {
         Player player = event.getPlayer();
         
         if (!sessionManager.has(player.getUniqueId())) return;
@@ -36,7 +36,7 @@ public class StaffModeDiscordSrvListener {
     }
     
     @Subscribe(priority = ListenerPriority.HIGH)
-    private void onDeathPreProcess(DeathMessagePreProcessEvent event) {
+    public void onDeathPreProcess(DeathMessagePreProcessEvent event) {
         Player player = event.getPlayer();
         
         if (!sessionManager.has(player.getUniqueId())) return;

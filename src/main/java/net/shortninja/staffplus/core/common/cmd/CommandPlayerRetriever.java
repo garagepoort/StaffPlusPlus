@@ -7,7 +7,6 @@ import net.shortninja.staffplus.core.common.exceptions.PlayerOfflineException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
 
-import java.lang.NullPointerException;
 import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
@@ -35,7 +34,8 @@ public class CommandPlayerRetriever {
                 return Optional.empty();
             }
             
-            throw new NullPointerException();
+            // User of this method inputed null
+            return null;
         }
 
         SppPlayer player = playerManager.getOnOrOfflinePlayer(playerName).orElseThrow(() -> new BusinessException(messages.playerNotRegistered));

@@ -84,10 +84,9 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
             String playerName = getPlayerName(sender, filteredArgs).orElse(null);
 
-            Optional<SppPlayer> player;
-            try {
-                player = commandService.retrievePlayer(sppArgs, playerName, getPlayerRetrievalStrategy(), delayable);
-            } catch (NullPointerException ignored) {
+            Optional<SppPlayer> player = commandService.retrievePlayer(sppArgs, playerName, getPlayerRetrievalStrategy(), delayable);
+            
+            if (player == null) {
                 throw new BusinessException(messages.invalidArguments.replace("%usage%", " &7" + getUsage()));
             }
 
