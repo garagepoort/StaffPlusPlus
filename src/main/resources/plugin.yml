@@ -3,5 +3,5 @@ name: StaffPlusPlus
 version: ${project.version}
 description: The ultimate moderation plugin!
 author: Shortninja,Qball,Garagepoort
-softdepend: [PacketListenerApi, PlaceholderAPI, LuckPerms, Vault, GroupManager, AuthMe]
+softdepend: [PacketListenerApi, PlaceholderAPI, LuckPerms, Vault, GroupManager, AuthMe, DiscordSRV]
 api-version: 1.13
