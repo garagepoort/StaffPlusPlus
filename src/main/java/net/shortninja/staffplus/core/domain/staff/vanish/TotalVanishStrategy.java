@@ -9,7 +9,6 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Mob;
 
 import java.util.stream.Stream;
 
@@ -41,15 +40,6 @@ public class TotalVanishStrategy implements VanishStrategy {
             .filter(p -> !permission.has(p, vanishConfiguration.permissionSeeVanished))
             .forEach(p -> p.hidePlayer(player.getPlayer()));
         listVanish(player, true);
-        
-        // Cancel existing targets of mobs
-        int mobActivationRange = Bukkit.getServer().spigot().getConfig().getInt("world-settings.default.entity-activation-range.monsters");
-        player.getPlayer().getWorld().getNearbyEntities(player.getPlayer().getLocation(), mobActivationRange, mobActivationRange, mobActivationRange).forEach(entity -> {
-            if (!(entity instanceof Mob)) return;
-            Mob mob = (Mob) entity;
-            if (mob.getTarget() != player.getPlayer()) return;
-            mob.setTarget(null);
-       });
     }
 
     @Override
