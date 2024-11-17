@@ -98,7 +98,7 @@ public class RunPluginIT {
                         .run("mkdir", "plugins/StaffPlusPlus")
                         .copy("staffplusplus-core-" + implementationVersion + ".jar", "/plugins")
                         .copy("config.yml", "/plugins/StaffPlusPlus")
-                        .cmd("java", "-jar", "spigot-" + mcVersion + ".jar", "nogui")
+                        .cmd("java", "-jar", "-DIReallyKnowWhatIAmDoingISwear", "spigot-" + mcVersion + ".jar", "--nogui")
                         .build()))
             .waitingFor(Wait.forLogMessage(".*Done.*", 1))
             .withStartupTimeout(Duration.ofSeconds(360))
