@@ -12,8 +12,7 @@ import org.bukkit.plugin.Plugin;
 @IocBean
 public class DiscordSrvHook {
     
-    private StaffModeDiscordSrvListener staffListener;
-    private VanishJoinLeaveDiscordSrvMessageListener vanishMessageListener;
+    private StaffModeDiscordSrvListener staffListener = null;
     
     public DiscordSrvHook(OnlineSessionsManager sessionManager) {
         Plugin discordSrvPlugin = Bukkit.getPluginManager().getPlugin("DiscordSRV");
@@ -23,10 +22,7 @@ public class DiscordSrvHook {
         }
         
         staffListener = new StaffModeDiscordSrvListener(sessionManager);
-        vanishMessageListener = new VanishJoinLeaveDiscordSrvMessageListener();
-        
         DiscordSRV.api.subscribe(staffListener);
-        
         
         StaffPlusPlus.get().getLogger().info("Hooked into DiscordSRV " + discordSrvPlugin.getDescription().getVersion());
     }

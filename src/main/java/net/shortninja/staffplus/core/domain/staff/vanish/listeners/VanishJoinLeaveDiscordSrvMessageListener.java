@@ -7,8 +7,10 @@ import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplusplus.vanish.VanishOffEvent;
 import net.shortninja.staffplusplus.vanish.VanishOnEvent;
 import net.shortninja.staffplusplus.vanish.VanishType;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 
 @IocBean
 public class VanishJoinLeaveDiscordSrvMessageListener implements Listener {
@@ -21,6 +23,11 @@ public class VanishJoinLeaveDiscordSrvMessageListener implements Listener {
     private String vanishLeaveMessage;
     
     public VanishJoinLeaveDiscordSrvMessageListener() {
+        Plugin discordSrvPlugin = Bukkit.getPluginManager().getPlugin("DiscordSRV");
+        if (!(discordSrvPlugin != null && discordSrvPlugin.isEnabled())) {
+            return;
+        }
+        
         StaffPlusPlus.get().getServer().getPluginManager().registerEvents(this, StaffPlusPlus.get());
     }
     
