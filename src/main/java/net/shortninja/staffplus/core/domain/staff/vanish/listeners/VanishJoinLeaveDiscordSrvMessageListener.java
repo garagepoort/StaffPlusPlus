@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import github.scarsz.discordsrv.DiscordSRV;
 import net.shortninja.staffplus.core.StaffPlusPlus;
@@ -9,6 +10,7 @@ import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+@IocBean
 public class VanishJoinLeaveDiscordSrvMessageListener implements Listener {
     
     @ConfigProperty("vanish-module.join-leave-message-enabled")
