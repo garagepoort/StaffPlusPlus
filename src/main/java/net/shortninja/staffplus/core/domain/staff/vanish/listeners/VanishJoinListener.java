@@ -20,6 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 
 @IocBukkitListener(conditionalOnProperty = "vanish-module.enabled=true")
@@ -56,6 +57,7 @@ public class VanishJoinListener implements Listener, OnLoad {
         if (playerSettings.isVanished()) {
             vanishService.addVanish(player, playerSettings.getVanishType(), true);
             event.setJoinMessage("");
+            player.setMetadata("vanished", new FixedMetadataValue(staffPlusPlus, true)); // When initialized a proper LazyMetadataValue is set
         }
     }
 
