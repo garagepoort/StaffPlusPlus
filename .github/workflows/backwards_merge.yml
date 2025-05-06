@@ -1,0 +1,61 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Manual Backwards merge
+
+on:
+    workflow_dispatch:
+        inputs:
+            commit_hash:
+                description: 'Commit to merge into release branches'
+                required: true
+jobs:
+    backwards_merge:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+            -   name: Commit files
+                shell: bash
+                env:
+                    COMMIT_HASH: ${{ github.event.inputs.commit_hash }}
+                    GITHUB_TOKEN: ${{ secrets.PAT_STAFF }}
+                run: |
+                    set -e
+                    declare -a VERSIONS=(
+                      1.21.0
+                      1.20.0
+                      1.19.0
+                      1.18.0
+                      1.17.0
+                      1.16.0
+                      1.15.0
+                      1.14.0
+                      1.13.0
+                      1.12.0
+                    )
+                    git clone https://garagepoort:${GITHUB_TOKEN}@github.com/garagepoort/StaffPlusPlus.git
+                    cd StaffPlusPlus
+
+                    git config --local user.email "action@github.com"
+                    git config --local user.name "GitHub Action"
+                    parents=$(git show --no-patch --format="%P" $COMMIT_HASH)
+                    IFS=' ' read -ra arr <<<"$parents"
+                    for i in "${VERSIONS[@]}"; do
+                      RELEASE_BRANCH="release/$i"
+                      git checkout $RELEASE_BRANCH
+                      git pull
+                      if git merge-base --is-ancestor $COMMIT_HASH HEAD; then
+                        echo "Branch $BRANCH_NAME contains commit $COMMIT_HASH"
+                      else
+                        echo "Branch $BRANCH_NAME does not contain commit $COMMIT_HASH"
+                        if [ ${#arr[@]} -gt 1 ]
+                        then
+                          git cherry-pick --allow-empty -m 1 $COMMIT_HASH
+                          echo "Merge commit"
+                        else
+                          echo "Normal commit"
+                          git cherry-pick --allow-empty $COMMIT_HASH
+                        fi
+                        git push
+                      fi
+                    done
