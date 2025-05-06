@@ -12,7 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-@IocBean
+@IocBean(conditionalOnProperty = "vanish-module.join-leave-message-enabled=true")
 public class VanishJoinLeaveDiscordSrvMessageListener implements Listener {
     
     @ConfigProperty("vanish-module.join-leave-message-enabled")
