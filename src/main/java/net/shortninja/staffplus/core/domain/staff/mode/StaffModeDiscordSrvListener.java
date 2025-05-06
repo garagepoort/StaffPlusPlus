@@ -7,8 +7,6 @@ import github.scarsz.discordsrv.api.events.AchievementMessagePreProcessEvent;
 import github.scarsz.discordsrv.api.events.DeathMessagePreProcessEvent;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
-import net.shortninja.staffplus.core.StaffPlusPlus;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -17,11 +15,6 @@ public class StaffModeDiscordSrvListener {
     
     public StaffModeDiscordSrvListener(OnlineSessionsManager sessionManager) {
         this.sessionManager = sessionManager;
-        
-        Plugin discordPlugin;
-        if ((discordPlugin = Bukkit.getPluginManager().getPlugin("DiscordSRV")) != null && discordPlugin.isEnabled()) {
-            StaffPlusPlus.get().getLogger().info("Hooked into DiscordSRV " + discordPlugin.getDescription().getVersion());
-        }
     }
     
     @Subscribe(priority = ListenerPriority.HIGH)
