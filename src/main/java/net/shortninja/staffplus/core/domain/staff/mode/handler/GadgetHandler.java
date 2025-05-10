@@ -193,16 +193,15 @@ public class GadgetHandler {
     }
 
     public void onFollow(Player player, Player targetPlayer) {
-        if (targetPlayer == null || player.getName().equals(targetPlayer.getName())) {
+        if (targetPlayer == null || player.equals(targetPlayer)) {
             return;
         }
 
         if (player.getVehicle() != null) {
             player.getVehicle().eject();
-            return;
         }
-
-        targetPlayer.setPassenger(player);
+        
+        targetPlayer.addPassenger(player);
     }
 
     public void executeModule(Player player, Player targetPlayer, CustomModuleConfiguration customModuleConfiguration, Map<String, String> placeholders) {
@@ -226,10 +225,7 @@ public class GadgetHandler {
                     }
                     break;
                 case COMMAND_CONSOLE:
-                    if (targetPlayer != null) {
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-                    } else
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
                     break;
                 default:
                     break;
