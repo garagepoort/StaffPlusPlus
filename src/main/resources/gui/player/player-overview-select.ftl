@@ -33,7 +33,7 @@
         <name class="item-name">Online staff members</name>
         <Lore>
             <LoreLine>
-                <t id="label">Show all offline staff members</t>
+                <t id="label">Show all online staff members</t>
             </LoreLine>
         </Lore>
     </GuiItem>
