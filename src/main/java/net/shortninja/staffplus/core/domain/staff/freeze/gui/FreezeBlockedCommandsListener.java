@@ -32,7 +32,7 @@ public class FreezeBlockedCommandsListener implements Listener {
         Player player = event.getPlayer();
         String command = event.getMessage().toLowerCase();
         OnlinePlayerSession session = sessionManager.get(player);
-        if(freezeChatCommands.stream().anyMatch(c -> command.startsWith("/" + c))) {
+        if(freezeChatCommands.stream().anyMatch(c -> command.startsWith("/" + c)) || freezeChatCommands.stream().anyMatch(c -> command.startsWith("/staffplusplus:" + c))) {
             return;
         }
 
