@@ -13,7 +13,10 @@ import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +47,12 @@ public class CmdHandler implements PluginDisable, BeforeTubingReload {
             .map(sppCommand -> new BaseCmd(messages, (org.bukkit.command.Command) sppCommand))
             .collect(Collectors.toList());
 
-        commands.forEach(baseCmd -> versionProtocol.getVersionProtocol().registerCommand(baseCmd.getMatch(), baseCmd.getCommand()));
+        commands.forEach(baseCmd -> {
+            versionProtocol.getVersionProtocol().registerCommand(baseCmd.getMatch(), baseCmd.getCommand());
+            for (String permission : baseCmd.getPermissions()) {
+                Bukkit.getServer().getPluginManager().addPermission(new Permission(permission, PermissionDefault.FALSE));
+            }
+        });
     }
 
     private void processCommandAnnotation(SppCommand s) {
