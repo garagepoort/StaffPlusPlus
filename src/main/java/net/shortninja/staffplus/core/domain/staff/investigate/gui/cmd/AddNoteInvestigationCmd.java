@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
+import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -42,7 +43,7 @@ public class AddNoteInvestigationCmd extends AbstractCmd {
         if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }
-        bukkitUtils.runTaskAsync(sender, () -> investigationNoteService.addNote((Player) sender, args[0]));
+        bukkitUtils.runTaskAsync(sender, () -> investigationNoteService.addNote((Player) sender, JavaUtils.compileWords(args, 0)));
         return true;
     }
 
