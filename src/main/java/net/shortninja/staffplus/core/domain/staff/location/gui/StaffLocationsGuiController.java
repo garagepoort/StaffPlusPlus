@@ -248,7 +248,7 @@ public class StaffLocationsGuiController {
         permissionHandler.validate(player, deletePermission);
         return async(() -> {
             staffLocationService.deleteLocation(player, locationId);
-            return GuiActionReturnType.BACK;
+            return GuiActionReturnType.CLOSE;
         });
     }
 
