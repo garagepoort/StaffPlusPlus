@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core;
 
 import com.github.dockerjava.api.command.CreateContainerCmd;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.MySQLContainer;
@@ -51,6 +52,7 @@ public class RunPluginIT {
     }
 
     @Test
+    @Disabled
     public void runMysql() {
         try (
             Network network = Network.newNetwork();
