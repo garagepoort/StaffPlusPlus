@@ -6,11 +6,11 @@
     <groupId>net.shortninja.staffplus</groupId>
     <name>Staff++</name>
     <description>The ultimate moderation plugin.</description>
-    <version>1.21.18</version>
+    <version>1.21.18-SNAPSHOT</version>
     <artifactId>staffplusplus-core</artifactId>
 
     <properties>
-        <spigot.version>1.21.10-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.21.11-R0.1-SNAPSHOT</spigot.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -65,17 +65,17 @@
         <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
-            <version>2.15.3</version>
+            <version>2.15.5</version>
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitCommon</artifactId>
-            <version>1.21.9</version>
+            <version>1.21.10</version>
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitAPI</artifactId>
-            <version>1.21.9</version>
+            <version>1.21.10</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -180,7 +180,7 @@
         <dependency>
             <groupId>com.discordsrv</groupId>
             <artifactId>discordsrv</artifactId>
-            <version>1.30.2</version>
+            <version>1.30.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -230,7 +230,7 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.14.16</version>
+            <version>1.18.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>

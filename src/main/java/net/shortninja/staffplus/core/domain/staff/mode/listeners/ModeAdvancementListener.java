@@ -30,23 +30,22 @@ public class ModeAdvancementListener implements Listener {
         OnlinePlayerSession session = sessionManager.get(player);
         
         if (!session.isInStaffMode()) return;
-        if (!(player.getWorld().getGameRuleValue(GameRule.ANNOUNCE_ADVANCEMENTS) || announceGameruleDisabledByUs)) return;
         
         Advancement advancement = event.getAdvancement();
-        
-        // There is no better way to do it than to disable the gamerule and then enable it
-        announceGameruleDisabledByUs = true;
-        player.getWorld().setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
-        
         for (String criteria : advancement.getCriteria()) {
             player.getAdvancementProgress(advancement).revokeCriteria(criteria);
         }
+        
+        if (!(player.getWorld().getGameRuleValue(GameRule.SHOW_ADVANCEMENT_MESSAGES) || announceGameruleDisabledByUs)) return;
+        // There is no better way to do it than to disable the gamerule and then enable it
+        announceGameruleDisabledByUs = true;
+        player.getWorld().setGameRule(GameRule.SHOW_ADVANCEMENT_MESSAGES, false);
         
         // Enable gamerule after the event
         new BukkitRunnable() {
             @Override
             public void run() {
-                player.getWorld().setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, true);
+                player.getWorld().setGameRule(GameRule.SHOW_ADVANCEMENT_MESSAGES, true);
                 announceGameruleDisabledByUs = false;
             }
         }.runTask(StaffPlusPlus.get());
