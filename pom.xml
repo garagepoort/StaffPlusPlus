@@ -15,7 +15,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <tubing.version>7.5.4</tubing.version>
+        <tubing.version>7.5.5</tubing.version>
     </properties>
 
     <repositories>
