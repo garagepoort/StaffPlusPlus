@@ -35,7 +35,7 @@
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
-                <version>8.2.1</version>
+                <version>8.2.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -151,7 +151,7 @@
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
             <artifactId>mc-sql-migrations</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
