@@ -1,9 +1,11 @@
-package net.shortninja.staffplus.core.domain.staff.mode;
+package net.shortninja.staffplus.core.domain.staff.mode.listeners;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -36,16 +38,18 @@ public class ModeAdvancementListener implements Listener {
             player.getAdvancementProgress(advancement).revokeCriteria(criteria);
         }
         
-        if (!(player.getWorld().getGameRuleValue(GameRule.SHOW_ADVANCEMENT_MESSAGES) || announceGameruleDisabledByUs)) return;
+        GameRule<Boolean> showAdvancementMessages = (GameRule<Boolean>) Registry.GAME_RULE.getOrThrow(NamespacedKey.minecraft("show_advancement_messages"));
+
+        if (!(player.getWorld().getGameRuleValue(showAdvancementMessages) || announceGameruleDisabledByUs)) return;
         // There is no better way to do it than to disable the gamerule and then enable it
         announceGameruleDisabledByUs = true;
-        player.getWorld().setGameRule(GameRule.SHOW_ADVANCEMENT_MESSAGES, false);
+        player.getWorld().setGameRule(showAdvancementMessages, false);
         
         // Enable gamerule after the event
         new BukkitRunnable() {
             @Override
             public void run() {
-                player.getWorld().setGameRule(GameRule.SHOW_ADVANCEMENT_MESSAGES, true);
+                player.getWorld().setGameRule(showAdvancementMessages, true);
                 announceGameruleDisabledByUs = false;
             }
         }.runTask(StaffPlusPlus.get());

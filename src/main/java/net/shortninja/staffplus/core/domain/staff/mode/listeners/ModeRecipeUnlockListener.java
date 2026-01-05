@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.mode;
+package net.shortninja.staffplus.core.domain.staff.mode.listeners;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
