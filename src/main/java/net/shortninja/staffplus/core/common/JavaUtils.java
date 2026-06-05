@@ -259,13 +259,26 @@ public class JavaUtils {
     }
 
     /**
-     * Parses a mc version and returns what the main version is
+     * Checks if the server mc version is greater or equal to the supplied mc version
      *
-     * @param ver Version string to be parsed.
-     * @return Second number of the version i.e 13.
+     * @param major Major component of the version to compare
+     * @param minor Minor component of the version to compare
+     * @param patch Patch component of the version to compare
+     * @return serverVersion >= (major, minor, patch)
      */
-    public static int parseMcVer(String ver) {
-        return Integer.parseInt(ver.split("\\.")[1].replaceAll("[^0-9]", ""));
+    public static boolean isMcVerGreaterOrEqual(int major, int minor, int patch) {
+        String[] cVersion = Bukkit.getBukkitVersion().split("-")[0].split("\\.");
+        int cMajor = Integer.parseInt(cVersion[0]);
+        int cMinor = Integer.parseInt(cVersion[1]);
+        int cPatch = cVersion.length > 2 ? Integer.parseInt(cVersion[2]) : 0;
+        
+        if (cMajor > major) return true;
+        if (cMajor < major) return false;
+        
+        if (cMinor > minor) return true;
+        if (cMinor < minor) return false;
+        
+        return cPatch >= patch;
     }
 
     /**
