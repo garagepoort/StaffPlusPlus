@@ -15,6 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
+import java.lang.ReflectiveOperationException;
+import java.lang.reflect.Method;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +36,8 @@ public class JavaUtils {
     private static final List<TimeUnit> timeUnits = Arrays.asList(TimeUnit.DAYS, TimeUnit.HOURS, TimeUnit.MINUTES, TimeUnit.SECONDS);
     private static final String DEFAULT_MESSAGE_COLOR = "&6";
     private static final String DEFAULT_CLICK_MESSAGE_COLOR = "&9";
+    
+    private static int[] serverVersion;
 
     public static String toHumanReadableDuration(final long millis) {
         if (millis <= 0) {
@@ -267,18 +271,50 @@ public class JavaUtils {
      * @return serverVersion >= (major, minor, patch)
      */
     public static boolean isMcVerGreaterOrEqual(int major, int minor, int patch) {
-        String[] cVersion = Bukkit.getBukkitVersion().split("-")[0].split("\\.");
-        int cMajor = Integer.parseInt(cVersion[0]);
-        int cMinor = Integer.parseInt(cVersion[1]);
-        int cPatch = cVersion.length > 2 ? Integer.parseInt(cVersion[2]) : 0;
+        int[] version = getServerVersion();
+        if (version[0] != major) {
+            return version[0] > major;
+        }
         
-        if (cMajor > major) return true;
-        if (cMajor < major) return false;
+        if (version[1] != minor) {
+            return version[1] > minor;
+        }
         
-        if (cMinor > minor) return true;
-        if (cMinor < minor) return false;
+        return version[2] >= patch;
+    }
+    
+    private static int[] getServerVersion() {
+        if (serverVersion == null) {
+            serverVersion = parseServerVersion();
+        }
+        return serverVersion;
+    }
+    
+    private static int[] parseServerVersion() {
+        // Paper's implementation of Bukkit.getBukkitVersion() returns a different format than spigot
+        // this method attempts to use paper API to get the server version if paper is found
+        // otherwise fallbacks to parsing Bukkit.getBukkitVersion(), with the assumption that the server is not paper
         
-        return cPatch >= patch;
+        String rawVersion;
+        try {
+            Class<?> clazz = Class.forName("io.papermc.paper.ServerBuildInfo");
+
+            Method buildInfo = clazz.getMethod("buildInfo");
+            Object info = buildInfo.invoke(null); // static
+
+            Method minecraftVersionId = clazz.getMethod("minecraftVersionId");
+            rawVersion = (String) minecraftVersionId.invoke(info);
+        } catch (ReflectiveOperationException ignored) {
+            rawVersion = Bukkit.getBukkitVersion();
+        }
+
+        String[] parts = rawVersion.split("-")[0].split("\\.");
+
+        return new int[] {
+                Integer.parseInt(parts[0]),
+                Integer.parseInt(parts[1]),
+                parts.length > 2 ? Integer.parseInt(parts[2]) : 0
+        };
     }
 
     /**
