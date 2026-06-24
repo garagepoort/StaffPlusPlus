@@ -20,12 +20,10 @@ public enum Materials {
     }
 
     public String getName() {
-        String[] tmp = Bukkit.getVersion().split("MC: ");
-        String version = tmp[tmp.length - 1].substring(0, 4);
-        int ver = JavaUtils.parseMcVer(version);
-        if(ver>=13) {
+        if (JavaUtils.isMcVerGreaterOrEqual(1, 13, 0)) {
             return newName;
-        } else
-            return oldName;
+        }
+        
+        return oldName;
     }
 }

@@ -71,15 +71,14 @@ public class Options {
     }
 
     public static Material stringToMaterial(String string) {
-        Material sound = Material.STONE;
+        String materialName = getMaterial(string);
 
-        boolean isValid = JavaUtils.isValidEnum(Material.class, getMaterial(string));
-        if (!isValid) {
+        if (!JavaUtils.isValidEnum(Material.class, materialName)) {
             Bukkit.getLogger().severe("Invalid material type '" + string + "'!");
-        } else
-            sound = Material.valueOf(getMaterial(string));
+            return Material.STONE;
+        }
 
-        return sound;
+        return Material.valueOf(materialName);
     }
 
     public static String sanitizeMaterial(String string) {
