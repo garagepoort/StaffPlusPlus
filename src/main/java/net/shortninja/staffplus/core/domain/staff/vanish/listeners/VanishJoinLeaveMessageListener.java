@@ -14,9 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import net.md_5.bungee.api.chat.TranslatableComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.ChatColor;
-import java.util.Arrays;
 
 @IocBukkitListener(conditionalOnProperty = "vanish-module.join-leave-message-enabled=true")
 public class VanishJoinLeaveMessageListener implements Listener {
