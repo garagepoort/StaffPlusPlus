@@ -84,7 +84,7 @@ public class StaffLocationsNotesGuiController {
             OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled your note", prefix);
+                    messages.sendTranslation(player, "staff-locations.note-cancelled", prefix);
                     return;
                 }
                 bukkitUtils.runTaskAsync(player, () -> staffLocationService.addNote(player, staffLocation, message));

@@ -38,19 +38,19 @@ public class TeleportService {
 
     public void teleportPlayerToLocation(CommandSender commandSender, Player targetPlayer, String locationId) {
         if (!teleportConfiguration.locations.containsKey(locationId)) {
-            throw new BusinessException("&CNo location found with name: " + locationId);
+            throw new BusinessException(messages.get("teleport-error-location-not-found", "%location%", locationId), messages.prefixGeneral);
         }
 
         Location location = teleportConfiguration.locations.get(locationId);
         addPreviousLocation(targetPlayer);
         targetPlayer.teleport(location);
-        messages.send(commandSender, "&6" + targetPlayer.getName() + " teleported to " + locationId, messages.prefixGeneral);
+        messages.sendTranslation(commandSender, "teleport-player-to-location", messages.prefixGeneral, "%player%", targetPlayer.getName(), "%location%", locationId);
     }
 
     public void teleportSelf(Player targetPlayer, Location location) {
         addPreviousLocation(targetPlayer);
         targetPlayer.teleport(location);
-        messages.send(targetPlayer, "&6You have been teleported", messages.prefixGeneral);
+        messages.sendTranslation(targetPlayer, "teleport-teleported", messages.prefixGeneral);
     }
 
     public void teleportToPlayer(Player sourcePlayer, Player targetPlayer) {
@@ -68,7 +68,7 @@ public class TeleportService {
 
     public void teleportPlayerBack(Player player) {
         if (!previousLocations.containsKey(player) || previousLocations.get(player).isEmpty()) {
-            throw new BusinessException("&CUnable to teleport player back, no previous locations found");
+            throw new BusinessException(messages.get("teleport-error-no-previous-location"), messages.prefixGeneral);
         }
         Location previousLocation = previousLocations.get(player).pop();
         player.teleport(previousLocation);
@@ -91,11 +91,11 @@ public class TeleportService {
 
             World world = Bukkit.getWorlds().stream()
                 .filter(w -> w.getUID().getLeastSignificantBits() == uuidLeast && w.getUID().getMostSignificantBits() == uuidMost).findFirst()
-                .orElseThrow(() -> new BusinessException("Could not load location of offline player: [" + sppPlayer.getUsername() + "]"));
+                .orElseThrow(() -> new BusinessException(messages.get("teleport-error-offline-location", "%player%", sppPlayer.getUsername()), messages.prefixGeneral));
 
             return new Location(world, positions.get(0), positions.get(1), positions.get(2));
         } catch (IOException e) {
-            throw new BusinessException("Could not load location of offline player: [" + sppPlayer.getUsername() + "]");
+            throw new BusinessException(messages.get("teleport-error-offline-location", "%player%", sppPlayer.getUsername()), messages.prefixGeneral);
         }
     }
 }

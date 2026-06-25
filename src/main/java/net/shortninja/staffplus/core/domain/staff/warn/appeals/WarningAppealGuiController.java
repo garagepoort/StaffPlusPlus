@@ -107,16 +107,16 @@ public class WarningAppealGuiController {
             .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
 
         Warning warning = warnService.getWarning(warningId);
-        messages.send(player, "&1=====================================================", messages.prefixGeneral);
-        messages.send(player, "&6         You have chosen to appeal this warning", messages.prefixGeneral);
-        messages.send(player, "&6            Type your appeal reason in chat", messages.prefixGeneral);
-        messages.send(player, "&6         Type \"cancel\" to cancel appealing ", messages.prefixGeneral);
-        messages.send(player, "&1=====================================================", messages.prefixGeneral);
+        messages.send(player, messages.LONG_LINE, messages.prefixGeneral);
+        messages.sendTranslation(player, "appeal-create-warning-selected", messages.prefixGeneral);
+        messages.sendTranslation(player, "appeal-create-type-reason", messages.prefixGeneral);
+        messages.sendTranslation(player, "appeal-create-cancel", messages.prefixGeneral);
+        messages.send(player, messages.LONG_LINE, messages.prefixGeneral);
 
         OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, input) -> {
             if (input.equalsIgnoreCase(CANCEL)) {
-                messages.send(player, "&CYou have cancelled your appeal", messages.prefixWarnings);
+                messages.sendTranslation(player, "appeal-create-cancelled", messages.prefixWarnings);
                 return;
             }
 
@@ -149,15 +149,15 @@ public class WarningAppealGuiController {
         SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
             .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
         if (warningAppealConfiguration.resolveReasonEnabled) {
-            messages.send(player, "&1===================================================", messages.prefixWarnings);
-            messages.send(player, "&6       You have chosen to approve this appeal", messages.prefixWarnings);
-            messages.send(player, "&6Type your closing reason in chat to approve the appeal", messages.prefixWarnings);
-            messages.send(player, "&6      Type \"cancel\" to cancel approving the appeal ", messages.prefixWarnings);
-            messages.send(player, "&1===================================================", messages.prefixWarnings);
+            messages.send(player, messages.LONG_LINE, messages.prefixWarnings);
+            messages.sendTranslation(player, "appeal-approve-selected", messages.prefixWarnings);
+            messages.sendTranslation(player, "appeal-approve-type-reason", messages.prefixWarnings);
+            messages.sendTranslation(player, "appeal-approve-cancel", messages.prefixWarnings);
+            messages.send(player, messages.LONG_LINE, messages.prefixWarnings);
             OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled approving this appeal", messages.prefixWarnings);
+                    messages.sendTranslation(player, "appeal-approve-cancelled", messages.prefixWarnings);
                     return;
                 }
                 bukkitUtils.runTaskAsync(player, () -> warnService.approveAppeal(sppPlayer, appealId, message));
@@ -173,15 +173,15 @@ public class WarningAppealGuiController {
         SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
             .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
         if (warningAppealConfiguration.resolveReasonEnabled) {
-            messages.send(player, "&1==================================================", messages.prefixWarnings);
-            messages.send(player, "&6        You have chosen to reject this appeal", messages.prefixWarnings);
-            messages.send(player, "&6Type your closing reason in chat to reject the appeal", messages.prefixWarnings);
-            messages.send(player, "&6        Type \"cancel\" to cancel closing the appeal ", messages.prefixWarnings);
-            messages.send(player, "&1==================================================", messages.prefixWarnings);
+            messages.send(player, messages.LONG_LINE, messages.prefixWarnings);
+            messages.sendTranslation(player, "appeal-reject-selected", messages.prefixWarnings);
+            messages.sendTranslation(player, "appeal-reject-type-reason", messages.prefixWarnings);
+            messages.sendTranslation(player, "appeal-reject-cancel", messages.prefixWarnings);
+            messages.send(player, messages.LONG_LINE, messages.prefixWarnings);
             OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled rejecting this appeal", messages.prefixWarnings);
+                    messages.sendTranslation(player, "appeal-reject-cancelled", messages.prefixWarnings);
                     return;
                 }
                 bukkitUtils.runTaskAsync(player, () -> warnService.rejectAppeal(sppPlayer, appealId, message));

@@ -217,7 +217,7 @@ public class ManageReportsGuiController {
         if (report.getLocation().isPresent()) {
             reportService.goToReportLocation(player, report.getId());
         } else {
-            messages.send(player, "&cLocation not known for this report.", messages.prefixReports);
+            messages.sendTranslation(player, "reports.error-location-unknown", messages.prefixReports);
         }
     }
 

@@ -72,13 +72,13 @@ public class AltDetectWhitelistCmd extends AbstractCmd {
             for (AltDetectWhitelistedItem whitelistedItem : whitelistedItems) {
                 String whitelistPlayer1 = getPlayerName(whitelistedItem.getPlayerUuid1());
                 String whitelistPlayer2 = getPlayerName(whitelistedItem.getPlayerUuid2());
-                messages.send(sender, String.format("&B#%s: %s - %s", counter, whitelistPlayer1, whitelistPlayer2), messages.prefixGeneral);
+                messages.sendTranslation(sender, "alt-detect.whitelist-entry", messages.prefixGeneral, "%count%", Integer.toString(counter), "%player1%", whitelistPlayer1, "%player2%", whitelistPlayer2);
                 counter++;
             }
             if (whitelistedItems.isEmpty()) {
-                messages.send(sender, String.format("&6No items to display", page), messages.prefixGeneral);
+                messages.sendTranslation(sender, "alt-detect.no-items", messages.prefixGeneral);
             } else {
-                messages.send(sender, String.format("&6Showing page #%s", page), messages.prefixGeneral);
+                messages.sendTranslation(sender, "alt-detect.showing-page", messages.prefixGeneral, "%page%", Integer.toString(page));
             }
 
             return true;

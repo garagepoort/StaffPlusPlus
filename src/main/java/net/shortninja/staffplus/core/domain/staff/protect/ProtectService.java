@@ -43,7 +43,7 @@ public class ProtectService {
 
         boolean protectedArea = getAllProtectedAreas().stream().anyMatch(a -> a.isInArea(location));
         if (protectedArea) {
-            messages.send(player, "&7This area has been protected by a Staff Member", messages.prefixProtect);
+            messages.sendTranslation(player, "protect-area-protected", messages.prefixProtect);
         }
         return protectedArea;
     }
@@ -51,10 +51,10 @@ public class ProtectService {
     public void createProtectedArea(int size, String name, Player player, World world, Location location) {
         Optional<ProtectedArea> existingArea = protectedAreaRepository.findByName(name);
         if (existingArea.isPresent()) {
-            throw new BusinessException("&bA protected area with this name already exists. Please delete the existing area or choose another name.", messages.prefixProtect);
+            throw new BusinessException(messages.get("protect-error-area-exists"), messages.prefixProtect);
         }
         if (size > protectConfiguration.areaMaxSize) {
-            throw new BusinessException("&bCannot create area, size is too big. Max size [" + protectConfiguration.areaMaxSize + "]", messages.prefixProtect);
+            throw new BusinessException(messages.get("protect-error-area-too-big", "%maxSize%", Integer.toString(protectConfiguration.areaMaxSize)), messages.prefixProtect);
         }
 
         int half = size / 2;
@@ -65,32 +65,32 @@ public class ProtectService {
         ProtectedArea protectedArea = new ProtectedArea(name, location1, location2, player.getUniqueId());
         getAllProtectedAreas().add(protectedArea);
         protectedAreaRepository.addProtectedArea(player, protectedArea);
-        messages.send(player, "&bProtected Area added", messages.prefixProtect);
+        messages.sendTranslation(player, "protect-area-added", messages.prefixProtect);
     }
 
     public void deleteProtectedArea(Player player, String name) {
         Optional<ProtectedArea> protectedArea = protectedAreaRepository.findByName(name);
         if (!protectedArea.isPresent()) {
-            throw new BusinessException("&bCannot delete area. No area with name [" + name + "] found", messages.prefixProtect);
+            throw new BusinessException(messages.get("protect-error-area-name-not-found", "%name%", name), messages.prefixProtect);
         }
         protectedAreaRepository.deleteProtectedArea(protectedArea.get().getId());
         Optional<ProtectedArea> first = getAllProtectedAreas().stream().filter(p -> p.getName().equals(name)).findFirst();
         if (first.isPresent()) {
             getAllProtectedAreas().remove(first.get());
-            messages.send(player, "&bProtected Area deleted", messages.prefixProtect);
+            messages.sendTranslation(player, "protect-area-deleted", messages.prefixProtect);
         }
     }
 
     public void deleteProtectedArea(Player player, int id) {
         Optional<ProtectedArea> protectedArea = protectedAreaRepository.findById(id);
         if (!protectedArea.isPresent()) {
-            throw new BusinessException("&bCannot delete area. No area with id [" + id + "] found", messages.prefixProtect);
+            throw new BusinessException(messages.get("protect-error-area-id-not-found", "%id%", Integer.toString(id)), messages.prefixProtect);
         }
         protectedAreaRepository.deleteProtectedArea(id);
         Optional<ProtectedArea> first = getAllProtectedAreas().stream().filter(p -> p.getName().equals(protectedArea.get().getName())).findFirst();
         if (first.isPresent()) {
             getAllProtectedAreas().remove(first.get());
-            messages.send(player, "&bProtected Area deleted", messages.prefixProtect);
+            messages.sendTranslation(player, "protect-area-deleted", messages.prefixProtect);
         }
     }
 
@@ -106,6 +106,6 @@ public class ProtectService {
     }
 
     public ProtectedArea getById(int protectedAreaId) {
-        return protectedAreaRepository.findById(protectedAreaId).orElseThrow(() -> new BusinessException("&CNo area with id [" + protectedAreaId + "] found", messages.prefixProtect));
+        return protectedAreaRepository.findById(protectedAreaId).orElseThrow(() -> new BusinessException(messages.get("protect-error-area-id-not-found", "%id%", Integer.toString(protectedAreaId)), messages.prefixProtect));
     }
 }
