@@ -72,7 +72,7 @@ public class MigrateIpBansCmd extends AbstractCmd {
                 }
             });
 
-            messages.send(sender, "&C" + count.get() + " &6Ip bans have been migrated", messages.prefixBans);
+            messages.sendTranslation(sender, "ipbans.migrated", messages.prefixBans, "%count%", Integer.toString(count.get()));
         });
         return true;
     }

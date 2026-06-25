@@ -51,7 +51,7 @@ public class CancelWhisperToVanished implements Listener {
             .map(sppPlayer -> sessionManager.get(sppPlayer.getPlayer()))
             .filter(PlayerSession::isVanished)
             .ifPresent(session -> {
-                messages.send(event.getPlayer(), "&cNo player was found", "");
+                messages.sendTranslation(event.getPlayer(), "no-player-found", "");
                 event.setCancelled(true);
             });
     }

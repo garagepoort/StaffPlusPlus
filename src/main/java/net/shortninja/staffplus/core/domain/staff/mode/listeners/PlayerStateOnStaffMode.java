@@ -49,7 +49,7 @@ public class PlayerStateOnStaffMode implements Listener {
             .ifPresent(player -> {
                 GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, event.getToMode());
                 potionEffectService.removeAllPotionEffects(player);
-                messages.send(player, "&eYou switched to staff mode &6" + modeConfiguration.getName(), messages.prefixGeneral);
+                messages.sendTranslation(player, "mode-switched", messages.prefixGeneral, "%mode%", modeConfiguration.getName());
             });
     }
 
