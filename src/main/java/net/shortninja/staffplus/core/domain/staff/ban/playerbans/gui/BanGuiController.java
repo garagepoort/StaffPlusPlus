@@ -95,18 +95,18 @@ public class BanGuiController {
 
     @GuiAction("manage-bans/unban")
     public void unban(Player player, @GuiParam("banId") int banId) {
-        messages.send(player, "&1=====================================================", messages.prefixGeneral);
-        messages.send(player, "&6         You have chosen to unban this player", messages.prefixGeneral);
-        messages.send(player, "&6Type your reason for unbanning this player in chat", messages.prefixGeneral);
-        messages.send(player, "&6        Type \"cancel\" to cancel the unban ", messages.prefixGeneral);
-        messages.send(player, "&1=====================================================", messages.prefixGeneral);
+        messages.send(player, messages.LONG_LINE, messages.prefixGeneral);
+        messages.sendTranslation(player, "ban-unban-selected", messages.prefixGeneral);
+        messages.sendTranslation(player, "ban-unban-type-reason", messages.prefixGeneral);
+        messages.sendTranslation(player, "ban-unban-cancel", messages.prefixGeneral);
+        messages.send(player, messages.LONG_LINE, messages.prefixGeneral);
 
         SppPlayer target = playerManager.getOnlinePlayer(player.getUniqueId()).orElseThrow(() -> new PlayerNotFoundException(player.getName()));
 
         OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
-                messages.send(player, "&CYou have cancelled unbanning this player", messages.prefixBans);
+                messages.sendTranslation(player, "ban-unban-cancelled", messages.prefixBans);
                 return;
             }
             banService.unban(target, banId, message);

@@ -143,7 +143,7 @@ public class StaffLocationsGuiController {
             OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled saving this location", prefix);
+                    messages.sendTranslation(player, "staff-locations.save-cancelled", prefix);
                     return;
                 }
                 guiActionService.executeAction(player, GuiActionBuilder.fromAction("staff-locations/create-flow/select-icon")
@@ -188,7 +188,7 @@ public class StaffLocationsGuiController {
             OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled saving this location", prefix);
+                    messages.sendTranslation(player, "staff-locations.save-cancelled", prefix);
                     return;
                 }
 

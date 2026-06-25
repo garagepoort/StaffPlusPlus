@@ -61,21 +61,21 @@ public class IpBansViewCmd extends AbstractCmd {
             .flatMap(ipBan -> ipBan.isSubnet() ? playerIpService.getMatchedBySubnet(ipBan.getIp()).stream() : playerIpService.getMatchedByIp(ipBan.getIp()).stream())
             .collect(Collectors.toList());
 
-        messages.send(sender, "&6All players that are matching active ip bans: ", messages.prefixBans);
+        messages.sendTranslation(sender, "ipbans.active-matching-players", messages.prefixBans);
         messages.send(sender, messages.LONG_LINE, messages.prefixBans);
         for (int i = 0; i < bannedPlayers.size(); i++) {
             PlayerIpRecord playerIpRecord = bannedPlayers.get(i);
-            messages.send(sender, "&c" + (i + 1) + ". &7" + playerIpRecord.getPlayerName(), messages.prefixBans);
+            messages.sendTranslation(sender, "ipbans.list-entry", messages.prefixBans, "%count%", Integer.toString(i + 1), "%value%", playerIpRecord.getPlayerName());
         }
     }
 
     private void listIps(CommandSender sender) {
         List<IpBan> matchingIpBans = banService.getAllActiveBans();
-        messages.send(sender, "&6All ip banning rules: ", messages.prefixBans);
+        messages.sendTranslation(sender, "ipbans.active-rules", messages.prefixBans);
         messages.send(sender, messages.LONG_LINE, messages.prefixBans);
         for (int i = 0; i < matchingIpBans.size(); i++) {
             IpBan matchingIpBan = matchingIpBans.get(i);
-            messages.send(sender, "&c" + (i + 1) + ". &7" + matchingIpBan.getIp(), messages.prefixBans);
+            messages.sendTranslation(sender, "ipbans.list-entry", messages.prefixBans, "%count%", Integer.toString(i + 1), "%value%", matchingIpBan.getIp());
         }
     }
 
