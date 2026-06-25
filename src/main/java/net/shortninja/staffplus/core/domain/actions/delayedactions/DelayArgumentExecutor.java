@@ -42,7 +42,7 @@ public class DelayArgumentExecutor {
         Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerName);
 
         if (!player.isPresent()) {
-            throw new BusinessException("&CCannot delay the command. No user found on this server with name: [" + playerName + "]", messages.prefixGeneral);
+            throw new BusinessException(messages.get("delay-command-player-not-found", "%player%", playerName), messages.prefixGeneral);
         }
 
         bukkitUtils.runTaskAsync(() -> actionService.createCommand(
@@ -54,7 +54,7 @@ public class DelayArgumentExecutor {
                 .targetRunStrategy(DELAY)
                 .command(command)
                 .build()));
-        messages.send(commandSender, "Your command has been delayed and will be executed next time [" + playerName + "] joins the server", messages.prefixGeneral);
+        messages.sendTranslation(commandSender, "delay-command-created", messages.prefixGeneral, "%player%", playerName);
         return true;
     }
 

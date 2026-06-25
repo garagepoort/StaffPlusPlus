@@ -51,8 +51,8 @@ public class AltDetectCheckCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         bukkitUtils.runTaskAsync(sender, () -> {
-            messages.send(sender, "&fChecking alt accounts for player: &6%player%".replace("%player%", player.getUsername()), messages.prefixGeneral);
-            messages.send(sender, "&fLast known IP: &6%ip%".replace("%ip%", playerIpRepository.getLastIp(player.getId()).orElse("Unknown")), messages.prefixGeneral);
+            messages.sendTranslation(sender, "alt-detect.checking-player", messages.prefixGeneral, "%player%", player.getUsername());
+            messages.sendTranslation(sender, "alt-detect.last-known-ip", messages.prefixGeneral, "%ip%", playerIpRepository.getLastIp(player.getId()).orElse(messages.get("gui.unknown")));
             messages.send(sender, messages.LONG_LINE, messages.prefixGeneral);
 
             List<AltDetectResult> altAccounts = altDetectionService.getAltAccounts(player).stream()

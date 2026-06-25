@@ -40,11 +40,11 @@ public class InputCustomModulePreprocessor implements CustomModulePreProcessor {
             OnlinePlayerSession playerSession = sessionsManager.get(player);
             messages.send(player, "&7------", messages.prefixGeneral);
             messages.send(player, "&6" + inputPrompt, messages.prefixGeneral);
-            messages.send(player, "&6 or \"cancel\" to cancel the action", messages.prefixGeneral);
+            messages.sendTranslation(player, "custom-modules.input-cancel", messages.prefixGeneral);
             messages.send(player, "&7------", messages.prefixGeneral);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled this action", messages.prefixGeneral);
+                    messages.sendTranslation(player, "custom-modules.action-cancelled", messages.prefixGeneral);
                     return;
                 }
                 pl.put("%input%", message);

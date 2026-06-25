@@ -64,10 +64,10 @@ public class IpBanService {
     private void ban(CommandSender issuer, String ipAddress, String template, Long durationInMillis, boolean isSilent) {
         List<IpBan> matchingIpBans = findMatchingIpBans(ipAddress);
         if (!matchingIpBans.isEmpty()) {
-            throw new BusinessException("&cThis ip is already banned by the following rules: " + matchingIpBans.stream().map(IpBan::getIp).collect(Collectors.joining(" | ")), messages.prefixBans);
+            throw new BusinessException(messages.get("ipbans.error-already-banned", "%rules%", matchingIpBans.stream().map(IpBan::getIp).collect(Collectors.joining(" | "))), messages.prefixBans);
         }
         if (!canBanRank(issuer, ipAddress)) {
-            throw new BusinessException("&CYou don't have permission to ban this ip!", messages.prefixBans);
+            throw new BusinessException(messages.get("ipbans.error-no-permission-ban"), messages.prefixBans);
         }
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
@@ -103,9 +103,9 @@ public class IpBanService {
 
     public void unbanIp(CommandSender sender, String ipAddress, boolean silent) {
         if (!canBanRank(sender, ipAddress)) {
-            throw new BusinessException("&CYou don't have permission to unban this ip!", messages.prefixBans);
+            throw new BusinessException(messages.get("ipbans.error-no-permission-unban"), messages.prefixBans);
         }
-        IpBan ipBan = ipBanRepository.getActiveBannedRule(ipAddress).orElseThrow(() -> new BusinessException("No ipban found with rule: " + ipAddress, messages.prefixBans));
+        IpBan ipBan = ipBanRepository.getActiveBannedRule(ipAddress).orElseThrow(() -> new BusinessException(messages.get("ipbans.error-rule-not-found", "%rule%", ipAddress), messages.prefixBans));
         ipBan.setSilentUnban(silent);
 
         ipBan.setUnbannedByName(sender instanceof Player ? sender.getName() : "CONSOLE");

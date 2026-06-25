@@ -65,7 +65,7 @@ public class InvestigationService {
 
         Investigation investigation = getInvestigation(investigationId);
         if (investigation.getStatus() != PAUSED) {
-            throw new BusinessException("&CCan not resume investigation. This investigation is not paused");
+            throw new BusinessException(messages.get("investigation.error-cannot-resume-not-paused"), messages.prefixInvestigations);
         }
         investigation.setStatus(OPEN);
         investigation.setInvestigatorName(investigator.getName());
@@ -79,7 +79,7 @@ public class InvestigationService {
         validateInvestigationStart(investigator, investigated);
 
         Investigation investigation = investigationsRepository.findInvestigationForInvestigated(investigator.getUniqueId(), investigated.getId(), Collections.singletonList(PAUSED))
-            .orElseThrow(() -> new BusinessException("Cannot resume investigation. No paused investigation found"));
+            .orElseThrow(() -> new BusinessException(messages.get("investigation.error-no-paused-found"), messages.prefixInvestigations));
         investigation.setStatus(OPEN);
         investigation.setInvestigatorName(investigator.getName());
         investigation.setInvestigatorUuid(investigator.getUniqueId());
@@ -102,7 +102,7 @@ public class InvestigationService {
     public void concludeInvestigation(Player investigator) {
         permissionHandler.validate(investigator, investigationConfiguration.getInvestigatePermission());
         Investigation investigation = investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN))
-            .orElseThrow(() -> new BusinessException("&CYou currently have no investigation running.", messages.prefixInvestigations));
+            .orElseThrow(() -> new BusinessException(messages.get("investigation.error-none-running"), messages.prefixInvestigations));
         investigation.setConclusionDate(System.currentTimeMillis());
         investigation.setStatus(InvestigationStatus.CONCLUDED);
 
@@ -113,10 +113,10 @@ public class InvestigationService {
     public void concludeInvestigation(Player investigator, int investigationId) {
         permissionHandler.validate(investigator, investigationConfiguration.getInvestigatePermission());
         Investigation investigation = investigationsRepository.findInvestigation(investigationId)
-            .orElseThrow(() -> new BusinessException("&CNo investigation found with thid id.", messages.prefixInvestigations));
+            .orElseThrow(() -> new BusinessException(messages.get("investigation.error-not-found"), messages.prefixInvestigations));
 
         if (investigation.getStatus() == OPEN && !investigation.getInvestigatorUuid().equals(investigator.getUniqueId())) {
-            throw new BusinessException("$CCannot conclude the investigation. This investigation is currently ongoing.");
+            throw new BusinessException(messages.get("investigation.error-cannot-conclude-ongoing"), messages.prefixInvestigations);
         }
         investigation.setConclusionDate(System.currentTimeMillis());
         investigation.setStatus(InvestigationStatus.CONCLUDED);
@@ -127,7 +127,7 @@ public class InvestigationService {
 
     public void pauseInvestigation(Player investigator) {
         Investigation investigation = investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN))
-            .orElseThrow(() -> new BusinessException("&CYou currently have no investigation running", messages.prefixInvestigations));
+            .orElseThrow(() -> new BusinessException(messages.get("investigation.error-none-running"), messages.prefixInvestigations));
         investigation.setStatus(PAUSED);
 
         investigationsRepository.updateInvestigation(investigation);
@@ -162,25 +162,25 @@ public class InvestigationService {
 
     public Investigation getInvestigation(int investigationId) {
         return investigationsRepository.findInvestigation(investigationId)
-            .orElseThrow(() -> new BusinessException("Investigation with id [" + investigationId + "] not found", messages.prefixInvestigations));
+            .orElseThrow(() -> new BusinessException(messages.get("investigation.error-not-found-with-id", "%investigationId%", Integer.toString(investigationId)), messages.prefixInvestigations));
     }
 
     private void validateInvestigationStart(Player investigator, SppPlayer investigated) {
         if (!investigated.isOnline() && !investigationConfiguration.isAllowOfflineInvestigation()) {
-            throw new BusinessException("Not allowed to investigate an offline player");
+            throw new BusinessException(messages.get("investigation.error-offline-not-allowed"), messages.prefixInvestigations);
         }
         investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN)).ifPresent(investigation1 -> {
-            throw new BusinessException("&CCan't start an investigation, you currently have an investigation running", messages.prefixInvestigations);
+            throw new BusinessException(messages.get("investigation.error-already-running"), messages.prefixInvestigations);
         });
         List<Investigation> runningInvestigations = investigationsRepository.getInvestigationsForInvestigated(investigated.getId(), Collections.singletonList(OPEN));
         if (investigationConfiguration.getMaxConcurrentInvestigation() > 0 && runningInvestigations.size() >= investigationConfiguration.getMaxConcurrentInvestigation()) {
-            throw new BusinessException("&CCannot start investigation. There are already too many investigations ongoing at this moment.");
+            throw new BusinessException(messages.get("investigation.error-too-many-running"), messages.prefixInvestigations);
         }
     }
 
     private void validateInvestigationStart(Player investigator) {
         investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN)).ifPresent(investigation1 -> {
-            throw new BusinessException("&CCan't start an investigation, you currently have an investigation running", messages.prefixInvestigations);
+            throw new BusinessException(messages.get("investigation.error-already-running"), messages.prefixInvestigations);
         });
     }
 

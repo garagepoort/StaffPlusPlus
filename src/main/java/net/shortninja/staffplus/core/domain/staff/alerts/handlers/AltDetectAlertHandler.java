@@ -36,10 +36,11 @@ public class AltDetectAlertHandler extends AlertsHandler implements Listener {
         }
 
         for (Player player : getPlayersToNotify()) {
-            messages.send(player, String.format("&CAlt account check triggered, %s and %s might be the same player. Trust [%s]",
-                altDetectResult.getPlayerCheckedName(),
-                altDetectResult.getPlayerMatchedName(),
-                altDetectResult.getAltDetectTrustLevel()), messages.prefixGeneral);
+            messages.sendTranslation(player, "alt-detect.alert",
+                messages.prefixGeneral,
+                "%player1%", altDetectResult.getPlayerCheckedName(),
+                "%player2%", altDetectResult.getPlayerMatchedName(),
+                "%trust%", altDetectResult.getAltDetectTrustLevel().name());
         }
     }
 
