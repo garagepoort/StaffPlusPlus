@@ -78,7 +78,7 @@ public class WarnCmd extends AbstractCmd {
 
         bukkitUtils.runTaskAsync(sender, () -> {
             WarningSeverityConfiguration severity = warningConfiguration.getSeverityConfiguration(severityLevel)
-                .orElseThrow(() -> new BusinessException("&CCannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
+                .orElseThrow(() -> new BusinessException(messages.get("warnings-error-severity-not-found", "%severity%", severityLevel), messages.prefixWarnings));
 
             warnService.sendWarning(sender, player, reason, severity);
         });
@@ -103,7 +103,7 @@ public class WarnCmd extends AbstractCmd {
 
         String severityLevel = args[0];
         WarningSeverityConfiguration severityConfiguration = warningConfiguration.getSeverityConfiguration(severityLevel)
-            .orElseThrow(() -> new BusinessException("&CCannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
+            .orElseThrow(() -> new BusinessException(messages.get("warnings-error-severity-not-found", "%severity%", severityLevel), messages.prefixWarnings));
 
         if (severityConfiguration.hasDefaultReason()) {
             return 2;

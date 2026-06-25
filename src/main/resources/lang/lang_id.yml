@@ -21,6 +21,18 @@ warnings-prefix: '&dPeringatan &8»'
 tickets-prefix: '&dTiket &8»'
 trace-prefix: '&dMelacak &8»'
 protect-prefix: '&dDilindungi &8»'
+protect-area-protected: "&7Area ini telah dilindungi oleh Anggota Staf"
+protect-area-added: "&bArea Terlindung ditambahkan"
+protect-area-deleted: "&bArea Terlindungi dihapus"
+protect-error-area-exists: "Kawasan lindung &bA dengan nama ini sudah ada. Silakan hapus area yang ada atau pilih nama lain."
+protect-error-area-too-big: "&bTidak dapat membuat area, ukurannya terlalu besar. Ukuran maksimal [%maxSize%]"
+protect-error-area-name-not-found: "&bTidak dapat menghapus area. Tidak ditemukan area dengan nama [%name%]"
+protect-error-area-id-not-found: "&CTidak ditemukan area dengan id [%id%]"
+protect-error-invalid-action: "&CSilakan pilih tindakan yang benar [create|delete]"
+protect-player-enabled-staff: "&6%player% sekarang terlindungi dari semua kerusakan"
+protect-player-enabled-target: "&6Anda telah dilindungi dari semua kerusakan oleh anggota staf"
+protect-player-disabled-staff: "&6%player% tidak lagi terlindungi dari segala kerusakan"
+protect-player-disabled-target: "&6Anda tidak lagi terlindungi dari kerusakan"
 investigations-prefix: '&dInvestigasi &8»'
 ############################################################
 # +------------------------------------------------------+ #
@@ -69,8 +81,14 @@ unknown-command: '&cPerintah tidak diketahui.'
 invalid-arguments: '&cArgumen salah! (%usage%)'
 only-players: '&bHanya pemain yang boleh menggunakan perintah tersebut!'
 no-found: '&bTIDAK DITEMUKAN!'
+no-player-found: "&cTidak ada pemain yang ditemukan"
 type-input: '&bMasukkan masukan Anda di obrolan!'
 input-accepted: '&bMasukan diterima dan dikirimkan.'
+configuration-reloaded: "Konfigurasi &6telah dimuat ulang"
+webui-registration-link: "&bLink Pendaftaran: &6%link%"
+delay-command-player-not-found: "&CTidak dapat menunda perintah. Tidak ada pengguna yang ditemukan di server ini dengan nama: [%player%]"
+delay-command-created: "&6Perintah Anda telah ditunda dan akan dieksekusi saat berikutnya [%player%] bergabung dengan server"
+style-info-status: "&6Info gaya %status%"
 enabled: aktif
 disabled: nonaktif
 
@@ -129,6 +147,7 @@ reports:
         &1==================================================
     reject-cancelled: "&CYou have cancelled rejecting this report"
 
+    error-empty-reason: "&CReport tidak dapat dibuat tanpa alasan"
     status:
         RESOLVED: "RESOLVED"
         REJECTED: "REJECTED"
@@ -145,6 +164,14 @@ warnings-list-entry: '&b%count%: &7%reason% (%issuer%)'
 # Lines are separated by commas.
 warnings-list-end: '&7%longline%'
 warnings-notify: kamu telah %warningsCount% peringatan baru!
+warnings-warn-selected: "&6Anda telah memilih untuk memperingatkan pemain ini"
+warnings-warn-type-reason: "&6Ketikkan alasan Anda memperingatkan pemain ini dalam obrolan"
+warnings-warn-type-none: "&6Type \"none\" untuk menggunakan alasan default"
+warnings-warn-cancel: "&6Ketik \"cancel\" untuk membatalkan peringatan"
+warnings-warn-cancelled: "&CAnda telah membatalkan peringatan pemain ini"
+warning-removed: "&2Peringatan telah dihapus"
+warning-expired: "&2Peringatan telah kedaluwarsa"
+warnings-error-severity-not-found: "&CTidak dapat menemukan tingkat keparahan: [%severity%]"
 warned-announcement: '&7%issuer% &btelah memperingati &7%target% &bkarena &7%reason%&b.'
 
 # Lines are separated by commas.
@@ -219,6 +246,12 @@ alerts-command-detected: "&7%target% &bhas tried executing the command (&7%comma
 alerts-mention: '&7%target% &bmenandai Anda!'
 alerts-xray: '&7%target% &btelah menambang &7%count% %itemtype%&b! With: [tooltip|&c%tool-type%|&b%tool-type%\n&7%tool-enchantments%]'
 alerts-blacklist: "&c[SWEAR] &7[%server%] &6%player%&7: %uncensored-message%"
+alt-detect.whitelist-entry: "&B#%count%: %player1% - %player2%"
+alt-detect.no-items: "&6Tidak ada item untuk ditampilkan"
+alt-detect.showing-page: "&6Menampilkan halaman #%page%"
+alt-detect.checking-player: "&fMemeriksa akun alt untuk pemain: &6%player%"
+alt-detect.last-known-ip: "&fLIP terakhir yang diketahui: &6%ip%"
+alt-detect.alert: "Pemeriksaan akun &CAlt dipicu, %player1% dan %player2% mungkin pemain yang sama. Percayai [%trust%]"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -232,6 +265,15 @@ mode-random-teleport: '&bKamu berpindah ke tempat acak!'
 mode-not-enough-players: '&bTidak cukup pemain untuk berpindah acak!'
 mode-fly-enabled: "&3Flight is now &6on"
 mode-fly-disabled: "&3Flight is now &6off"
+mode-switched: "&eAnda beralih ke mode staf &6%mode%"
+teleport-error-location-not-found: "&CTidak ditemukan lokasi dengan nama: %location%"
+teleport-player-to-location: "&6%player% diteleportasi ke %location%"
+teleport-teleported: "&6Anda telah diteleportasi"
+teleport-error-no-previous-location: "&CTidak dapat memindahkan pemain kembali, tidak ada lokasi sebelumnya yang ditemukan"
+teleport-error-offline-location: "&CTidak dapat memuat lokasi pemutar offline: [%player%]"
+custom-modules.no-target: "&CTidak ada target dalam jangkauan"
+custom-modules.input-cancel: "&6atau \"cancel\" untuk membatalkan tindakan"
+custom-modules.action-cancelled: "&CAnda telah membatalkan tindakan ini"
 
 gui-reports: '&bLaporan'
 gui-mine: '&bPenambang'
@@ -287,6 +329,34 @@ ban-reduced: '&7Banned Anda telah diperpendek &6%target%&7''s selama %reductionD
 ban-tempbanned-kick: '[Banned] Anda dibanned sementara. Ban ends in: %duration%'
 ban-permabanned-kick: '[Banned] Anda dibanned permanen'
 ban-appeal-open-notify: "There are %appealsCount% unresolved appealed bans!"
+appeal-create-ban-selected: "&6Anda telah memilih untuk mengajukan banding terhadap larangan ini"
+appeal-create-mute-selected: "&6Anda telah memilih untuk mengajukan banding terhadap orang bisu ini"
+appeal-create-warning-selected: "&6Anda telah memilih untuk mengajukan banding atas peringatan ini"
+appeal-create-type-reason: "&6Ketik alasan banding Anda di chat"
+appeal-create-cancel: "&6Ketik \"cancel\" untuk membatalkan banding"
+appeal-create-cancelled: "&CAnda telah membatalkan banding Anda"
+appeal-approve-selected: "&6Anda telah memilih untuk menyetujui banding ini"
+appeal-approve-type-reason: "&6Ketik alasan penutupan Anda di chat untuk menyetujui banding"
+appeal-approve-cancel: "&6Type \"cancel\" untuk membatalkan persetujuan banding"
+appeal-approve-cancelled: "&CAnda telah membatalkan persetujuan banding ini"
+appeal-reject-selected: "&6Anda telah memilih untuk menolak banding ini"
+appeal-reject-type-reason: "&6Ketik alasan penutupan Anda di chat untuk menolak banding"
+appeal-reject-cancel: "&6Type \"cancel\" untuk membatalkan penutupan banding"
+appeal-reject-cancelled: "&CAnda telah membatalkan penolakan banding ini"
+ban-unban-selected: "&6Anda telah memilih untuk membatalkan pemblokiran pemain ini"
+ban-unban-type-reason: "&6Ketik alasan Anda membatalkan pemblokiran pemain ini dalam obrolan"
+ban-unban-cancel: "&6Ketik \"cancel\" untuk membatalkan pembatalan pelarangan"
+ban-unban-cancelled: "&CAnda telah membatalkan pembatalan pelarangan pemain ini"
+ban-migrated: "&C%count% &6larangan telah dimigrasikan"
+ban-error-player-not-banned: "&CPemain ini tidak dilarang"
+ban-error-permanent-extend: "&CPemain dilarang secara permanen. Tidak dapat memperpanjang larangan"
+ban-error-permanent-reduce: "&CPemain dilarang secara permanen. Tidak dapat mengurangi larangan"
+ban-error-not-found: "&CTidak ditemukan larangan dengan id ini"
+ban-error-no-permission-unban: "&CAnda tidak memiliki izin untuk membatalkan pemblokiran pemain ini!"
+ban-error-cannot-unban-not-banned: "&CTidak dapat membatalkan pemblokiran, pengguna ini tidak diblokir"
+ban-error-bypasses: "&CPemain ini lolos dari larangan"
+ban-error-no-permission-ban: "&CAnda tidak mempunyai izin untuk melarang pemain ini!"
+ban-error-already-banned: "&CTidak dapat melarang pemain ini, pemain tersebut sudah dilarang"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -300,6 +370,26 @@ ipbans:
     unbanned: '&6%issuer% telah dibanned alamat ip %ip%  dari server'
     tempbanned-kick: '[Banned] Alamat ipmu dibanned sementara dari server'
     permabanned-kick: '[Banned] Alamat ipmu dibanned selamanya dari server'
+    ban-confirmation-matching-players: "&6Pemain berikut cocok dengan aturan IP saat ini yang akan Anda tambahkan. Semuanya akan dilarang"
+    ban-confirmation-question: "Apakah Anda yakin ingin melarang ip ini?"
+    ban-cancelled: "&7Anda telah membatalkan pelarangan ip ini"
+    unban-confirmation-matching-players: "&6Pemain berikut cocok dengan aturan IP yang diberikan."
+    unban-confirmation-question: "Apakah Anda yakin ingin membatalkan pelarangan aturan ini?"
+    unban-cancelled: "&6Anda telah membatalkan pembatalan pemblokiran ip ini"
+    error-already-banned: "&cIP ini sudah dilarang berdasarkan aturan berikut: %rules%"
+    error-no-permission-ban: "&CAnda tidak mempunyai izin untuk melarang ip ini!"
+    error-no-permission-unban: "&CAnda tidak mempunyai izin untuk membatalkan pemblokiran ip ini!"
+    error-rule-not-found: "&CTidak ditemukan ipban dengan aturan: %rule%"
+    error-invalid-template: "&CTemplate yang disediakan tidak valid"
+    error-template-not-found: "&CTidak dapat menemukan template larangan dengan nama [%template%]"
+    active-matching-players: "&6Semua pemain yang cocok dengan larangan ip aktif:"
+    active-rules: "&6Semua aturan pelarangan ip:"
+    list-entry: "&c%count%. &7%value%"
+    check-not-banned: "&6Pemain ini &2bukan ip dilarang."
+    check-banned: "&6Pemain ini &cip dilarang &6dengan aturan berikut:"
+    ban-executed: "&6Ban dieksekusi"
+    unban-executed: "&6Unban dieksekusi"
+    migrated: "Larangan &C%count% &6Ip telah dimigrasikan"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -323,6 +413,17 @@ mute-extended: "&7You have extended &6%target%&7's mute by %extensionDuration%"
 mute-reduced: "&7You have reduced &6%target%&7's mute by %reductionDuration%"
 mute-appeal-open-notify: "There are %appealsCount% unresolved appealed mutes!"
 mute-notify: "You are currently muted!"
+mute-unmute-selected: "&6Anda telah memilih untuk membunyikan pemain ini"
+mute-unmute-type-reason: "&6Ketik alasan Anda mengaktifkan pemutar ini di chat"
+mute-unmute-cancel: "&6Ketik \"cancel\" untuk membatalkan suara"
+mute-unmute-cancelled: "&CAnda telah membatalkan pengaktifan suara pemain ini"
+mute-error-not-found: "&CTidak ditemukan bisu dengan id ini"
+mute-error-player-not-muted: "&CPemain ini tidak dibisukan"
+mute-error-permanent-extend: "&CPemain dimatikan secara permanen. Tidak dapat memperpanjang mode bisu"
+mute-error-permanent-reduce: "&CPemain dimatikan secara permanen. Tidak dapat mengurangi bisu"
+mute-error-cannot-unmute-not-muted: "&CTidak dapat bersuara, pengguna ini tidak dibisukan"
+mute-error-bypasses: "&CPemain ini tidak dibisukan"
+mute-error-already-muted: "&CTidak dapat membisukan pemain ini, pemain sudah dibisukan"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -353,6 +454,18 @@ investigation.staff-notification-evidence-linked: '&4%investigator% &6berhubunga
 investigation.staff-notification-evidence-unlinked: '&4%investigator% &6tidak berubungan dengan bukti %evidenceType% (ID=%evidenceId%) dari investigasi (ID=%investigationId%)'
 investigation.staff-notification-note-added: '&4%investigator% &6menambahkan catatan investigasi (ID=%investigationId%)'
 investigation.staff-notification-note-deleted: '&4%investigator% &6menghapus catatan investigasi (ID=%investigationId%)'
+investigation.note-add-type: "&6Ketik catatan Anda di obrolan"
+investigation.note-add-cancel: "&6Ketik \"cancel\" untuk membatalkan penambahan catatan"
+investigation.note-add-cancelled: "&CAnda telah membatalkan catatan Anda"
+investigation.error-cannot-resume-not-paused: "&CTidak dapat melanjutkan penyelidikan. Investigasi ini tidak dihentikan"
+investigation.error-no-paused-found: "&CTidak dapat melanjutkan penyelidikan. Tidak ditemukan investigasi yang dijeda"
+investigation.error-none-running: "&CSaat ini Anda tidak menjalankan investigasi"
+investigation.error-not-found: "&CTidak ditemukan investigasi dengan id ini."
+investigation.error-cannot-conclude-ongoing: "&CTidak dapat menyelesaikan penyelidikan. Investigasi ini sedang berlangsung."
+investigation.error-not-found-with-id: "&CInvestigasi dengan id [%investigationId%] tidak ditemukan"
+investigation.error-offline-not-allowed: "&CTidak diperbolehkan menyelidiki pemain offline"
+investigation.error-already-running: "&CTidak dapat memulai penyelidikan, penyelidikan Anda sedang berjalan"
+investigation.error-too-many-running: "&CTidak dapat memulai penyelidikan. Sudah terlalu banyak penyelidikan yang sedang berlangsung saat ini."
 
 ips:
     prefix: '&dIPs &8»'

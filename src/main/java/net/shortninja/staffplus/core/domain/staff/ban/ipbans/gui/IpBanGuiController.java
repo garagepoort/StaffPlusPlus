@@ -6,6 +6,7 @@ import be.garagepoort.mcioc.tubinggui.GuiController;
 import be.garagepoort.mcioc.tubinggui.GuiParam;
 import be.garagepoort.mcioc.tubinggui.model.TubingGuiActions;
 import be.garagepoort.mcioc.tubinggui.templates.GuiTemplate;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpRecord;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpService;
 import net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBanService;
@@ -23,10 +24,12 @@ public class IpBanGuiController {
 
     private final IpBanService banService;
     private final PlayerIpService playerIpService;
+    private final Messages messages;
 
-    public IpBanGuiController(IpBanService banService, PlayerIpService playerIpService) {
+    public IpBanGuiController(IpBanService banService, PlayerIpService playerIpService, Messages messages) {
         this.banService = banService;
         this.playerIpService = playerIpService;
+        this.messages = messages;
     }
 
     @GuiAction("ipbans/ban/confirm")
@@ -81,10 +84,10 @@ public class IpBanGuiController {
     private List<String> buildConfirmationMessage(@GuiParam("ipAddress") String ipAddress) {
         List<PlayerIpRecord> players = ipAddress.contains("/") ? playerIpService.getMatchedBySubnet(ipAddress) : playerIpService.getMatchedByIp(ipAddress);
         List<String> messageLines = new ArrayList<>();
-        messageLines.add("&6Following players are matching the current IP rule you will add.");
+        messageLines.add(messages.get("ipbans.ban-confirmation-matching-players"));
         for (int i = 0; i < players.size(); i++) {
             PlayerIpRecord player = players.get(i);
-            messageLines.add("&c" + (i + 1) + ". &7" + player.getPlayerName());
+            messageLines.add(messages.get("ipbans.list-entry", "%count%", Integer.toString(i + 1), "%value%", player.getPlayerName()));
         }
         return messageLines;
     }

@@ -81,16 +81,16 @@ public class BanAppealGuiController {
     @GuiAction("manage-ban-appeals/view/create/reason-chat")
     public void getCreateAppealReasonChatView(Player player, @GuiParam("banId") int banId) {
         Ban ban = banService.getActiveById(banId);
-        messages.send(player, "&1=====================================================", messages.prefixGeneral);
-        messages.send(player, "&6         You have chosen to appeal this ban", messages.prefixGeneral);
-        messages.send(player, "&6            Type your appeal reason in chat", messages.prefixGeneral);
-        messages.send(player, "&6         Type \"cancel\" to cancel appealing ", messages.prefixGeneral);
-        messages.send(player, "&1=====================================================", messages.prefixGeneral);
+        messages.send(player, messages.LONG_LINE, messages.prefixGeneral);
+        messages.sendTranslation(player, "appeal-create-ban-selected", messages.prefixGeneral);
+        messages.sendTranslation(player, "appeal-create-type-reason", messages.prefixGeneral);
+        messages.sendTranslation(player, "appeal-create-cancel", messages.prefixGeneral);
+        messages.send(player, messages.LONG_LINE, messages.prefixGeneral);
 
         OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, input) -> {
             if (input.equalsIgnoreCase(CANCEL)) {
-                messages.send(player, "&CYou have cancelled your appeal", messages.prefixBans);
+                messages.sendTranslation(player, "appeal-create-cancelled", messages.prefixBans);
                 return;
             }
 
@@ -136,15 +136,15 @@ public class BanAppealGuiController {
         SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
             .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
         if (banAppealConfiguration.resolveReasonEnabled) {
-            messages.send(player, "&1===================================================", messages.prefixBans);
-            messages.send(player, "&6       You have chosen to approve this appeal", messages.prefixBans);
-            messages.send(player, "&6Type your closing reason in chat to approve the appeal", messages.prefixBans);
-            messages.send(player, "&6      Type \"cancel\" to cancel approving the appeal ", messages.prefixBans);
-            messages.send(player, "&1===================================================", messages.prefixBans);
+            messages.send(player, messages.LONG_LINE, messages.prefixBans);
+            messages.sendTranslation(player, "appeal-approve-selected", messages.prefixBans);
+            messages.sendTranslation(player, "appeal-approve-type-reason", messages.prefixBans);
+            messages.sendTranslation(player, "appeal-approve-cancel", messages.prefixBans);
+            messages.send(player, messages.LONG_LINE, messages.prefixBans);
             OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled approving this appeal", messages.prefixBans);
+                    messages.sendTranslation(player, "appeal-approve-cancelled", messages.prefixBans);
                     return;
                 }
                 bukkitUtils.runTaskAsync(player, () -> appealService.approveAppeal(sppPlayer, appealId, message, AppealableType.BAN));
@@ -160,15 +160,15 @@ public class BanAppealGuiController {
         SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
             .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
         if (banAppealConfiguration.resolveReasonEnabled) {
-            messages.send(player, "&1==================================================", messages.prefixBans);
-            messages.send(player, "&6        You have chosen to reject this appeal", messages.prefixBans);
-            messages.send(player, "&6Type your closing reason in chat to reject the appeal", messages.prefixBans);
-            messages.send(player, "&6        Type \"cancel\" to cancel closing the appeal ", messages.prefixBans);
-            messages.send(player, "&1==================================================", messages.prefixBans);
+            messages.send(player, messages.LONG_LINE, messages.prefixBans);
+            messages.sendTranslation(player, "appeal-reject-selected", messages.prefixBans);
+            messages.sendTranslation(player, "appeal-reject-type-reason", messages.prefixBans);
+            messages.sendTranslation(player, "appeal-reject-cancel", messages.prefixBans);
+            messages.send(player, messages.LONG_LINE, messages.prefixBans);
             OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled rejecting this appeal", messages.prefixBans);
+                    messages.sendTranslation(player, "appeal-reject-cancelled", messages.prefixBans);
                     return;
                 }
                 bukkitUtils.runTaskAsync(player, () -> appealService.rejectAppeal(sppPlayer, appealId, message, AppealableType.BAN));

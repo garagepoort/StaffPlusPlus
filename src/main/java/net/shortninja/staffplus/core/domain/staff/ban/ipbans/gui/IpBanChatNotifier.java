@@ -32,7 +32,7 @@ public class IpBanChatNotifier implements Listener {
     public void notifyIpBanned(IpBanEvent event) {
         IIpBan ban = event.getBan();
 
-        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.send(p.getPlayer(), "&6Ban executed", messages.prefixBans));
+        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.sendTranslation(p.getPlayer(), "ipbans.ban-executed", messages.prefixBans));
 
         if (!ban.isSilentBan()) {
             String banMessage = !ban.getEndTimestamp().isPresent() ? messages.ipbanPermabanned : messages.ipbanTempbanned;
@@ -45,7 +45,7 @@ public class IpBanChatNotifier implements Listener {
     public void notifyIpBannedBungee(IpBanBungeeEvent event) {
         IpBanBungeeDto ban = event.getBan();
 
-        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.send(p.getPlayer(), "&6Ban executed", messages.prefixBans));
+        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.sendTranslation(p.getPlayer(), "ipbans.ban-executed", messages.prefixBans));
 
         if (!ban.isSilentBan()) {
             String banMessage = ban.getEndTimestamp() != null ? messages.ipbanPermabanned : messages.ipbanTempbanned;
@@ -58,7 +58,7 @@ public class IpBanChatNotifier implements Listener {
     public void notifyUnban(IpUnbanEvent event) {
         IIpBan ban = event.getBan();
 
-        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.send(p.getPlayer(), "&6Unban executed", messages.prefixBans));
+        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.sendTranslation(p.getPlayer(), "ipbans.unban-executed", messages.prefixBans));
 
         if (!ban.isSilentUnban()) {
             String unbanMessage = replaceBanPlaceholders(messages.ipbanUnbanned, ban);
@@ -70,7 +70,7 @@ public class IpBanChatNotifier implements Listener {
     public void notifyIpUnbannedBungee(IpUnbanBungeeEvent event) {
         IpBanBungeeDto ban = event.getBan();
 
-        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.send(p.getPlayer(), "&6Ban executed", messages.prefixBans));
+        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.sendTranslation(p.getPlayer(), "ipbans.ban-executed", messages.prefixBans));
 
         if (!ban.isSilentBan()) {
             String unbanMessage = replaceBanPlaceholders(messages.ipbanUnbanned, ban);

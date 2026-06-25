@@ -51,7 +51,7 @@ public class CustomModuleHandler {
         }
 
         if (moduleConfiguration.getType() == COMMAND_DYNAMIC && targetPlayer == null) {
-            messages.send(player, "No target in range", messages.prefixGeneral);
+            messages.sendTranslation(player, "custom-modules.no-target", messages.prefixGeneral);
             return true;
         }
 

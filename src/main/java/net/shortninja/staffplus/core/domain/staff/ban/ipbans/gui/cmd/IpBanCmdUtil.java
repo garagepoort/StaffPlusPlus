@@ -43,13 +43,13 @@ public class IpBanCmdUtil {
     public void  sendBanChoiceMessage(Player sender, String ipAddress, ChoiceAction confirmAction) {
         List<PlayerIpRecord> players = playerIpService.getPlayersMatchingIp(ipAddress);
 
-        messages.send(sender, "&6Following players are matching the current IP rule you will add. They will all be banned", messages.prefixBans);
+        messages.sendTranslation(sender, "ipbans.ban-confirmation-matching-players", messages.prefixBans);
         printPlayerList(sender, players);
         confirmationService.showConfirmation(sender,
-            new ConfirmationConfig(ConfirmationType.CHAT, "Are you sure you want to ban this ip?"),
+            new ConfirmationConfig(ConfirmationType.CHAT, messages.get("ipbans.ban-confirmation-question")),
             new HashMap<>(),
             confirmAction,
-            player -> messages.send(sender, "&7You have cancelled banning this ip", messages.prefixBans));
+            player -> messages.sendTranslation(sender, "ipbans.ban-cancelled", messages.prefixBans));
     }
 
     public void sendUnbanChoiceMessage(Player sender, List<IpBan> matchingIpBans, ChoiceAction confirmAction) {
@@ -57,21 +57,21 @@ public class IpBanCmdUtil {
             .flatMap(ipBan -> ipBan.isSubnet() ? playerIpService.getMatchedBySubnet(ipBan.getIp()).stream() : playerIpService.getMatchedByIp(ipBan.getIp()).stream())
             .collect(Collectors.toList());
 
-        messages.send(sender, "&6Following players are matching the given IP rule.", messages.prefixBans);
+        messages.sendTranslation(sender, "ipbans.unban-confirmation-matching-players", messages.prefixBans);
         printPlayerList(sender, players);
 
         confirmationService.showConfirmation(sender,
-            new ConfirmationConfig(ConfirmationType.CHAT, "Are you sure you want to unban this rule?"),
+            new ConfirmationConfig(ConfirmationType.CHAT, messages.get("ipbans.unban-confirmation-question")),
             new HashMap<>(),
             confirmAction,
-            player -> messages.send(sender, "&6You have cancelled unbanning this ip", messages.prefixBans));
+            player -> messages.sendTranslation(sender, "ipbans.unban-cancelled", messages.prefixBans));
     }
 
     private void printPlayerList(Player sender, List<PlayerIpRecord> players) {
         messages.send(sender, messages.LONG_LINE, messages.prefixBans);
         for (int i = 0; i < players.size(); i++) {
             PlayerIpRecord player = players.get(i);
-            messages.send(sender, "&c" + (i + 1) + ". &7" + player.getPlayerName(), messages.prefixBans);
+            messages.sendTranslation(sender, "ipbans.list-entry", messages.prefixBans, "%count%", Integer.toString(i + 1), "%value%", player.getPlayerName());
         }
     }
 
@@ -79,10 +79,11 @@ public class IpBanCmdUtil {
         if(args.containsKey(TEMPLATE)) {
             permission.validate(sender, banConfiguration.permissionBanTemplateOverwrite);
             if(args.get(TEMPLATE) == null) {
-                throw new BusinessException("&CInvalid template provided");
+                throw new BusinessException(messages.get("ipbans.error-invalid-template"));
             }
             String templateName = args.get(TEMPLATE);
-            banConfiguration.getTemplate(templateName).orElseThrow(() -> new BusinessException("&CCannot find ban template with name [" + templateName + "]"));
+            banConfiguration.getTemplate(templateName)
+                .orElseThrow(() -> new BusinessException(messages.get("ipbans.error-template-not-found", "%template%", templateName)));
             return templateName;
         }
         return null;

@@ -91,14 +91,14 @@ public class InvestigationNotesGuiController {
         bukkitUtils.runTaskAsync(player, () -> {
             Investigation investigation = investigationService.getInvestigation(investigationId);
 
-            messages.send(player, "&1===================================================", messages.prefixInvestigations);
-            messages.send(player, "&6Type your note in chat", messages.prefixInvestigations);
-            messages.send(player, "&6      Type \"cancel\" to cancel adding a note ", messages.prefixInvestigations);
-            messages.send(player, "&1===================================================", messages.prefixInvestigations);
+            messages.send(player, messages.LONG_LINE, messages.prefixInvestigations);
+            messages.sendTranslation(player, "investigation.note-add-type", messages.prefixInvestigations);
+            messages.sendTranslation(player, "investigation.note-add-cancel", messages.prefixInvestigations);
+            messages.send(player, messages.LONG_LINE, messages.prefixInvestigations);
             OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled your note", messages.prefixInvestigations);
+                    messages.sendTranslation(player, "investigation.note-add-cancelled", messages.prefixInvestigations);
                     return;
                 }
                 bukkitUtils.runTaskAsync(player, () -> investigationNoteService.addNote(player, investigation, message));
