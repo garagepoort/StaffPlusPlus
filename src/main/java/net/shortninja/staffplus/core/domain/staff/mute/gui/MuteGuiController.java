@@ -120,17 +120,17 @@ public class MuteGuiController {
 
     @GuiAction("manage-mutes/unmute")
     public void unmute(Player player, @GuiParam("muteId") int muteId) {
-        messages.send(player, "&1=====================================================", messages.prefixGeneral);
-        messages.send(player, "&6         You have chosen to unmute this player", messages.prefixGeneral);
-        messages.send(player, "&6Type your reason for unmuting this player in chat", messages.prefixGeneral);
-        messages.send(player, "&6        Type \"cancel\" to cancel the unmute ", messages.prefixGeneral);
-        messages.send(player, "&1=====================================================", messages.prefixGeneral);
+        messages.send(player, messages.LONG_LINE, messages.prefixGeneral);
+        messages.sendTranslation(player, "mute-unmute-selected", messages.prefixGeneral);
+        messages.sendTranslation(player, "mute-unmute-type-reason", messages.prefixGeneral);
+        messages.sendTranslation(player, "mute-unmute-cancel", messages.prefixGeneral);
+        messages.send(player, messages.LONG_LINE, messages.prefixGeneral);
 
         SppPlayer target = playerManager.getOnlinePlayer(player.getUniqueId()).orElseThrow(() -> new PlayerNotFoundException(player.getName()));
         OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
-                messages.send(player, "&CYou have cancelled unmuting this player", messages.prefixGeneral);
+                messages.sendTranslation(player, "mute-unmute-cancelled", messages.prefixGeneral);
                 return;
             }
             bukkitUtils.runTaskAsync(player1, () -> muteService.unmute(target, muteId, message));

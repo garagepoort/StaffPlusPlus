@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -40,6 +41,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     private final BanTemplateResolver banTemplateResolver;
     private final InfractionsConfiguration infractionsConfiguration;
     private final PlayerRanks playerRanks;
+    private final Messages messages;
 
     public BanService(PermissionHandler permission,
                       BansRepository bansRepository,
@@ -47,6 +49,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
                       BanReasonResolver banReasonResolver,
                       BanTemplateResolver banTemplateResolver,
                       InfractionsConfiguration infractionsConfiguration,
+                      Messages messages,
                       @ConfigProperty("ban-module.ranks") List<String> ranks) {
         this.permission = permission;
         this.bansRepository = bansRepository;
@@ -54,6 +57,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         this.banReasonResolver = banReasonResolver;
         this.banTemplateResolver = banTemplateResolver;
         this.infractionsConfiguration = infractionsConfiguration;
+        this.messages = messages;
         this.playerRanks = new PlayerRanks(ranks, permission);
     }
 
@@ -81,9 +85,9 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
     @Override
     public void extendBan(CommandSender sender, SppPlayer player, long duration) {
-        Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
+        Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException(messages.get("ban-error-player-not-banned")));
         if (ban.getEndDate() == null) {
-            throw new BusinessException("The player is permanently banned. Cannot extend ban");
+            throw new BusinessException(messages.get("ban-error-permanent-extend"));
         }
 
         long newDuration = (ban.getEndTimestamp() - System.currentTimeMillis()) + duration;
@@ -97,9 +101,9 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
     @Override
     public void reduceBan(CommandSender sender, SppPlayer player, long duration) {
-        Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
+        Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException(messages.get("ban-error-player-not-banned")));
         if (ban.getEndDate() == null) {
-            throw new BusinessException("The player is permanently banned. Cannot reduce ban");
+            throw new BusinessException(messages.get("ban-error-permanent-reduce"));
         }
 
         permission.validateDuration(sender, banConfiguration.permissionReduceBanPlayer + LIMIT, duration);
@@ -116,12 +120,12 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
     @Override
     public Ban getActiveById(int banId) {
-        return bansRepository.findActiveBan(banId).orElseThrow(() -> new BusinessException("&CNo ban found with this id"));
+        return bansRepository.findActiveBan(banId).orElseThrow(() -> new BusinessException(messages.get("ban-error-not-found")));
     }
 
     @Override
     public Ban getById(int banId) {
-        return bansRepository.getBan(banId).orElseThrow(() -> new BusinessException("&CNo ban found with this id"));
+        return bansRepository.getBan(banId).orElseThrow(() -> new BusinessException(messages.get("ban-error-not-found")));
     }
 
     public List<Ban> getAllPaged(int offset, int amount) {
@@ -131,11 +135,11 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     @Override
     public void unban(CommandSender issuer, SppPlayer playerToUnban, String reason, boolean isSilent) {
         if(!canBanRank(issuer, playerToUnban)) {
-            throw new BusinessException("&CYou don't have permission to unban this player!");
+            throw new BusinessException(messages.get("ban-error-no-permission-unban"));
         }
 
         Ban ban = bansRepository.findActiveBan(playerToUnban.getId())
-            .orElseThrow(() -> new BusinessException("&CCannot unban, this user is not banned"));
+            .orElseThrow(() -> new BusinessException(messages.get("ban-error-cannot-unban-not-banned")));
 
         ban.setUnbannedByName(issuer instanceof Player ? issuer.getName() : "Console");
         ban.setUnbannedByUuid(issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID);
@@ -147,7 +151,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     @Override
     public void unban(SppPlayer issuer, int banId, String reason) {
         Ban ban = bansRepository.findActiveBan(banId)
-            .orElseThrow(() -> new BusinessException("&CCannot unban, this user is not banned"));
+            .orElseThrow(() -> new BusinessException(messages.get("ban-error-cannot-unban-not-banned")));
 
         ban.setUnbannedByName(issuer.getUsername());
         ban.setUnbannedByUuid(issuer.getId());
@@ -159,14 +163,14 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         if (providedTemplateName != null) permission.validate(issuer, banConfiguration.permissionBanTemplateOverwrite);
 
         if (playerToBan.isOnline() && permission.has(playerToBan.getPlayer(), banConfiguration.permissionBanByPass)) {
-            throw new BusinessException("&CThis player bypasses being banned");
+            throw new BusinessException(messages.get("ban-error-bypasses"));
         }
         if(!canBanRank(issuer, playerToBan)) {
-            throw new BusinessException("&CYou don't have permission to ban this player!");
+            throw new BusinessException(messages.get("ban-error-no-permission-ban"));
         }
 
         bansRepository.findActiveBan(playerToBan.getId()).ifPresent(ban -> {
-            throw new BusinessException("&CCannot ban this player, the player is already banned");
+            throw new BusinessException(messages.get("ban-error-already-banned"));
         });
 
         String fullReason = banReasonResolver.resolveBanReason(reason, banType);

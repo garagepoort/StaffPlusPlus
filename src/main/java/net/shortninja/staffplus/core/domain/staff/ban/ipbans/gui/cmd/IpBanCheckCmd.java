@@ -57,13 +57,13 @@ public class IpBanCheckCmd extends AbstractCmd {
         Optional<String> ipAddress = getIpAddress(player);
         List<IpBan> matchingIpBans = ipAddress.isPresent() ? banService.findMatchingIpBans(ipAddress.get()) : Collections.emptyList();
         if (matchingIpBans.isEmpty()) {
-            messages.send(sender, "&6This player is &2not ip banned.", messages.prefixBans);
+            messages.sendTranslation(sender, "ipbans.check-not-banned", messages.prefixBans);
         } else {
-            messages.send(sender, "&6This player is &cip banned &6by following rules: ", messages.prefixBans);
+            messages.sendTranslation(sender, "ipbans.check-banned", messages.prefixBans);
             messages.send(sender, messages.LONG_LINE, messages.prefixBans);
             for (int i = 0, matchingIpBansSize = matchingIpBans.size(); i < matchingIpBansSize; i++) {
                 IpBan matchingIpBan = matchingIpBans.get(i);
-                messages.send(sender, "&c" + (i + 1) + ". &7" + matchingIpBan.getIp(), messages.prefixBans);
+                messages.sendTranslation(sender, "ipbans.list-entry", messages.prefixBans, "%count%", Integer.toString(i + 1), "%value%", matchingIpBan.getIp());
             }
         }
         return true;

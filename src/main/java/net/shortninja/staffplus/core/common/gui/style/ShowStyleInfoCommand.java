@@ -39,7 +39,7 @@ public class ShowStyleInfoCommand extends AbstractCmd {
         validateIsPlayer(sender);
         PlayerSession playerSession = onlineSessionsManager.get((Player) sender);
         playerSession.setCanViewStyleIds(!playerSession.isCanViewStyleIds());
-        messages.send(sender, "Style info " + (playerSession.isCanViewStyleIds() ? "enabled" : "disabled"), messages.prefixGeneral);
+        messages.sendTranslation(sender, "style-info-status", messages.prefixGeneral, "%status%", playerSession.isCanViewStyleIds() ? messages.enabled : messages.disabled);
         return true;
     }
 

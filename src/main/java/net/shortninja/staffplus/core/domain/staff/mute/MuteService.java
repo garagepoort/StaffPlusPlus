@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -42,13 +43,15 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     private final MuteRepository muteRepository;
     private final MuteConfiguration muteConfiguration;
     private final InfractionsConfiguration infractionsConfiguration;
+    private final Messages messages;
 
     public MuteService(PermissionHandler permission, MuteRepository muteRepository,
-                       MuteConfiguration muteConfiguration, InfractionsConfiguration infractionsConfiguration) {
+                       MuteConfiguration muteConfiguration, InfractionsConfiguration infractionsConfiguration, Messages messages) {
         this.permission = permission;
         this.muteRepository = muteRepository;
         this.muteConfiguration = muteConfiguration;
         this.infractionsConfiguration = infractionsConfiguration;
+        this.messages = messages;
     }
 
     public void permMute(CommandSender issuer, SppPlayer playerToMute, String reason, boolean softMute) {
@@ -65,11 +68,11 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     }
 
     public Mute getById(int muteId) {
-        return muteRepository.getMute(muteId).orElseThrow(() -> new BusinessException("No mute found with this id"));
+        return muteRepository.getMute(muteId).orElseThrow(() -> new BusinessException(messages.get("mute-error-not-found")));
     }
 
     public Mute getActiveById(int muteId) {
-        return muteRepository.findActiveMute(muteId).orElseThrow(() -> new BusinessException("No mute found with this id"));
+        return muteRepository.findActiveMute(muteId).orElseThrow(() -> new BusinessException(messages.get("mute-error-not-found")));
     }
 
     public List<Mute> getAllPaged(int offset, int amount) {
@@ -89,9 +92,9 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     }
 
     public void extendMute(CommandSender sender, SppPlayer player, long duration) {
-        Mute mute = getMuteByMutedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't muted"));
+        Mute mute = getMuteByMutedUuid(player.getId()).orElseThrow(() -> new BusinessException(messages.get("mute-error-player-not-muted")));
         if (mute.getEndDate() == null) {
-            throw new BusinessException("The player is permanently muted. Cannot extend mute");
+            throw new BusinessException(messages.get("mute-error-permanent-extend"));
         }
 
         long newDuration = (mute.getEndTimestamp() - System.currentTimeMillis()) + duration;
@@ -104,9 +107,9 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     }
 
     public void reduceMute(CommandSender sender, SppPlayer player, long duration) {
-        Mute mute = getMuteByMutedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't muted"));
+        Mute mute = getMuteByMutedUuid(player.getId()).orElseThrow(() -> new BusinessException(messages.get("mute-error-player-not-muted")));
         if (mute.getEndDate() == null) {
-            throw new BusinessException("The player is permanently muted. Cannot reduce mute");
+            throw new BusinessException(messages.get("mute-error-permanent-reduce"));
         }
 
         permission.validateDuration(sender, muteConfiguration.permissionReduceMutePlayer + LIMIT, duration);
@@ -118,7 +121,7 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
 
     public void unmute(CommandSender issuer, SppPlayer playerToUnmute, String reason) {
         Mute mute = muteRepository.findActiveMute(playerToUnmute.getId())
-            .orElseThrow(() -> new BusinessException("&CCannot unmute, this user is not muted"));
+            .orElseThrow(() -> new BusinessException(messages.get("mute-error-cannot-unmute-not-muted")));
 
         mute.setUnmutedByName(issuer instanceof Player ? issuer.getName() : "Console");
         mute.setUnmutedByUuid(issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID);
@@ -128,7 +131,7 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
 
     public void unmute(SppPlayer issuer, int muteId, String reason) {
         Mute mute = muteRepository.findActiveMute(muteId)
-            .orElseThrow(() -> new BusinessException("&CCannot unmute, this user is not muted"));
+            .orElseThrow(() -> new BusinessException(messages.get("mute-error-cannot-unmute-not-muted")));
 
         mute.setUnmutedByName(issuer.getUsername());
         mute.setUnmutedByUuid(issuer.getId());
@@ -142,12 +145,12 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
 
     private void mute(CommandSender issuer, SppPlayer playerToMute, String reason, Long durationInMillis, boolean softMute) {
         if (playerToMute.isOnline() && permission.has(playerToMute.getPlayer(), muteConfiguration.permissionMuteByPass)) {
-            throw new BusinessException("&CThis player bypasses being muted");
+            throw new BusinessException(messages.get("mute-error-bypasses"));
         }
 
         muteRepository.findActiveMute(playerToMute.getId())
             .ifPresent((e) -> {
-                throw new BusinessException("&CCannot mute this player, the player is already muted");
+                throw new BusinessException(messages.get("mute-error-already-muted"));
             });
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
