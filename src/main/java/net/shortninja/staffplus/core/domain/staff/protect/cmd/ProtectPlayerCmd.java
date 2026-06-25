@@ -43,11 +43,11 @@ public class ProtectPlayerCmd extends AbstractCmd {
         playerSession.setProtected(!playerSession.isProtected());
 
         if (playerSession.isProtected()) {
-            messages.send(sender, player.getUsername() + " is now protected from all damage", messages.prefixGeneral);
-            messages.send(player.getPlayer(), "You have been protected from all damage by a staff member", messages.prefixGeneral);
+            messages.sendTranslation(sender, "protect-player-enabled-staff", messages.prefixGeneral, "%player%", player.getUsername());
+            messages.sendTranslation(player.getPlayer(), "protect-player-enabled-target", messages.prefixGeneral);
         } else {
-            messages.send(sender, player.getUsername() + " is no longer protected from all damage", messages.prefixGeneral);
-            messages.send(player.getPlayer(), "You are no longer protected from damage", messages.prefixGeneral);
+            messages.sendTranslation(sender, "protect-player-disabled-staff", messages.prefixGeneral, "%player%", player.getUsername());
+            messages.sendTranslation(player.getPlayer(), "protect-player-disabled-target", messages.prefixGeneral);
         }
         return true;
     }

@@ -3,8 +3,11 @@ package net.shortninja.staffplus.core.application.config.messages;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
+import be.garagepoort.mcioc.configuration.yaml.configuration.file.FileConfiguration;
 import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.application.config.MessageMultiLineTransformer;
+import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.common.gui.gradient.GradientColorProcessor;
@@ -50,6 +53,7 @@ public class Messages {
 
     private final JsonSenderService jsonSenderService;
     private final MessageSenderFactory messageSenderFactory;
+    private final ConfigurationLoader configurationLoader;
 
     /*
      * Prefixes
@@ -421,11 +425,32 @@ public class Messages {
     private final PermissionHandler permission;
     private final PlaceholderService placeholderService;
 
-    public Messages(JsonSenderService jsonSenderService, MessageSenderFactory messageSenderFactory, PermissionHandler permission, PlaceholderService placeholderService) {
+    public Messages(JsonSenderService jsonSenderService, MessageSenderFactory messageSenderFactory, ConfigurationLoader configurationLoader, PermissionHandler permission, PlaceholderService placeholderService) {
         this.jsonSenderService = jsonSenderService;
         this.messageSenderFactory = messageSenderFactory;
+        this.configurationLoader = configurationLoader;
         this.permission = permission;
         this.placeholderService = placeholderService;
+    }
+
+    public String get(String key) {
+        String languageKey = key.startsWith("%lang%:") ? key.substring("%lang%:".length()) : key;
+        FileConfiguration defaultConfig = configurationLoader.getConfigurationFiles().get("config");
+        FileConfiguration languageConfig = configurationLoader.getConfigurationFiles().get(defaultConfig.getString("lang"));
+
+        if (languageConfig == null || !languageConfig.contains(languageKey)) {
+            throw new ConfigurationException("Invalid language key: " + key);
+        }
+
+        return languageConfig.getString(languageKey);
+    }
+
+    public String get(String key, String... replacements) {
+        String message = get(key);
+        for (int i = 0; i < replacements.length; i += 2) {
+            message = message.replace(replacements[i], replacements[i + 1]);
+        }
+        return message;
     }
 
     public String colorize(String message) {
@@ -469,6 +494,14 @@ public class Messages {
 
     public void send(CommandSender sender, List<String> messageLines, String prefix) {
         messageLines.forEach(message -> this.send(sender, message, prefix));
+    }
+
+    public void sendTranslation(CommandSender sender, String key, String prefix) {
+        send(sender, get(key), prefix);
+    }
+
+    public void sendTranslation(CommandSender sender, String key, String prefix, String... replacements) {
+        send(sender, get(key, replacements), prefix);
     }
 
     public void sendGlobalMessage(String message, String prefix) {
