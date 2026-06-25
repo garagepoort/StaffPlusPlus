@@ -6,11 +6,11 @@
     <groupId>net.shortninja.staffplus</groupId>
     <name>Staff++</name>
     <description>The ultimate moderation plugin.</description>
-    <version>26.1.0-SNAPSHOT</version>
+    <version>26.2.0-SNAPSHOT</version>
     <artifactId>staffplusplus-core</artifactId>
 
     <properties>
-        <spigot.version>26.1.2-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>26.2-R0.1-SNAPSHOT</spigot.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -70,12 +70,12 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitCommon</artifactId>
-            <version>26.1.0</version>
+            <version>26.2.0</version>
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitAPI</artifactId>
-            <version>26.1.0</version>
+            <version>26.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
