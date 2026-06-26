@@ -76,7 +76,7 @@
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitAPI</artifactId>
             <version>26.1.2</version>
-        </dependency>n
+        </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
