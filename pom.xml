@@ -70,13 +70,13 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitCommon</artifactId>
-            <version>26.1.0</version>
+            <version>26.1.2</version>
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitAPI</artifactId>
-            <version>26.1.0</version>
-        </dependency>
+            <version>26.1.2</version>
+        </dependency>n
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
