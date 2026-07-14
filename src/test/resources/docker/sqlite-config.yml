@@ -255,6 +255,4 @@ storage:
         ssl-enabled: false
 config-version: 6205
 clock: 10
-animation-packets: PacketPlayOutBlockBreakAnimation, PacketPlayOutBlockAction
-sound-names: random.chestopen, random.chestclosed
 metrics: true
