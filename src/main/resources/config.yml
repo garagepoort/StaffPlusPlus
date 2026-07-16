@@ -677,13 +677,5 @@ config-version: 6205
 # The higher this is, the less lag there will be.
 clock: 10
 
-# The animation packets that will be listened for and cancelled for total vanished players.
-# Each packet is separated by a comma.
-animation-packets: PacketPlayOutBlockBreakAnimation, PacketPlayOutBlockAction
-
-# The sound names that will be listened for and cancelled for total vanished players.
-# Each name is separated by a comma.
-sound-names: random.chestopen, random.chestclosed
-
 #Used to turn on or off metrics please keep true
 metrics: true

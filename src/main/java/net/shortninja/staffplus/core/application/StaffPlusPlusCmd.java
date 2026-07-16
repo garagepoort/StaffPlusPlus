@@ -35,7 +35,7 @@ public class StaffPlusPlusCmd extends AbstractCmd {
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         if (args[0].equalsIgnoreCase("reload")) {
             StaffPlusPlus.get().reload();
-            messages.send(sender, "Configuration has been reloaded", messages.prefixGeneral);
+            messages.sendTranslation(sender, "configuration-reloaded", messages.prefixGeneral);
         }
         return true;
     }

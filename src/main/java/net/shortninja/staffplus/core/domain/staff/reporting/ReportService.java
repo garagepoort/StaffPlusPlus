@@ -85,7 +85,7 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
 
     public void sendReport(SppInteractor sppInteractor, SppPlayer user, String reason, String type) {
         if(StringUtils.isEmpty(reason)) {
-            throw new BusinessException("Report cannot be created with the reason");
+            throw new BusinessException(messages.get("reports.error-empty-reason"), messages.prefixReports);
         }
         // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
         if (user.isOnline() && permission.has(user.getPlayer(), permissionReportBypass)) {
@@ -161,15 +161,15 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
     }
 
     public Report getReport(int reportId) {
-        return reportRepository.findReport(reportId).orElseThrow(() -> new BusinessException("Report with id [" + reportId + "] not found", messages.prefixReports));
+        return reportRepository.findReport(reportId).orElseThrow(() -> new BusinessException(messages.get("reports.error-not-found", "%reportId%", Integer.toString(reportId)), messages.prefixReports));
     }
 
     public void goToReportLocation(Player player, int reportId) {
         Report report = getReport(reportId);
-        Location location = report.getLocation().orElseThrow(() -> new BusinessException("Cannot teleport to report, report has no known location"));
+        Location location = report.getLocation().orElseThrow(() -> new BusinessException(messages.get("reports.error-location-unknown"), messages.prefixReports));
         if (report.getServerName().equalsIgnoreCase(options.serverName)) {
             player.teleport(location);
-            messages.send(player, "You have been teleported to the location where this report was created", messages.prefixReports);
+            messages.sendTranslation(player, "reports.teleported-to-location", messages.prefixReports);
         } else {
             actionService.createCommand(
                 commandBuilder()

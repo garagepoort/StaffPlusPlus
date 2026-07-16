@@ -55,6 +55,7 @@ jobs:
                 run: |
                     set -e
                     declare -a VERSIONS=(
+                      26.2.0
                       26.1.0
                       1.21.0
                       1.20.0

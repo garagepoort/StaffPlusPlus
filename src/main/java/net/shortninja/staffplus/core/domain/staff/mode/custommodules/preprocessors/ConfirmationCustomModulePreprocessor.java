@@ -36,7 +36,7 @@ public class ConfirmationCustomModulePreprocessor implements CustomModulePreProc
             ConfirmationConfig confirmationConfig = customModuleConfiguration.getConfirmationConfig().get();
             confirmationService.showConfirmation(player, confirmationConfig, pl,
                 player1 -> action.execute(player1, pl),
-                p -> messages.send(p, "You have cancelled the action", messages.prefixGeneral));
+                p -> messages.sendTranslation(p, "custom-modules.action-cancelled", messages.prefixGeneral));
         });
     }
 

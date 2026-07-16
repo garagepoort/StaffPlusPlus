@@ -135,7 +135,7 @@ public class WarningsGuiController {
         OnlinePlayerSession playerSession = sessionManager.get(player);
 
         WarningSeverityConfiguration severityConfiguration = warningConfiguration.getSeverityConfiguration(severityLevel)
-            .orElseThrow(() -> new BusinessException("&CNo severity configuration found for level [" + severityLevel + "]"));
+            .orElseThrow(() -> new BusinessException(messages.get("warnings-error-severity-not-found", "%severity%", severityLevel)));
 
         SppPlayer onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
 
@@ -150,19 +150,19 @@ public class WarningsGuiController {
     private void promptReasonInput(Player player, OnlinePlayerSession playerSession, SppPlayer onOrOfflinePlayer, WarningSeverityConfiguration severityConfiguration) {
         boolean defaultReasonSettable = severityConfiguration.getReason().isPresent() && severityConfiguration.isReasonOverwriteEnabled();
 
-        messages.send(player, "&1=====================================================", messages.prefixGeneral);
-        messages.send(player, "&6         You have chosen to warn this player", messages.prefixGeneral);
-        messages.send(player, "&6Type your reason for warning this player in chat", messages.prefixGeneral);
+        messages.send(player, messages.LONG_LINE, messages.prefixGeneral);
+        messages.sendTranslation(player, "warnings-warn-selected", messages.prefixGeneral);
+        messages.sendTranslation(player, "warnings-warn-type-reason", messages.prefixGeneral);
         if (defaultReasonSettable) {
-            messages.send(player, "&6Type \"none\" to use the default reason", messages.prefixGeneral);
+            messages.sendTranslation(player, "warnings-warn-type-none", messages.prefixGeneral);
         }
-        messages.send(player, "&6        Type \"cancel\" to cancel the warning ", messages.prefixGeneral);
-        messages.send(player, "&1=====================================================", messages.prefixGeneral);
+        messages.sendTranslation(player, "warnings-warn-cancel", messages.prefixGeneral);
+        messages.send(player, messages.LONG_LINE, messages.prefixGeneral);
 
 
         playerSession.setChatAction((player1, input) -> {
             if (input.equalsIgnoreCase(CANCEL)) {
-                messages.send(player, "&CYou have cancelled warning this player", messages.prefixWarnings);
+                messages.sendTranslation(player, "warnings-warn-cancelled", messages.prefixWarnings);
                 return;
             }
             if (input.equalsIgnoreCase(NONE) && defaultReasonSettable) {

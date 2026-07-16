@@ -51,14 +51,14 @@ public class WarningChatNotifier implements Listener {
     public void notifyWarningRemoved(WarningRemovedEvent event) {
         IWarning warning = event.getWarning();
         playerManager.getOnlinePlayer(warning.getIssuerUuid())
-            .ifPresent(p -> messages.send(p.getPlayer(), "&2Warning has been removed", messages.prefixWarnings));
+            .ifPresent(p -> messages.sendTranslation(p.getPlayer(), "warning-removed", messages.prefixWarnings));
     }
 
     @EventHandler
     public void notifyWarningExpired(WarningExpiredEvent event) {
         IWarning warning = event.getWarning();
         playerManager.getOnlinePlayer(warning.getIssuerUuid())
-            .ifPresent(p -> messages.send(p.getPlayer(), "&2Warning has been expired", messages.prefixWarnings));
+            .ifPresent(p -> messages.sendTranslation(p.getPlayer(), "warning-expired", messages.prefixWarnings));
     }
 
 }
