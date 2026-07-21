@@ -679,3 +679,5 @@ clock: 10
 
 #Used to turn on or off metrics please keep true
 metrics: true
+
+# you're done with the config file, shit waddup
