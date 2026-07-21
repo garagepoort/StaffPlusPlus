@@ -1,11 +1,13 @@
 package net.shortninja.staffplus.core.domain.staff.vanish;
 
 import be.garagepoort.mcioc.IocBean;
+import de.myzelyam.api.vanish.VanishAPI;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplusplus.vanish.VanishOffEvent;
 import net.shortninja.staffplusplus.vanish.VanishOnEvent;
 import net.shortninja.staffplusplus.vanish.VanishType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -44,6 +46,15 @@ public class VanishService {
         settings.setVanishType(vanishType);
         playerSettingsRepository.save(settings);
         vanishCache.put(player.getUniqueId(), vanishType);
+
+        // Sync with SuperVanish: hide for TOTAL and PLAYER types
+        if (vanishType == VanishType.TOTAL || vanishType == VanishType.PLAYER) {
+            // Ensure the player is not already vanished before hiding
+            if (!VanishAPI.isInvisible(player)) {
+                VanishAPI.hidePlayer(player);
+            }
+        }
+
         sendEvent(new VanishOnEvent(vanishType, player, onJoin));
     }
 
@@ -57,6 +68,11 @@ public class VanishService {
         vanishCache.put(player.getUniqueId(), VanishType.NONE);
         playerSettingsRepository.save(session);
 
+        // Sync with SuperVanish: show the player
+        if (VanishAPI.isInvisible(player)) {
+            VanishAPI.showPlayer(player);
+        }
+
         sendEvent(new VanishOffEvent(vanishType, player));
     }
 
@@ -65,6 +81,11 @@ public class VanishService {
     }
 
     public boolean isVanished(Player player) {
+        // Use SuperVanish as the source of truth for TOTAL and PLAYER vanish types
+        if (VanishAPI.isInvisible(player)) {
+            return true;
+        }
+        // Fall back to PlayerSettings for LIST vanish type (which SuperVanish doesn't manage)
         PlayerSettings user = playerSettingsRepository.get(player);
         return user.getVanishType() != VanishType.NONE;
     }

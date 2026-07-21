@@ -23,6 +23,10 @@
             <id>staffplusplus-repo</id>
             <url>https://nexus.staffplusplus.org/repository/staffplusplus/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -103,6 +107,12 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.LeonMangler</groupId>
+            <artifactId>SuperVanish</artifactId>
+            <version>6.2.18-3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
