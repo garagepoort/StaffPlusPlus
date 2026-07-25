@@ -30,6 +30,9 @@ For every spigot version we will create a new release. This means that you must 
 - Server on Spigot 1.16.x -> StaffPlusPlus 1.16.x
 - Server on Spigot 1.17.x -> StaffPlusPlus 1.17.x
 - Server on Spigot 1.18.x -> StaffPlusPlus 1.18.x
+- Server on Spigot 1.19.x -> StaffPlusPlus 1.19.x
+- Server on Spigot 1.20.x -> StaffPlusPlus 1.20.x
+- Server on Spigot 1.21.x -> StaffPlusPlus 1.21.x
 
 ## Support 
 - New features will be added to all versions >= 1.12

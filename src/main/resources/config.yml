@@ -263,6 +263,8 @@ vanish-module:
     night-vision: false
     # Enable to add join leave message in chat when a player gets vanished.
     join-leave-message-enabled: true
+    # Use translation keys to translate Vanish messages according to the player's language
+    use-vanilla-translation: false
     # List all the items which the player should not be able to interact with
     cancelled-interaction-types:
         - '*PRESSURE_PLATE'
